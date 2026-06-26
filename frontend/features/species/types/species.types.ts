@@ -4,7 +4,7 @@ export interface Species {
 }
 
 export interface CreateSpeciesDto {
-    speciesName: string
+    SpecieName: string
 }
 
 export interface UpdateSpeciesDto {

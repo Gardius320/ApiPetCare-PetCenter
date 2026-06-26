@@ -6,7 +6,7 @@ import { SpeciesFormModal } from "./species-form-modal"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import type { CreateSpeciesDto } from "../types/species.types"
+import type { CreateSpeciesDto, UpdateSpeciesDto } from "../types/species.types"
 
 export function SpeciesTable() {
   const { data: species, isLoading } = useSpecies()
@@ -15,10 +15,10 @@ export function SpeciesTable() {
 
   const [modalOpen, setModalOpen] = useState(false)
 
-  async function handleSave(dto: CreateSpeciesDto) {
-    await createSpecies.mutateAsync(dto)
+  async function handleSave(dto: CreateSpeciesDto | UpdateSpeciesDto) {
+    await createSpecies.mutateAsync(dto as CreateSpeciesDto)
     setModalOpen(false)
-  }
+}
 
   async function handleDelete(id: number) {
     if (!confirm("¿Estás seguro de eliminar esta especie?")) return
@@ -31,7 +31,7 @@ export function SpeciesTable() {
     <div className="p-6 space-y-4">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Especies</h1>
-        <Button onClick={() => setModalOpen(true)}>+ Nueva Especie</Button>
+        <Button onClick={() => setModalOpen(true)} className="bg-blue-400 hover:bg-blue-700 text-white">+ Nueva Especie</Button>
       </div>
 
       <Card>

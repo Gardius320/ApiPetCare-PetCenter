@@ -35,9 +35,9 @@ export function SpeciesFormModal({ open, onOpenChange, isSaving, onSave, species
     e.preventDefault()
     if (!isValid) return
     onSave(
-      { speciesName: speciesName.trim() },
-      species?.id
-    )
+  { SpecieName: speciesName.trim() },
+  species?.id
+)
   }
 
   return (

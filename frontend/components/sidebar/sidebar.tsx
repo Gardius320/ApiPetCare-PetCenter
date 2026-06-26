@@ -3,23 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  LayoutDashboard,
-  PawPrint,
-  Users,
-  Calendar,
-  Cat,
-  Activity,
-  UserCog,
-  ChevronLeft,
-  ChevronRight,
-  Stethoscope,
-} from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { LayoutDashboard, PawPrint, Users, Calendar, Cat, UserCog, ChevronLeft, ChevronRight, Stethoscope,} from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger,} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
 interface NavItem {
@@ -33,8 +18,7 @@ const navItems: NavItem[] = [
   { label: "Mascotas",     href: "/pets",          icon: PawPrint },
   { label: "Propietarios", href: "/owners",        icon: Users },
   { label: "Citas",        href: "/appointments",  icon: Calendar },
-  { label: "Especies",     href: "/species",       icon: Cat },
-  { label: "Estados",      href: "/states",        icon: Activity },
+  { label: "Especies",     href: "/species",       icon: Cat },  
   { label: "Usuarios",     href: "/users",         icon: UserCog },
 ];
 
@@ -50,7 +34,7 @@ export function Sidebar() {
         collapsed ? "w-14" : "w-60"
       )}
     >
-      {/* Brand */}
+      {/* Marca */}
       <div className="flex items-center h-16 px-3 border-b border-sidebar-border overflow-hidden">
         <div className="flex items-center justify-center size-8 rounded-lg bg-sidebar-primary shrink-0">
           <Stethoscope className="size-4 text-sidebar-primary-foreground" />
@@ -62,7 +46,7 @@ export function Sidebar() {
         )}
       </div>
 
-      {/* Navigation */}
+      {/* navegacion */}
       <nav className="flex-1 overflow-y-auto overflow-x-hidden py-3 px-2 space-y-0.5">
         {navItems.map(({ label, href, icon: Icon }) => {
           const isActive =
@@ -100,7 +84,7 @@ export function Sidebar() {
         })}
       </nav>
 
-      {/* Collapse toggle */}
+      {/* Alternador para contraer */}
       <div className="border-t border-sidebar-border p-2">
         <button
           onClick={() => setCollapsed((prev) => !prev)}
