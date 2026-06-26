@@ -3,6 +3,9 @@ obj/
 .vs/
 *.user
 *.suo
+*.log
+hs_err_pid*.log
+replay_pid*.log
 .env
 .env.local
 node_modules
