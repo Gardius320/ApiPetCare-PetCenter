@@ -1,0 +1,10 @@
+bin/
+obj/
+.vs/
+*.user
+*.suo
+.env
+.env.local
+node_modules
+.next/
+tsconfig.tsbuildinfo

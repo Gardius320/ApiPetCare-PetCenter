@@ -1,0 +1,49 @@
+'use client'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { authRepository } from '../api/auth.repository'
+import type { LoginDto } from '../types/auth.types'
+
+export function useAuth() {
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const login = async (dto: LoginDto) => {
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      const response = await authRepository.login(dto)
+
+      // Validar que la respuesta tenga todos los campos esperados
+      if (!response.token || !response.role || !response.email || !response.fullName) {
+        throw new Error("Respuesta del servidor incompleta")
+      }
+
+      localStorage.setItem('token', response.token)
+      localStorage.setItem('role', response.role)
+      localStorage.setItem('fullName', response.fullName)
+      localStorage.setItem('email', response.email)
+
+      router.push('/dashboard')
+
+    } catch (err) {
+      console.error('Error en login:', err)
+      setError('Credenciales incorrectas. Intenta de nuevo.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const logout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('role')
+    localStorage.removeItem('fullName')
+    localStorage.removeItem('email')
+
+    router.push('/login')
+  }
+
+  return { login, logout, isLoading, error }
+}
