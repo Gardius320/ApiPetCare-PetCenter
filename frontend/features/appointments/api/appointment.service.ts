@@ -14,5 +14,8 @@ export const appointmentService = {
   },
   delete: (id: number) => {
     return appointmentRepository.delete(id)
-  }
+  },
+  changeState: (id: number, stateId: number) => {
+    return appointmentRepository.changeState(id, stateId)
+  },
 }

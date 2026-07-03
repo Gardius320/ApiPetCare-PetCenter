@@ -5,6 +5,7 @@ import { Users, Plus, Pencil } from "lucide-react"
 import { OwnerFormModal } from "./owner-form-modal"
 import { useCreateOwner, useUpdateOwner } from "../hooks/use-owners"
 import type { Owner, CreateOwnerDto, UpdateOwnerDto } from "../types/owner.types"
+import { TableSkeleton } from "@/components/shared/table-skeleton"
 
 const PAGE_SIZE = 10
 
@@ -49,7 +50,15 @@ export function OwnersTable({ owners, isLoading, onDelete }: OwnersTableProps) {
     }
   }
 
-  if (isLoading) return <p className="p-6 text-gray-500">Cargando propietarios...</p>
+  if (isLoading) {
+  return (
+    <TableSkeleton
+      title="Lista de Propietarios"
+      columns={4}
+      columnWidths={["w-32", "w-40", "w-24", "w-16"]}
+    />
+  )
+}
 
   return (
     <>

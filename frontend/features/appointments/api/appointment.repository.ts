@@ -1,4 +1,4 @@
- import api from "@/lib/axios"
+import api from "@/lib/axios"
 import type { Appointment, CreateAppointmentDto, UpdateAppointmentDto } from "../types/appointment.types"
 
 interface AppointmentResponse {
@@ -23,12 +23,16 @@ export const appointmentRepository = {
   },
 
   update: async (dto: UpdateAppointmentDto): Promise<Appointment> => {
-  const { id, ...body } = dto
-  const response = await api.put<{ data: Appointment }>(`/Appointment/Actualizar/${id}`, body)
-  return response.data.data
-},
+    const { id, ...body } = dto
+    const response = await api.put<{ data: Appointment }>(`/Appointment/Actualizar/${id}`, body)
+    return response.data.data
+  },
 
   delete: async (id: number): Promise<void> => {
     await api.delete(`/Appointment/Eliminar/${id}`)
-  }
+  },
+
+  changeState: async (id: number, stateId: number): Promise<void> => {
+    await api.patch(`/Appointment/CambiarEstado/${id}`, { stateId })
+  },
 }

@@ -5,10 +5,15 @@ export interface LoginDto {
 
 export interface AuthResponse {
   token: string
+  refreshToken: string
   email: string
   fullName: string
   role: string
-  expiration: string
+  expires: string
+}
+
+export interface RefreshTokenDto {
+  refreshToken: string
 }
 
 export interface ApiResponse<T> {

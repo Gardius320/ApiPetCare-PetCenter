@@ -19,13 +19,17 @@ namespace PetCare.Infrastructure.Persistence
             bool ownerExists = await _context.Owners.AnyAsync(o => o.Id == ownerId);
             if (!ownerExists) return null;
 
+            var estadoInicial = await _context.States.FirstOrDefaultAsync(s => s.StateName == "Agendada");
+            if (estadoInicial == null)
+                throw new InvalidOperationException("El estado 'Agendada' no existe en la base de datos. Verifica el seed de States.");
+
             var appointment = new Appointment
             {
-                OwnerId         = ownerId,
+                OwnerId = ownerId,
                 AppointmentDate = appointmentDate,
-                Observation     = description,
-                StateId         = 1,
-                PetId           = petId
+                Observation = description,
+                StateId = estadoInicial.IdState,
+                PetId = petId
             };
 
             _context.Appointments.Add(appointment);
@@ -65,10 +69,13 @@ namespace PetCare.Infrastructure.Persistence
         public async Task<bool> CancelAppointment(int id)
         {
             var appointment = await _context.Appointments.FindAsync(id);
-
             if (appointment == null) return false;
 
-            appointment.StateId    = 3;
+            var estadoCancelado = await _context.States.FirstOrDefaultAsync(s => s.StateName == "Cancelada");
+            if (estadoCancelado == null)
+                throw new InvalidOperationException("El estado 'Cancelada' no existe en la base de datos. Verifica el seed de States.");
+
+            appointment.StateId = estadoCancelado.IdState;
             appointment.Observation = "Cita cancelada";
 
             await _context.SaveChangesAsync();
@@ -82,8 +89,20 @@ namespace PetCare.Infrastructure.Persistence
             if (appointment == null) return false;
 
             appointment.AppointmentDate = newDate;
-            appointment.Observation     = newObservation;
+            appointment.Observation = newObservation;
 
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        public async Task<bool> ChangeAppointmentState(int id, int stateId)
+        {
+            var appointment = await _context.Appointments.FindAsync(id);
+            if (appointment == null) return false;
+
+            bool stateExists = await _context.States.AnyAsync(s => s.IdState == stateId);
+            if (!stateExists) return false;
+
+            appointment.StateId = stateId;
             await _context.SaveChangesAsync();
             return true;
         }

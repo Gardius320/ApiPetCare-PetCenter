@@ -4,6 +4,7 @@ import { useState } from "react"
 import { PawPrint, Plus, Dog, Cat, Bird, Rabbit, Fish } from "lucide-react"
 import { PetFormModal } from "./pet-form-modal"
 import { useCreatePet, useChangePetState, usePets } from "../hooks/use-pets"
+import { TableSkeleton } from "@/components/shared/table-skeleton"
 
 function SpeciesIcon({ especie }: { especie: string }) {
   const props = { className: "w-4 h-4", strokeWidth: 1.5 }
@@ -29,7 +30,15 @@ export function PetsTable() {
   const createPet      = useCreatePet()
   const changePetState = useChangePetState()
 
-  if (isLoading) return <p className="p-6 text-gray-500">Cargando mascotas...</p>
+  if (isLoading) {
+  return (
+    <TableSkeleton
+      title="Lista de Mascotas"
+      columns={5}
+      columnWidths={["w-28", "w-20", "w-32", "w-40", "w-20"]}
+    />
+  )
+}
 
   return (
     <>

@@ -1,6 +1,7 @@
 "use client"
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import { toast } from "sonner"
 import { petService } from "../api/pet.service"
 import type { CreatePetDto, UpdatePetDto } from "../types/pet.types"
 
@@ -17,7 +18,13 @@ export function useCreatePet() {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: (dto: CreatePetDto) => petService.create(dto),
-    onSuccess: () => qc.invalidateQueries({ queryKey: PETS_KEY }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: PETS_KEY })
+      toast.success("Mascota creada correctamente")
+    },
+    onError: () => {
+      toast.error("No se pudo crear la mascota")
+    },
   })
 }
 
@@ -26,7 +33,13 @@ export function useUpdatePet() {
   return useMutation({
     mutationFn: ({ id, dto }: { id: number; dto: UpdatePetDto }) =>
       petService.update(id, dto),
-    onSuccess: () => qc.invalidateQueries({ queryKey: PETS_KEY }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: PETS_KEY })
+      toast.success("Mascota actualizada correctamente")
+    },
+    onError: () => {
+      toast.error("No se pudo actualizar la mascota")
+    },
   })
 }
 
@@ -34,7 +47,13 @@ export function useDeletePet() {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: (id: number) => petService.delete(id),
-    onSuccess: () => qc.invalidateQueries({ queryKey: PETS_KEY }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: PETS_KEY })
+      toast.success("Mascota eliminada correctamente")
+    },
+    onError: () => {
+      toast.error("No se pudo eliminar la mascota")
+    },
   })
 }
 
@@ -43,6 +62,12 @@ export function useChangePetState() {
   return useMutation({
     mutationFn: ({ id, isActive }: { id: number; isActive: boolean }) =>
       petService.changeState(id, isActive),
-    onSuccess: () => qc.invalidateQueries({ queryKey: PETS_KEY }),
+    onSuccess: (_, variables) => {
+      qc.invalidateQueries({ queryKey: PETS_KEY })
+      toast.success(variables.isActive ? "Mascota activada" : "Mascota desactivada")
+    },
+    onError: () => {
+      toast.error("No se pudo cambiar el estado de la mascota")
+    },
   })
 }

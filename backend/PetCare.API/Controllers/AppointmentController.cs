@@ -5,6 +5,7 @@ using PetCare.Application.Appointments.Commands.CreateAppointment;
 using PetCare.Application.Appointments.Commands.DeleteAppointment;
 using PetCare.Application.Appointments.Commands.UpdateAppointment;
 using PetCare.Application.Appointments.Queries.GetAllAppointments;
+using PetCare.Application.Appointments.Commands.ChangeAppointmentState;
 using PetCare.Application.Common;
 using PetCare.Domain.DTOs;
 
@@ -61,5 +62,17 @@ public class AppointmentController : ControllerBase
         command.Id = id;
         var result = await _mediator.Send(command);
         return Ok(ApiResponse<int?>.Success(result));
+    }
+    [HttpPatch("CambiarEstado/{id}")]
+    [Authorize(Roles = "Admin,Veterinario,Auxiliar")]
+    public async Task<IActionResult> CambiarEstado(int id, [FromBody] ChangeAppointmentStateCommand command)
+    {
+        command.Id = id;
+        var result = await _mediator.Send(command);
+
+        if (!result)
+            return BadRequest(ApiResponse<bool>.Success(false, "La cita o el estado no existen"));
+
+        return Ok(ApiResponse<bool>.Success(true, "Estado de la cita actualizado"));
     }
 }

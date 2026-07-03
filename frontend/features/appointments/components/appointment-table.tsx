@@ -3,10 +3,32 @@
 import { useState } from "react"
 import { CalendarDays, Plus, Pencil } from "lucide-react"
 import { AppointmentFormModal } from "./appointment-form-modal"
-import { useAppointments } from "../hooks/use-appointments"
+import { useAppointments, useChangeAppointmentState } from "../hooks/use-appointments"
 import type { Appointment } from "../types/appointment.types"
+import { TableSkeleton } from "@/components/shared/table-skeleton"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const PAGE_SIZE = 10
+
+const APPOINTMENT_STATES = [
+  { id: 1, name: "Agendada" },
+  { id: 2, name: "Pendiente" },
+  { id: 3, name: "Cancelada" },
+  { id: 4, name: "Completada" },
+]
+
+const STATE_COLORS: Record<string, string> = {
+  Agendada: "bg-blue-100 text-blue-700",
+  Pendiente: "bg-yellow-100 text-yellow-700",
+  Completada: "bg-green-100 text-green-700",
+  Cancelada: "bg-red-100 text-red-700",
+}
 
 export function AppointmentTable() {
   const [isModalOpen, setIsModalOpen]         = useState(false)
@@ -14,11 +36,21 @@ export function AppointmentTable() {
   const [page, setPage]                       = useState(1)
 
   const { data, isLoading } = useAppointments(page, PAGE_SIZE, "")
+  const changeState = useChangeAppointmentState()
+
   const appointments = data?.items ?? []
   const total        = data?.total ?? 0
   const totalPages   = Math.ceil(total / PAGE_SIZE)
 
-  if (isLoading) return <p className="p-6 text-gray-500">Cargando citas...</p>
+  if (isLoading) {
+    return (
+      <TableSkeleton
+        title="Lista de Citas"
+        columns={5}
+        columnWidths={["w-24", "w-32", "w-28", "w-20", "w-40"]}
+      />
+    )
+  }
 
   const handleEdit = (appointment: Appointment) => {
     setSelected(appointment)
@@ -28,6 +60,12 @@ export function AppointmentTable() {
   const handleNew = () => {
     setSelected(null)
     setIsModalOpen(true)
+  }
+
+  const handleStateChange = (appointment: Appointment, newStateName: string) => {
+    const newState = APPOINTMENT_STATES.find((s) => s.name === newStateName)
+    if (!newState) return
+    changeState.mutate({ id: appointment.id, stateId: newState.id })
   }
 
   return (
@@ -73,9 +111,25 @@ export function AppointmentTable() {
                 <td className="py-4 px-4 text-gray-600">{appointment.nombreDueno}</td>
                 <td className="py-4 px-4 text-gray-600">{appointment.nombreMascota}</td>
                 <td className="py-4 px-4">
-                  <span className="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">
-                    {appointment.estado}
-                  </span>
+                  <Select
+                    value={appointment.estado}
+                    onValueChange={(value) => handleStateChange(appointment, value)}
+                  >
+                    <SelectTrigger
+                      className={`w-[130px] h-7 text-xs font-semibold rounded-full border-none focus:ring-0 ${
+                        STATE_COLORS[appointment.estado] ?? "bg-gray-100 text-gray-700"
+                      }`}
+                    >
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {APPOINTMENT_STATES.map((s) => (
+                        <SelectItem key={s.id} value={s.name}>
+                          {s.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </td>
                 <td className="py-4 px-4 text-gray-600">{appointment.observacion}</td>
                 <td className="py-4 px-4">

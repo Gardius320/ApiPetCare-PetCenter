@@ -17,6 +17,7 @@ public partial class PetsDbContext : IdentityDbContext<ApplicationUser>
     public virtual DbSet<Pet> Pets { get; set; }
     public virtual DbSet<Species> Species { get; set; }
     public virtual DbSet<State> States { get; set; }
+    public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

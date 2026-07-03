@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import type { CreateSpeciesDto, UpdateSpeciesDto } from "../types/species.types"
+import { TableSkeleton } from "@/components/shared/table-skeleton"
 
 export function SpeciesTable() {
   const { data: species, isLoading } = useSpecies()
@@ -25,7 +26,17 @@ export function SpeciesTable() {
     await deleteSpecies.mutateAsync(id)
   }
 
-  if (isLoading) return <p className="p-4">Cargando especies...</p>
+  
+
+if (isLoading) {
+  return (
+    <TableSkeleton
+      title="Lista de Especies"
+      columns={3}
+      columnWidths={["w-24", "w-32", "w-20"]}
+    />
+  )
+}
 
   return (
     <div className="p-6 space-y-4">

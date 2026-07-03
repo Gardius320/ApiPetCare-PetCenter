@@ -16,12 +16,12 @@ export function useAuth() {
     try {
       const response = await authRepository.login(dto)
 
-      // Validar que la respuesta tenga todos los campos esperados
       if (!response.token || !response.role || !response.email || !response.fullName) {
         throw new Error("Respuesta del servidor incompleta")
       }
 
       localStorage.setItem('token', response.token)
+      localStorage.setItem('refreshToken', response.refreshToken)
       localStorage.setItem('role', response.role)
       localStorage.setItem('fullName', response.fullName)
       localStorage.setItem('email', response.email)
@@ -38,6 +38,7 @@ export function useAuth() {
 
   const logout = () => {
     localStorage.removeItem('token')
+    localStorage.removeItem('refreshToken')
     localStorage.removeItem('role')
     localStorage.removeItem('fullName')
     localStorage.removeItem('email')
