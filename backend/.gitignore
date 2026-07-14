@@ -11,3 +11,5 @@ replay_pid*.log
 node_modules
 .next/
 tsconfig.tsbuildinfo
+appsettings.json
+appsettings.*.json
