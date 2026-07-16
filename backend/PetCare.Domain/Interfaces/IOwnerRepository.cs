@@ -8,6 +8,6 @@ namespace PetCare.Domain.Interfaces
         Task<(List<Owner> owners, int totalRecords)> GetAllPagesAsync(int page, int pageSize, string? search = null);
         Task<Owner?> GetByIdAsync(int id);
         Task<Owner?> UpdateOwner(Owner owner);
-        Task<string> Delete(int id);
+        Task<string> DeleteOwner(int id);
     }
 }

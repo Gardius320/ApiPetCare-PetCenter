@@ -56,13 +56,13 @@ namespace PetCare.Infrastructure.Persistence
             return owner;
         }
 
-        public async Task<string> Delete(int id)
+        public async Task<string> DeleteOwner(int id)
         {
             var dueno = await _context.Owners.FindAsync(id);
 
             if (dueno == null) return "Propietario no encontrado";
 
-            _context.Owners.Remove(dueno);
+            dueno.IsActive = false;
             await _context.SaveChangesAsync();
             return "Propietario eliminado exitosamente";
         }
