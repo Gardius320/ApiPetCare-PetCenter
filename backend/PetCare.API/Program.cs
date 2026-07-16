@@ -123,7 +123,9 @@ builder.Services.AddDbContext<PetsDbContext>(options =>
 
 builder.Services.AddScoped<IPetRepository, PetsRepository>();
 builder.Services.AddScoped<IOwnerRepository, OwnerRepository>();
+builder.Services.AddScoped<ISupplyRepository, SupplyRepository>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+builder.Services.AddScoped<ISupplyCategoryRepository, SupplyCategoryRepository>();
 builder.Services.AddScoped<ISpeciesRepository, SpeciesRepository>();
 builder.Services.AddScoped<IStateRepository, StateRepository>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
@@ -177,38 +179,41 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// 🌱 Seed de usuario administrador
+// Seed de usuario administrador
 using (var scope = app.Services.CreateScope())
 {
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-    const string adminEmail = "admin@petcare.com";
-    const string adminPassword = "Admin123!";
+    var adminEmail = app.Configuration["AdminSeed:Email"];
+    var adminPassword = app.Configuration["AdminSeed:Password"];
     const string adminRole = "Admin";
 
-    if (!await roleManager.RoleExistsAsync(adminRole))
+    if (!string.IsNullOrEmpty(adminEmail) && !string.IsNullOrEmpty(adminPassword))
     {
-        await roleManager.CreateAsync(new IdentityRole(adminRole));
-    }
-
-    var existingAdmin = await userManager.FindByEmailAsync(adminEmail);
-    if (existingAdmin == null)
-    {
-        var adminUser = new ApplicationUser
+        if (!await roleManager.RoleExistsAsync(adminRole))
         {
-            UserName = adminEmail,
-            Email = adminEmail,
-            FirstName = "Admin",
-            LastName = "PetCare",
-            EmailConfirmed = true
-        };
+            await roleManager.CreateAsync(new IdentityRole(adminRole));
+        }
 
-        var result = await userManager.CreateAsync(adminUser, adminPassword);
-
-        if (result.Succeeded)
+        var existingAdmin = await userManager.FindByEmailAsync(adminEmail);
+        if (existingAdmin == null)
         {
-            await userManager.AddToRoleAsync(adminUser, adminRole);
+            var adminUser = new ApplicationUser
+            {
+                UserName = adminEmail,
+                Email = adminEmail,
+                FirstName = "Admin",
+                LastName = "PetCare",
+                EmailConfirmed = true
+            };
+
+            var result = await userManager.CreateAsync(adminUser, adminPassword);
+
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(adminUser, adminRole);
+            }
         }
     }
 }

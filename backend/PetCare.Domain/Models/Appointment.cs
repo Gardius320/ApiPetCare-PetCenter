@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace PetCare.Domain.Models;
+﻿namespace PetCare.Domain.Models;
 
 public partial class Appointment
 {

@@ -18,6 +18,9 @@ public partial class PetsDbContext : IdentityDbContext<ApplicationUser>
     public virtual DbSet<Species> Species { get; set; }
     public virtual DbSet<State> States { get; set; }
     public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
+    public virtual DbSet<Supply> Supplies { get; set; }
+    public virtual DbSet<SupplyCategory> SupplyCategories { get; set; }
+    public virtual DbSet<SupplyMovement> SupplyMovements { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -108,5 +111,50 @@ public partial class PetsDbContext : IdentityDbContext<ApplicationUser>
             entity.Property(e => e.StateName).HasMaxLength(25).HasColumnName("state_name");
             entity.Property(e => e.Description).HasColumnType("text").HasColumnName("description");
         });
+        modelBuilder.Entity<SupplyCategory>(entity =>
+        {
+            entity.ToTable("supply_categories");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Name).HasColumnName("name").HasMaxLength(50);
+            entity.Property(e => e.Description).HasColumnName("description").HasMaxLength(150);
+            entity.Property(e => e.IsActive).HasColumnName("is_active");
+        });
+        modelBuilder.Entity<Supply>(entity =>
+        {
+            entity.ToTable("supplies");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Name).HasColumnName("name").HasMaxLength(50);
+            entity.Property(e => e.Description).HasColumnName("description").HasMaxLength(150);
+            entity.Property(e => e.Unit).HasColumnName("unit");
+            entity.Property(e => e.CurrentStock).HasColumnName("current_stock").HasPrecision(18, 2);
+            entity.Property(e => e.MinimumStock).HasColumnName("minimum_stock").HasPrecision(18, 2);
+            entity.Property(e => e.IsActive).HasColumnName("is_active");
+            entity.Property(e => e.CreatedAt).HasColumnName("created_at");
+            entity.Property(e => e.SupplyCategoryId).HasColumnName("supply_category_id");
+            entity.HasOne(d => d.Category).WithMany(p => p.Supplies)
+                .HasForeignKey(d => d.SupplyCategoryId)
+                .HasConstraintName("FK__supplies__supply___3A81B327")
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+        modelBuilder.Entity<SupplyMovement>(entity =>
+        {
+            entity.ToTable("supply_movements");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.SupplyId).HasColumnName("supply_id");
+            entity.Property(e => e.MovementType).HasColumnName("movement_type");
+            entity.Property(e => e.Quantity).HasColumnName("quantity");
+            entity.Property(e => e.Reason).HasColumnName("reason").HasMaxLength(200);
+            entity.Property(e => e.AppointmentId).HasColumnName("appointment_id");
+            entity.Property(e => e.MovementDate).HasColumnName("movement_date");
+
+            entity.HasOne(d => d.Supply).WithMany(p => p.SupplyMovements)
+                .HasForeignKey(d => d.SupplyId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(d => d.Appointment).WithMany()
+                .HasForeignKey(d => d.AppointmentId)
+                .OnDelete(DeleteBehavior.SetNull);
+        });
+
     }
 }

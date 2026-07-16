@@ -1,4 +1,3 @@
-// Handler que verifica que el estado exista y luego lo elimina
 using MediatR;
 using PetCare.Domain.Interfaces;
 

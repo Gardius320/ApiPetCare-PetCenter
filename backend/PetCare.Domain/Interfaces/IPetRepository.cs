@@ -5,7 +5,7 @@ namespace PetCare.Domain.Interfaces
 {
     public interface IPetRepository
     {
-        // Devuelve mascotas paginadas y el total de registros (para el frontend)
+       
         Task<(List<Pet> pets, int totalRecords)> GetAllPagesAsync(int page, int pageSize, string? search = null);
 
         Task<Pet?> GetByIdAsync(int id);

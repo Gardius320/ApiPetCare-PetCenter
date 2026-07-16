@@ -305,6 +305,12 @@ namespace PetCare.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("sexo");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("OwnerId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("OwnerName")
                         .IsRequired()
                         .HasMaxLength(25)
@@ -441,6 +447,132 @@ namespace PetCare.Migrations
                     b.ToTable("states", (string)null);
                 });
 
+            modelBuilder.Entity("PetCare.Domain.Models.Supply", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_at");
+
+                    b.Property<decimal>("CurrentStock")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("current_stock");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)")
+                        .HasColumnName("description");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit")
+                        .HasColumnName("is_active");
+
+                    b.Property<decimal>("MinimumStock")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("minimum_stock");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("name");
+
+                    b.Property<int>("SupplyCategoryId")
+                        .HasColumnType("int")
+                        .HasColumnName("supply_category_id");
+
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("unit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SupplyCategoryId");
+
+                    b.ToTable("supplies", (string)null);
+                });
+
+            modelBuilder.Entity("PetCare.Domain.Models.SupplyCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)")
+                        .HasColumnName("description");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit")
+                        .HasColumnName("is_active");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("supply_categories", (string)null);
+                });
+
+            modelBuilder.Entity("PetCare.Domain.Models.SupplyMovement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AppointmentId")
+                        .HasColumnType("int")
+                        .HasColumnName("appointment_id");
+
+                    b.Property<DateTime>("MovementDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("movement_date");
+
+                    b.Property<int>("MovementType")
+                        .HasColumnType("int")
+                        .HasColumnName("movement_type");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int")
+                        .HasColumnName("quantity");
+
+                    b.Property<string>("Reason")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)")
+                        .HasColumnName("reason");
+
+                    b.Property<int>("SupplyId")
+                        .HasColumnType("int")
+                        .HasColumnName("supply_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppointmentId");
+
+                    b.HasIndex("SupplyId");
+
+                    b.ToTable("supply_movements", (string)null);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -548,6 +680,36 @@ namespace PetCare.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("PetCare.Domain.Models.Supply", b =>
+                {
+                    b.HasOne("PetCare.Domain.Models.SupplyCategory", "Category")
+                        .WithMany("Supplies")
+                        .HasForeignKey("SupplyCategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK__supplies__supply___3A81B327");
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("PetCare.Domain.Models.SupplyMovement", b =>
+                {
+                    b.HasOne("PetCare.Domain.Models.Appointment", "Appointment")
+                        .WithMany()
+                        .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("PetCare.Domain.Models.Supply", "Supply")
+                        .WithMany("SupplyMovements")
+                        .HasForeignKey("SupplyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Appointment");
+
+                    b.Navigation("Supply");
+                });
+
             modelBuilder.Entity("PetCare.Domain.Identity.ApplicationUser", b =>
                 {
                     b.Navigation("RefreshTokens");
@@ -563,6 +725,16 @@ namespace PetCare.Migrations
             modelBuilder.Entity("PetCare.Domain.Models.State", b =>
                 {
                     b.Navigation("Appointments");
+                });
+
+            modelBuilder.Entity("PetCare.Domain.Models.Supply", b =>
+                {
+                    b.Navigation("SupplyMovements");
+                });
+
+            modelBuilder.Entity("PetCare.Domain.Models.SupplyCategory", b =>
+                {
+                    b.Navigation("Supplies");
                 });
 #pragma warning restore 612, 618
         }
