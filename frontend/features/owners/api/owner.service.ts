@@ -12,7 +12,7 @@ export const ownerService = {
       total: owners.length,
       hombres: owners.filter((o) => o.gender?.toLowerCase() === "masculino").length,
       mujeres: owners.filter((o) => o.gender?.toLowerCase() === "femenino").length,
-      // Asumimos que propietarios sin mascota activa son "inactivos" — placeholder
+      // se asume que propietarios sin mascota activa son "inactivos" — placeholder
       inactivos: 0,
     }
   },

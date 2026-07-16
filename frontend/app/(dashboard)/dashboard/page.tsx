@@ -19,6 +19,7 @@ export default function DashboardPage() {
         totalPets={stats.totalPets}
         totalOwners={stats.totalOwners}
         totalAppointments={stats.totalAppointments}
+       
       />
       <DashboardChart data={chartData} />
     </div>

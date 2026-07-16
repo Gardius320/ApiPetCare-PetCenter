@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, PawPrint, Users, Calendar, Cat, UserCog, ChevronLeft, ChevronRight, Stethoscope,} from "lucide-react";
+import { LayoutDashboard, PawPrint, Users, Calendar, Cat, UserCog, ChevronLeft, ChevronRight, Stethoscope, Package,} from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger,} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
@@ -18,7 +18,8 @@ const navItems: NavItem[] = [
   { label: "Mascotas",     href: "/pets",          icon: PawPrint },
   { label: "Propietarios", href: "/owners",        icon: Users },
   { label: "Citas",        href: "/appointments",  icon: Calendar },
-  { label: "Especies",     href: "/species",       icon: Cat },  
+  { label: "Especies",     href: "/species",       icon: Cat },
+  { label: "Insumos",      href: "/Supply",        icon: Package },
   { label: "Usuarios",     href: "/users",         icon: UserCog },
 ];
 
