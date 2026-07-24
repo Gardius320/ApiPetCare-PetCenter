@@ -52,6 +52,10 @@ public class AppointmentController : ControllerBase
     public async Task<IActionResult> Delete(int id)
     {
         var result = await _mediator.Send(new DeleteAppointmentCommand { Id = id });
+
+        if (result is null)
+            return BadRequest(ApiResponse<bool>.Failure("La cita no existe o no pudo ser cancelada"));
+
         return Ok(ApiResponse<bool>.Success(true, "Cita cancelada exitosamente"));
     }
 

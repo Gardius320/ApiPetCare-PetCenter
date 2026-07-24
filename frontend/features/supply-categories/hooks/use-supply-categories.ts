@@ -45,9 +45,13 @@ export function useDeleteSupplyCategory() {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: (id: number) => supplyCategoryRepository.delete(id),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: SUPPLY_CATEGORIES_KEY })
-      toast.success("Categoría de suministro eliminada correctamente")
+    onSuccess: (data) => {
+      if (data.isSuccess) {
+        qc.invalidateQueries({ queryKey: SUPPLY_CATEGORIES_KEY })
+        toast.success(data.message)
+      } else {
+        toast.error(data.message)
+      }
     },
     onError: () => {
       toast.error("No se pudo eliminar la categoría de suministro")

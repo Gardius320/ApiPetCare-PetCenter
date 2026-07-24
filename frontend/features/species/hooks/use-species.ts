@@ -23,7 +23,7 @@ export function useCreateSpecies() {
       toast.success("Especie creada")
     },
     onError: () => {
-       toast.error("La especie no pudo ser creda")
+       toast.error("La especie no pudo ser creada")
     }
   })
 }
