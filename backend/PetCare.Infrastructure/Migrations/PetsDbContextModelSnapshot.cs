@@ -290,11 +290,6 @@ namespace PetCare.Migrations
                         .HasColumnType("nvarchar(30)")
                         .HasColumnName("address");
 
-                    b.Property<string>("Cedula")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)")
-                        .HasColumnName("cedula");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(25)
@@ -303,7 +298,12 @@ namespace PetCare.Migrations
 
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("sexo");
+                        .HasColumnName("gender");
+
+                    b.Property<string>("IdCard")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)")
+                        .HasColumnName("id_card");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -493,6 +493,12 @@ namespace PetCare.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("unit");
+
+                    b.Property<string>("supplyType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("supply_type");
 
                     b.HasKey("Id");
 

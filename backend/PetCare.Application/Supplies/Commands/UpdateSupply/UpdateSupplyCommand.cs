@@ -1,6 +1,7 @@
 using MediatR;
 using PetCare.Application.Common;
 using PetCare.Domain.DTOs;
+using PetCare.Domain.Enums;
 
 namespace PetCare.Application.Supplies.Commands.UpdateSupply
 {
@@ -14,5 +15,6 @@ namespace PetCare.Application.Supplies.Commands.UpdateSupply
         public decimal MinimumStock { get; set; }
         public bool IsActive { get; set; }
         public int SupplyCategoryId { get; set; }
+        public SupplyType SupplyType { get; set; }
     }
 }

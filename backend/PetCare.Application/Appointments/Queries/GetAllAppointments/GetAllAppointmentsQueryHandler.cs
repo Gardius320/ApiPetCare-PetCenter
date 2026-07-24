@@ -34,18 +34,17 @@ namespace PetCare.Application.Appointments.Queries.GetAllAppointments
             {
                 var dto = new GetAppointmentDTO
                 {
-                    Id           = a.Id,
-                    Fecha        = a.AppointmentDate.ToString("yyyy-MM-dd HH:mm"),
-                    NombreDueno  = a.Owner?.OwnerName ?? string.Empty,
-                    Estado       = a.State?.StateName ?? string.Empty,
-                    Observacion  = a.Observation,
-                    NombreMascota = a.Pet?.PetName ?? string.Empty,
-                    Especie      = a.Pet?.Specie?.SpecieName ?? string.Empty
+                    Id         = a.Id,
+                    Date       = a.AppointmentDate.ToString("yyyy-MM-dd HH:mm"),
+                    OwnerName  = a.Owner?.OwnerName ?? string.Empty,
+                    State      = a.State?.StateName ?? string.Empty,
+                    Observation = a.Observation,
+                    PetName    = a.Pet?.PetName ?? string.Empty,
+                    Species    = a.Pet?.Specie?.SpecieName ?? string.Empty
                 };
                 items.Add(dto);
             }
-
-           
+            
             return new PaginatedAppointmentsResult
             {
                 Items = items,

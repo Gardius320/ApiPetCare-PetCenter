@@ -18,8 +18,7 @@ namespace PetCare.Application.Species.Queries.GetAllSpecies
             GetAllSpeciesQuery request, CancellationToken cancellationToken)
         {
             var species = await _speciesRepository.GetAll();
-
-            // Mapeamos el modelo de dominio al DTO
+            
             return species.Select(s => new GetSpeciesDTO
             {
                 Id = s.Id,

@@ -6,5 +6,11 @@ namespace PetCare.Domain.Interfaces
     {
         Task<List<SupplyCategory>> GetAllAsync();
         Task<SupplyCategory?> GetByIdAsync(int id);
+
+        Task<SupplyCategory> Create(SupplyCategory category);
+        
+        Task<SupplyCategory> UpdateAsync(SupplyCategory category);
+
+        Task<SupplyCategory> DeleteAsync(SupplyCategory category);
     }
 }

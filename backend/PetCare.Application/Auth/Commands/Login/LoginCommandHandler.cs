@@ -24,37 +24,37 @@ namespace PetCare.Application.Auth.Commands.Login
 
         public async Task<AuthResponseDto> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            var usuario = await _userManager.FindByEmailAsync(request.Email);
-            if (usuario == null)
-                throw new UnauthorizedAccessException("Email o contraseña incorrectos");
+            var user = await _userManager.FindByEmailAsync(request.Email);
+            if (user == null)
+                throw new UnauthorizedAccessException("Usuario no encontrado");
 
-            bool contraseñaCorrecta = await _userManager.CheckPasswordAsync(usuario, request.Password);
-            if (!contraseñaCorrecta)
-                throw new UnauthorizedAccessException("Email o contraseña incorrectos");
+            bool correctPassword = await _userManager.CheckPasswordAsync(user, request.Password);
+            if (!correctPassword)
+                throw new UnauthorizedAccessException("Contraseña incorrecta");
 
-            var roles = await _userManager.GetRolesAsync(usuario);
-            var accessToken = _jwtService.GenerateAccessToken(usuario, roles);
+            var roles = await _userManager.GetRolesAsync(user);
+            var accessToken = _jwtService.GenerateAccessToken(user, roles);
             var refreshToken = _jwtService.GenerateRefreshToken();
 
             
-            var duracionSesion = _jwtService.GetRefreshTokenDuration(roles);
+            var sessionDuration = _jwtService.GetRefreshTokenDuration(roles);
 
             await _refreshTokenRepository.AddAsync(new PetCare.Domain.Models.RefreshToken
             {
                 Token = refreshToken,
-                ExpiresAt = DateTime.UtcNow.Add(duracionSesion),
+                ExpiresAt = DateTime.UtcNow.Add(sessionDuration),
                 IsRevoked = false,
-                UserId = usuario.Id
+                UserId = user.Id
             });
 
             return new AuthResponseDto
             {
                 Token = accessToken,
                 RefreshToken = refreshToken,
-                Email = usuario.Email!,
-                FullName = usuario.FullName,
+                Email = user.Email!,
+                FullName = user.FullName,
                 Role = roles.FirstOrDefault() ?? string.Empty,
-                Expires = DateTime.UtcNow.AddMinutes(30)
+                Expires = DateTime.UtcNow.AddMinutes(_jwtService.GetAccessTokenDurationMinutes())
             };
         }
     }

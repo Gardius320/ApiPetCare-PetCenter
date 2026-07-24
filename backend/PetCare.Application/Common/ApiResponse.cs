@@ -2,7 +2,6 @@
 {
     public class ApiResponse<T>
     {
-        // Indica si la operación salió bien o mal
         public bool IsSuccess { get; set; }
         
         public string Message { get; set; } = string.Empty;

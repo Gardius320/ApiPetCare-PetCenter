@@ -1,5 +1,4 @@
-﻿// Repositorio que accede a la tabla de especies en la base de datos
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PetCare.Domain.Interfaces;
 using PetCare.Domain.Models;
 using PetCare.Infrastructure.Data;

@@ -3,11 +3,11 @@
     public class GetAppointmentDTO
     {
         public int Id { get; set; }
-        public string? Fecha { get; set; } 
-        public string? NombreDueno { get; set; }
-        public string? Estado { get; set; } 
-        public string? Observacion { get; set; }
-        public string? NombreMascota { get; set; }
-        public string? Especie { get; set; }
+        public string? Date { get; set; }
+        public string? OwnerName { get; set; }
+        public string? State { get; set; }
+        public string? Observation { get; set; }
+        public string? PetName { get; set; }
+        public string? Species { get; set; }
     }
 }

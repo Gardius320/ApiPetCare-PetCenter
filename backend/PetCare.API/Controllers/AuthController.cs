@@ -1,9 +1,12 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PetCare.Application.Auth;
 using PetCare.Application.Auth.Commands.Login;
+using PetCare.Application.Auth.Commands.Logout;
 using PetCare.Application.Auth.Commands.RefreshToken;
 using PetCare.Application.Auth.Commands.Register;
+using System.Security.Claims;
 
 namespace PetCare.API.Controllers
 {
@@ -54,6 +57,25 @@ namespace PetCare.API.Controllers
             });
 
             return Ok(result);
+        }
+        [Authorize]
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout([FromBody] LogoutDto dto)
+        {
+            var userId = User.FindFirstValue("id");
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            await _mediator.Send(new LogoutCommand
+            {
+                RefreshToken = dto.RefreshToken,
+                UserId = userId
+            });
+
+            return Ok();
         }
     }
 }

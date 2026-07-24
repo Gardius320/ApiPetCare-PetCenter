@@ -40,8 +40,8 @@ namespace PetCare.API.Controllers
             return Ok(ApiResponse<List<object>>.Success(result));
         }
 
-        [HttpPost("Crear")]
-        public async Task<IActionResult> Crear([FromBody] CreateUserDto dto)
+        [HttpPost("Create")]
+        public async Task<IActionResult> Create([FromBody] CreateUserDto dto)
         {
             var existingUser = await _userManager.FindByEmailAsync(dto.Email);
             if (existingUser != null)
@@ -66,8 +66,8 @@ namespace PetCare.API.Controllers
             return Ok(ApiResponse<string>.Success("Usuario creado correctamente"));
         }
 
-        [HttpPut("CambiarRol/{id}")]
-        public async Task<IActionResult> CambiarRol(string id, [FromBody] ChangeRoleDto dto)
+        [HttpPut("ChangeRole/{id}")]
+        public async Task<IActionResult> ChangeRole(string id, [FromBody] ChangeRoleDto dto)
         {
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
@@ -80,8 +80,8 @@ namespace PetCare.API.Controllers
             return Ok(ApiResponse<string>.Success("Rol actualizado correctamente"));
         }
 
-        [HttpDelete("Eliminar/{id}")]
-        public async Task<IActionResult> Eliminar(string id)
+        [HttpDelete("Delete/{id}")]
+        public async Task<IActionResult> Delete(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)

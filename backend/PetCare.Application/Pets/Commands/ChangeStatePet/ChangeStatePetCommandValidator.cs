@@ -3,9 +3,9 @@ using MediatR;
 
 namespace PetCare.Application.Pets.Commands.ChangeStatePet
 {
-    public class ChangeStatePetCommanValidator : AbstractValidator<ChangeStatePetCommand>
+    public class ChangeStatePetCommandValidator : AbstractValidator<ChangeStatePetCommand>
     {
-        public ChangeStatePetCommanValidator() 
+        public ChangeStatePetCommandValidator() 
         {
 
             RuleFor(x => x.PetId)

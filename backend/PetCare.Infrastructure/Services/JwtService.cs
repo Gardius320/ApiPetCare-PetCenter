@@ -24,7 +24,7 @@ namespace PetCare.Infrastructure.Services
             {
                 new Claim("id", user.Id),
                 new Claim("email", user.Email!),
-                new Claim("nombre", user.FullName)
+                new Claim("name", user.FullName)
             };
 
             foreach (var rol in roles)
@@ -39,12 +39,18 @@ namespace PetCare.Infrastructure.Services
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(30),
+                expires: DateTime.UtcNow.AddMinutes(GetAccessTokenDurationMinutes()),
                 signingCredentials: firmado
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        public int GetAccessTokenDurationMinutes()
+        {
+            return _configuration.GetValue<int?>("Jwt:ExpirationMinutes") ?? 60;
+        }
+
         public TimeSpan GetRefreshTokenDuration(IList<string> roles)
         {
             var sessionDurations = _configuration

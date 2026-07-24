@@ -23,7 +23,8 @@ namespace PetCare.Application.Supplies.Commands.CreateSupply
                 Unit = request.Unit,
                 CurrentStock = request.CurrentStock,
                 MinimumStock = request.MinimumStock,
-                SupplyCategoryId = request.SupplyCategoryId
+                SupplyCategoryId = request.SupplyCategoryId,
+                supplyType = request.SupplyType
             };
 
             var created = await _supplyRepository.CreateSupply(supply);

@@ -12,7 +12,7 @@ namespace PetCare.Application.Owners.Commands.CreateOwner
         
         public string? PhoneNumber { get; set; }        
         
-        public string? Cedula { get; set; }
+        public string? IdCard { get; set; }
        
         public string? Gender { get; set; }
     }

@@ -29,17 +29,17 @@ namespace PetCare.API.Controllers
             return Ok(ApiResponse<List<GetSpeciesDTO>>.Success(species));
         }
 
-        [HttpPost("Crear")]
-        [Authorize(Roles = "Admin,Veterinario,Auxiliar")]
-        public async Task<IActionResult> Crear([FromBody] CreateSpeciesCommand command)
+        [HttpPost("Create")]
+        [Authorize(Roles = "Admin,Veterinarian,Assistant")]
+        public async Task<IActionResult> Create([FromBody] CreateSpeciesCommand command)
         {
             var id = await _mediator.Send(command);
             return Ok(ApiResponse<int?>.Success(id));
         }
 
-        [HttpDelete("Eliminar/{id}")]
-        [Authorize(Roles = "Admin,Veterinario")]
-        public async Task<IActionResult> Eliminar(int id)
+        [HttpDelete("Delete/{id}")]
+        [Authorize(Roles = "Admin,Veterinarian")]
+        public async Task<IActionResult> Delete(int id)
         {
             var result = await _mediator.Send(new DeleteSpeciesCommand { Id = id });
 

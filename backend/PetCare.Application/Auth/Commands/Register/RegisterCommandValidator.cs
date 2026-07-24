@@ -4,7 +4,7 @@ namespace PetCare.Application.Auth.Commands.Register
 {
     public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
     {
-        private static readonly string[] RolesPermitidos = { "Admin", "Veterinario", "Cliente", "Auxiliar" };
+        private static readonly string[] RolesPermitidos = { "Admin", "Veterinarian", "Client", "Assistant" };
 
         public RegisterCommandValidator()
         {

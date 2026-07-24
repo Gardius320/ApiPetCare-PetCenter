@@ -14,6 +14,14 @@ namespace PetCare.Infrastructure.Persistence
             _context = context;
         }
 
+        public async Task<SupplyCategory> Create(SupplyCategory category)
+        {
+            category.IsActive = true;
+            await _context.SupplyCategories.AddAsync(category);
+            await _context.SaveChangesAsync();
+            return category;
+        }
+
         public async Task<List<SupplyCategory>> GetAllAsync()
         {
             return await _context.SupplyCategories
@@ -27,5 +35,22 @@ namespace PetCare.Infrastructure.Persistence
                 .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
+
+        public async Task<SupplyCategory> UpdateAsync(SupplyCategory category)
+        {
+            _context.SupplyCategories.Update(category);
+            await _context.SaveChangesAsync();
+            return category;
+        } 
+        
+        public async Task<SupplyCategory> DeleteAsync(SupplyCategory category)
+        {
+            _context.SupplyCategories.Remove(category);
+            await _context.SaveChangesAsync();
+            return category;
+        }
+
+
+
     }
 }

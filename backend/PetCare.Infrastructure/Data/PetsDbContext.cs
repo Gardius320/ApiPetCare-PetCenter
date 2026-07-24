@@ -23,12 +23,9 @@ public partial class PetsDbContext : IdentityDbContext<ApplicationUser>
     public virtual DbSet<SupplyMovement> SupplyMovements { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        // Esta línea es OBLIGATORIA cuando usas IdentityDbContext
-        // Le dice a Identity que configure sus propias tablas primero
+    {       
         base.OnModelCreating(modelBuilder);
-
-        // Todo lo demás queda exactamente igual que antes
+        
         modelBuilder.Entity<Appointment>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__appointm__3213E83F7AACF5C9");
@@ -68,8 +65,8 @@ public partial class PetsDbContext : IdentityDbContext<ApplicationUser>
             entity.Property(e => e.Email).HasMaxLength(25).HasColumnName("email");
             entity.Property(e => e.PhoneNumber).HasMaxLength(25).HasColumnName("phone_number");
             entity.Property(e => e.Address).HasMaxLength(30).HasColumnName("address");
-            entity.Property(e => e.Cedula).HasMaxLength(10).HasColumnName("cedula");
-            entity.Property(e => e.Gender).HasColumnName("sexo");
+            entity.Property(e => e.IdCard).HasMaxLength(10).HasColumnName("id_card");
+            entity.Property(e => e.Gender).HasColumnName("gender");
         });
 
         modelBuilder.Entity<Pet>(entity =>
@@ -131,6 +128,14 @@ public partial class PetsDbContext : IdentityDbContext<ApplicationUser>
             entity.Property(e => e.IsActive).HasColumnName("is_active");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.SupplyCategoryId).HasColumnName("supply_category_id");
+
+            
+            entity.Property(e => e.supplyType)
+                .HasColumnName("supply_type")
+                .HasConversion<string>()
+                .HasMaxLength(20)
+                .IsRequired();
+
             entity.HasOne(d => d.Category).WithMany(p => p.Supplies)
                 .HasForeignKey(d => d.SupplyCategoryId)
                 .HasConstraintName("FK__supplies__supply___3A81B327")

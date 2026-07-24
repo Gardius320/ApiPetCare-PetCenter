@@ -21,29 +21,29 @@ public class SuppliesController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpPost("Crear")]
-    [Authorize(Roles = "Admin,Auxiliar")]
-    public async Task<IActionResult> Crear([FromBody] CreateSupplyCommand command)
+    [HttpPost("Create")]
+    [Authorize(Roles = "Admin,Assistant")]
+    public async Task<IActionResult> Create([FromBody] CreateSupplyCommand command)
     {
-        var resultado = await _mediator.Send(command);
-        return Ok(resultado);
+        var result = await _mediator.Send(command);
+        return Ok(result);
     }
 
-    [HttpPut("Actualizar/{id}")]
-    [Authorize(Roles = "Admin,Auxiliar")]
-    public async Task<IActionResult> Actualizar(int id, [FromBody] UpdateSupplyCommand command)
+    [HttpPut("Update/{id}")]
+    [Authorize(Roles = "Admin,Assistant")]
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateSupplyCommand command)
     {
         command.Id = id;
-        var resultado = await _mediator.Send(command);
-        return Ok(resultado);
+        var result = await _mediator.Send(command);
+        return Ok(result);
     }
 
-    [HttpPut("CambiarEstado/{id}")]
-    [Authorize(Roles = "Admin,Auxiliar")]
-    public async Task<IActionResult> CambiarEstado(int id)
+    [HttpPut("ChangeState/{id}")]
+    [Authorize(Roles = "Admin,Assistant")]
+    public async Task<IActionResult> ChangeState(int id)
     {
-        var resultado = await _mediator.Send(new ToggleSupplyStatusCommand { Id = id });
-        return Ok(resultado);
+        var result = await _mediator.Send(new ToggleSupplyStatusCommand { Id = id });
+        return Ok(result);
     }
 
     [HttpGet("GetAll")]

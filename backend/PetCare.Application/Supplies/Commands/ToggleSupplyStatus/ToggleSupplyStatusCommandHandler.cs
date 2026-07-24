@@ -38,11 +38,12 @@ namespace PetCare.Application.Supplies.Commands.ToggleSupplyStatus
                 MinimumStock = updated.MinimumStock,
                 IsActive = updated.IsActive,
                 SupplyCategoryId = updated.SupplyCategoryId,
-                CategoryName = updated.Category?.Name ?? string.Empty
+                CategoryName = updated.Category?.Name ?? string.Empty,
+                SupplyType = updated.supplyType
             };
 
-            var mensaje = updated.IsActive ? "Insumo activado correctamente" : "Insumo desactivado correctamente";
-            return ApiResponse<SupplyDTO>.Success(dto, mensaje);
+            var message = updated.IsActive ? "Insumo activado correctamente" : "Insumo desactivado correctamente";
+            return ApiResponse<SupplyDTO>.Success(dto, message);
         }
     }
 }

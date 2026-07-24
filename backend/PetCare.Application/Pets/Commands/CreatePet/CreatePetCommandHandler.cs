@@ -15,20 +15,15 @@ namespace PetCare.Application.Pets.Commands.CreatePet
         }
 
         public async Task<int?> Handle(CreatePetCommand request, CancellationToken cancellationToken)
-        {
-            // Armamos el objeto mascota con los datos del formulario
-            var mascota = new Pet
+        {            
+            var pet = new Pet
             {
                 PetName  = request.PetName ?? string.Empty,
                 SpecieId = request.SpecieId,
                 OwnerId  = request.OwnerId,
                 IsActive = true 
-            };
-
-            
-            var creada = await _petRepository.CreatePetAsync(mascota);
-
-            
+            };                        
+            var creada = await _petRepository.CreatePetAsync(pet);            
             return creada?.Id;
         }
     }

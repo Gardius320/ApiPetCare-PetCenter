@@ -24,7 +24,7 @@ namespace PetCare.Application.Owners.Commands.CreateOwner
                 .MaximumLength(10)
                 .WithMessage("El número de telefono debe tener los caracteres correspondientes");
 
-            RuleFor(x => x.Cedula)
+            RuleFor(x => x.IdCard)
                 .NotEmpty()
                 .MinimumLength(7)
                 .MaximumLength(10)

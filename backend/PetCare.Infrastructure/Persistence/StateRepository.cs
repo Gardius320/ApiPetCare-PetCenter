@@ -28,15 +28,15 @@ namespace PetCare.Infrastructure.Persistence
 
         public async Task<State> CreateState(State state)
         {
-            var nuevoEstado = new State
+            var newState = new State
             {
                 StateName   = state.StateName,
                 Description = state.Description
             };
 
-            _context.States.Add(nuevoEstado);
+            _context.States.Add(newState);
             await _context.SaveChangesAsync();
-            return nuevoEstado;
+            return newState;
         }
 
         public async Task<State> UpdateAsync(State state)
@@ -48,13 +48,13 @@ namespace PetCare.Infrastructure.Persistence
 
         public async Task<string> DeleteState(int id)
         {
-            var estado = await _context.States.FindAsync(id);
+            var state = await _context.States.FindAsync(id);
 
-            if (estado == null) return "Estado no encontrado";
+            if (state == null) return "Estado no encontrado";
 
             try
             {
-                _context.States.Remove(estado);
+                _context.States.Remove(state);
                 await _context.SaveChangesAsync();
                 return "Estado eliminado con éxito";
             }

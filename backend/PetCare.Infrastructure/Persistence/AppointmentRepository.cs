@@ -19,8 +19,8 @@ namespace PetCare.Infrastructure.Persistence
             bool ownerExists = await _context.Owners.AnyAsync(o => o.Id == ownerId);
             if (!ownerExists) return null;
 
-            var estadoInicial = await _context.States.FirstOrDefaultAsync(s => s.StateName == "Agendada");
-            if (estadoInicial == null)
+            var initialState = await _context.States.FirstOrDefaultAsync(s => s.StateName == "Agendada");
+            if (initialState == null)
                 throw new InvalidOperationException("El estado 'Agendada' no existe en la base de datos. Verifica el seed de States.");
 
             var appointment = new Appointment
@@ -28,7 +28,7 @@ namespace PetCare.Infrastructure.Persistence
                 OwnerId = ownerId,
                 AppointmentDate = appointmentDate,
                 Observation = description,
-                StateId = estadoInicial.IdState,
+                StateId = initialState.IdState,
                 PetId = petId
             };
 
@@ -71,11 +71,11 @@ namespace PetCare.Infrastructure.Persistence
             var appointment = await _context.Appointments.FindAsync(id);
             if (appointment == null) return false;
 
-            var estadoCancelado = await _context.States.FirstOrDefaultAsync(s => s.StateName == "Cancelada");
-            if (estadoCancelado == null)
+            var cancelledStatus = await _context.States.FirstOrDefaultAsync(s => s.StateName == "Cancelada");
+            if (cancelledStatus == null)
                 throw new InvalidOperationException("El estado 'Cancelada' no existe en la base de datos. Verifica el seed de States.");
 
-            appointment.StateId = estadoCancelado.IdState;
+            appointment.StateId = cancelledStatus.IdState;
             appointment.Observation = "Cita cancelada";
 
             await _context.SaveChangesAsync();

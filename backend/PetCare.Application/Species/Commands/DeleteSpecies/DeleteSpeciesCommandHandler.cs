@@ -1,5 +1,4 @@
-﻿// Handler que elimina una especie y devuelve un mensaje del resultado
-using MediatR;
+﻿using MediatR;
 using PetCare.Domain.Interfaces;
 
 namespace PetCare.Application.Species.Commands.DeleteSpecies
@@ -15,7 +14,7 @@ namespace PetCare.Application.Species.Commands.DeleteSpecies
 
         public async Task<string> Handle(DeleteSpeciesCommand command, CancellationToken cancellationToken)
         {
-            // El repositorio se encarga de eliminar y devuelve un mensaje
+            
             return await _speciesRepository.DeleteSpecies(command.Id);
         }
     }

@@ -23,10 +23,10 @@ namespace PetCare.Application.Owners.Commands.UpdateOwner
                 .WithMessage("El número de teléfono no es válido")
                 .When(x => !string.IsNullOrEmpty(x.OwnerPhone));
 
-            RuleFor(x => x.Cedula)
+            RuleFor(x => x.IdCard)
                 .Matches(@"^\d{6,10}$")
                 .WithMessage("La cédula debe contener entre 6 y 10 dígitos")
-                .When(x => !string.IsNullOrEmpty(x.Cedula));
+                .When(x => !string.IsNullOrEmpty(x.IdCard));
         }
 }
 }

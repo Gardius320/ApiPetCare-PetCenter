@@ -40,7 +40,8 @@ namespace PetCare.Application.Supplies.Queries.GetAllSupplies
                     MinimumStock = s.MinimumStock,
                     IsActive = s.IsActive,
                     SupplyCategoryId = s.SupplyCategoryId,
-                    CategoryName = s.Category.Name
+                    CategoryName = s.Category.Name,
+                    SupplyType = s.supplyType
                 };
                 items.Add(dto);
             }

@@ -1,4 +1,6 @@
-﻿namespace PetCare.Domain.Models
+﻿using PetCare.Domain.Enums;
+
+namespace PetCare.Domain.Models
 {
     public class Supply
     {
@@ -10,6 +12,7 @@
 
         public decimal CurrentStock { get; set; }
         public decimal MinimumStock { get; set; }
+        public SupplyType supplyType { get; set; }
 
         public bool IsActive { get; set; } = true;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

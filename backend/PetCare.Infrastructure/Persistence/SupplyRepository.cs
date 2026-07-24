@@ -82,13 +82,13 @@ namespace PetCare.Infrastructure.Persistence
 
             var total = await activeQuery.CountAsync();
 
-            var agotados = await activeQuery
+            var exhausteds = await activeQuery
                 .CountAsync(s => s.CurrentStock == 0);
 
-            var bajoStock = await activeQuery
+            var lowStock = await activeQuery
                 .CountAsync(s => s.CurrentStock > 0 && s.CurrentStock <= s.MinimumStock);
 
-            var categoriasEnUso = await activeQuery
+            var categoriesInUse = await activeQuery
                 .Select(s => s.SupplyCategoryId)
                 .Distinct()
                 .CountAsync();
@@ -96,9 +96,9 @@ namespace PetCare.Infrastructure.Persistence
             return new SupplyStatsDTO
             {
                 Total = total,
-                BajoStock = bajoStock,
-                Agotados = agotados,
-                CategoriasEnUso = categoriasEnUso
+                LowStock = lowStock,
+                OutOfStock = exhausteds,
+                CategoriesInUse = categoriesInUse
             };
         }
     }

@@ -28,6 +28,7 @@ namespace PetCare.Application.Supplies.Commands.UpdateSupply
             supply.MinimumStock = request.MinimumStock;
             supply.IsActive = request.IsActive;
             supply.SupplyCategoryId = request.SupplyCategoryId;
+            supply.supplyType = request.SupplyType;
 
             var updated = await _supplyRepository.UpdateSupply(supply);
 
@@ -44,7 +45,8 @@ namespace PetCare.Application.Supplies.Commands.UpdateSupply
                 MinimumStock = updated.MinimumStock,
                 IsActive = updated.IsActive,
                 SupplyCategoryId = updated.SupplyCategoryId,
-                CategoryName = updated.Category?.Name ?? string.Empty
+                CategoryName = updated.Category?.Name ?? string.Empty,
+                SupplyType = updated.supplyType
             };
 
             return ApiResponse<SupplyDTO>.Success(dto, "Insumo actualizado correctamente");

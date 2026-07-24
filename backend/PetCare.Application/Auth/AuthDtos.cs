@@ -29,4 +29,8 @@ namespace PetCare.Application.Auth
         public string Role { get; set; } = string.Empty;
         public DateTime Expires { get; set; }
     }
+    public class LogoutDto
+    {
+        public string RefreshToken { get; set; } = string.Empty;
+    }
 }

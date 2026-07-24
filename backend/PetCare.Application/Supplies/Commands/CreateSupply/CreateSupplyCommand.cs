@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using PetCare.Application.Common;
+using PetCare.Domain.Enums;
 
 namespace PetCare.Application.Supplies.Commands.CreateSupply
 {
@@ -11,5 +12,6 @@ namespace PetCare.Application.Supplies.Commands.CreateSupply
         public decimal CurrentStock { get; set; }
         public decimal MinimumStock { get; set; }
         public int SupplyCategoryId { get; set; }
+        public SupplyType SupplyType { get; set; }
     }
 }

@@ -6,15 +6,13 @@ using System.Text.Json;
 namespace PetCare.API.Middleware
 {
     public class ExceptionMiddleware
-    {
-        // Representa el siguiente paso en el pipeline
+    {        
         private readonly RequestDelegate _next;
 
         public ExceptionMiddleware(RequestDelegate next)
         {
             _next = next;
-        }
-        // Invoke sirve para ejecutar eventos 
+        }       
         public async Task InvokeAsync(HttpContext context)
         {
             try
@@ -23,8 +21,7 @@ namespace PetCare.API.Middleware
                 await _next(context);
             }
             catch (ValidationException ex)
-            {
-                // FluentValidation lanzó erroresdevolvemos 400
+            {                
                 var errors = ex.Errors
                     .Select(e => e.ErrorMessage)
                     .ToList();
@@ -36,8 +33,7 @@ namespace PetCare.API.Middleware
                 );
             }
             catch (Exception ex)
-            {
-                // Cualquier error  devolvemos 500
+            {               
                 await WriteResponse(
                     context,
                     HttpStatusCode.InternalServerError,
@@ -45,8 +41,7 @@ namespace PetCare.API.Middleware
                 );
             }
         }
-
-        //escribe un formato de respuesta estandar y es un tipo JSON
+        
         private async Task WriteResponse<T>(
             HttpContext context,
             HttpStatusCode statusCode,

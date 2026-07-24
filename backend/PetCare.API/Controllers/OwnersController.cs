@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PetCare.Application.Common;
 using PetCare.Application.Owners.Commands.CreateOwner;
+using PetCare.Application.Owners.Commands.DeleteOwner;
 using PetCare.Application.Owners.Commands.UpdateOwner;
 using PetCare.Application.Owners.Queries.GetAllOwners;
 
@@ -18,12 +19,12 @@ public class OwnersController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpPost("Crear")]
-    [Authorize(Roles = "Admin,Auxiliar")]
-    public async Task<IActionResult> Crear([FromBody] CreateOwnerCommand command)
+    [HttpPost("Create")]
+    [Authorize(Roles = "Admin,Assistant")]
+    public async Task<IActionResult> Create([FromBody] CreateOwnerCommand command)
     {
-        var resultado = await _mediator.Send(command);
-        return Ok(ApiResponse<int?>.Success(resultado));
+        var result = await _mediator.Send(command);
+        return Ok(ApiResponse<int?>.Success(result));
     }
 
     [HttpGet("GetAll")]
@@ -43,12 +44,20 @@ public class OwnersController : ControllerBase
         return Ok(ApiResponse<PaginatedOwnersResult?>.Success(result));
     }
 
-    [HttpPut("Actualizar/{id}")]
-    [Authorize(Roles = "Admin,Auxiliar")]
-    public async Task<IActionResult> Actualizar(int id, [FromBody] UpdateOwnerCommand command)
+    [HttpPut("Update/{id}")]
+    [Authorize(Roles = "Admin,Assistant")]
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateOwnerCommand command)
     {
         command.OwnerId = id;
-        var resultado = await _mediator.Send(command);
-        return Ok(ApiResponse<int?>.Success(resultado));
+        var result = await _mediator.Send(command);
+        return Ok(ApiResponse<int?>.Success(result));
+    }
+
+    [HttpDelete("Delete/{id}")]
+    [Authorize(Roles = "Admin,Assistant")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var result = await _mediator.Send(new DeleteOwnerCommand { Id = id });
+        return Ok(result);
     }
 }

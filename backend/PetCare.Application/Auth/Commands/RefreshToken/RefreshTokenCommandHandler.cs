@@ -29,31 +29,31 @@ namespace PetCare.Application.Auth.Commands.RefreshToken
             if (storedToken == null || storedToken.IsRevoked || storedToken.ExpiresAt < DateTime.UtcNow)
                 throw new UnauthorizedAccessException("Refresh token inválido o expirado");
 
-            var usuario = storedToken.User;
-            var roles = await _userManager.GetRolesAsync(usuario);
+            var user = storedToken.User;
+            var roles = await _userManager.GetRolesAsync(user);
 
             await _refreshTokenRepository.RevokeAsync(storedToken);
 
-            var newAccessToken = _jwtService.GenerateAccessToken(usuario, roles);
+            var newAccessToken = _jwtService.GenerateAccessToken(user, roles);
             var newRefreshToken = _jwtService.GenerateRefreshToken();
 
             // 👇 Antes: DateTime.UtcNow.AddDays(7) fijo — aquí nace el efecto "deslizante"
-            var duracionSesion = _jwtService.GetRefreshTokenDuration(roles);
+            var sessionDuration = _jwtService.GetRefreshTokenDuration(roles);
 
             await _refreshTokenRepository.AddAsync(new PetCare.Domain.Models.RefreshToken
             {
                 Token = newRefreshToken,
-                ExpiresAt = DateTime.UtcNow.Add(duracionSesion),
+                ExpiresAt = DateTime.UtcNow.Add(sessionDuration),
                 IsRevoked = false,
-                UserId = usuario.Id
+                UserId = user.Id
             });
 
             return new AuthResponseDto
             {
                 Token = newAccessToken,
                 RefreshToken = newRefreshToken,
-                Email = usuario.Email!,
-                FullName = usuario.FullName,
+                Email = user.Email!,
+                FullName = user.FullName,
                 Role = roles.FirstOrDefault() ?? string.Empty,
                 Expires = DateTime.UtcNow.AddMinutes(30)
             };

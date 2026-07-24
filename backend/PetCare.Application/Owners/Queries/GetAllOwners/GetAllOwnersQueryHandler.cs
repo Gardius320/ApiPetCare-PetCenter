@@ -37,8 +37,8 @@ namespace PetCare.Application.Owners.Queries.GetAllOwners
                     OwnerName = o.OwnerName,
                     Email = o.Email,
                     PhoneNumber = o.PhoneNumber,
-                    Cedula = o.Cedula,
-                    Sexo = o.Gender
+                    IdCard = o.IdCard,
+                    Gender = o.Gender
                 };
                 items.Add(dto);
             }

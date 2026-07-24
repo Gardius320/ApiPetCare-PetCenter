@@ -58,13 +58,19 @@ namespace PetCare.Infrastructure.Persistence
 
         public async Task<string> DeleteOwner(int id)
         {
-            var dueno = await _context.Owners.FindAsync(id);
+            var owner = await _context.Owners.FindAsync(id);
 
-            if (dueno == null) return "Propietario no encontrado";
+            if (owner == null) return "Propietario no encontrado";
 
-            dueno.IsActive = false;
+            _context.Owners.Remove(owner);
             await _context.SaveChangesAsync();
             return "Propietario eliminado exitosamente";
+        }
+        public async Task<(int petsCount, int appointmentsCount)> GetDependencyCountsAsync(int ownerId)
+        {
+            int petsCount = await _context.Pets.CountAsync(p => p.OwnerId == ownerId);
+            int appointmentsCount = await _context.Appointments.CountAsync(a => a.OwnerId == ownerId);
+            return (petsCount, appointmentsCount);
         }
     }
 }

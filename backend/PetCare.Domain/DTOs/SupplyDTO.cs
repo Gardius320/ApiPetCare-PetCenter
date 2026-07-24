@@ -1,4 +1,7 @@
-﻿namespace PetCare.Domain.DTOs
+﻿using PetCare.Domain.Enums;
+
+
+namespace PetCare.Domain.DTOs
 {
     public class SupplyDTO
     {
@@ -11,5 +14,6 @@
         public bool IsActive { get; set; }
         public int SupplyCategoryId { get; set; }
         public string CategoryName { get; set; } = string.Empty;
+        public SupplyType SupplyType { get; set; }
     }
 }

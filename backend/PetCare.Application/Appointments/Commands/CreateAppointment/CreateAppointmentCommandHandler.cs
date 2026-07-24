@@ -5,8 +5,7 @@ namespace PetCare.Application.Appointments.Commands.CreateAppointment
 {
     public class CreateAppointmentCommandHandler
         : IRequestHandler<CreateAppointmentCommand, int?>
-    {
-        // Repositorio que se inyecta por constructor
+    {        
         private readonly IAppointmentRepository _appointmentRepository;
 
         public CreateAppointmentCommandHandler(IAppointmentRepository appointmentRepository)
@@ -17,7 +16,7 @@ namespace PetCare.Application.Appointments.Commands.CreateAppointment
         public async Task<int?> Handle(CreateAppointmentCommand request, CancellationToken cancellationToken)
         {
            
-            var cita = await _appointmentRepository.CreateAppointment(
+            var appointment = await _appointmentRepository.CreateAppointment(
                 request.OwnerId,
                 request.AppointmentDate,
                 request.Observation ?? string.Empty,
@@ -25,7 +24,7 @@ namespace PetCare.Application.Appointments.Commands.CreateAppointment
             );
 
             
-            return cita?.Id;
+            return appointment?.Id;
         }
     }
 }

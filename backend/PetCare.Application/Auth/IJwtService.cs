@@ -8,5 +8,6 @@ namespace PetCare.Application.Auth
         string GenerateRefreshToken(); 
 
         TimeSpan GetRefreshTokenDuration(IList<string> roles);
+        int GetAccessTokenDurationMinutes();
     }
 }

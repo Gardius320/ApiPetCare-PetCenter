@@ -2,14 +2,14 @@
 {
     public class PetStatsDTO
     {
-        public SpecieStatsDTO Perros { get; set; } = new();
-        public SpecieStatsDTO Gatos { get; set; } = new();
-        public SpecieStatsDTO Otros { get; set; } = new();
+        public SpecieStatsDTO Dogs { get; set; } = new();
+        public SpecieStatsDTO Cats { get; set; } = new();
+        public SpecieStatsDTO Others { get; set; } = new();
     }
 
     public class SpecieStatsDTO
     {
-        public int Activos { get; set; }
-        public int Inactivos { get; set; }
+        public int Assets { get; set; }
+        public int Inactive { get; set; }
     }
 }

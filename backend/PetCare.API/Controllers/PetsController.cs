@@ -48,26 +48,26 @@ namespace PetCare.API.Controllers
             return Ok(ApiResponse<GetPetDTO?>.Success(result));
         }
 
-        [HttpPost("Crear")]
-        [Authorize(Roles = "Admin,Veterinario")]
-        public async Task<IActionResult> Crear([FromBody] CreatePetCommand command)
+        [HttpPost("Create")]
+        [Authorize(Roles = "Admin,Veterinarian")]
+        public async Task<IActionResult> Create([FromBody] CreatePetCommand command)
         {
             var result = await _mediator.Send(command);
             return Ok(ApiResponse<int?>.Success(result));
         }
 
-        [HttpPut("Actualizar/{id}")]
-        [Authorize(Roles = "Admin,Veterinario")]
-        public async Task<IActionResult> Actualizar(int id, [FromBody] UpdatePetCommand command)
+        [HttpPut("Update/{id}")]
+        [Authorize(Roles = "Admin,Veterinarian")]
+        public async Task<IActionResult> Update(int id, [FromBody] UpdatePetCommand command)
         {
             command.PetId = id;
             var result = await _mediator.Send(command);
             return Ok(ApiResponse<int?>.Success(result));
         }
 
-        [HttpPatch("CambiarEstado/{id}")]
+        [HttpPatch("ChangeState/{id}")]
         [Authorize]
-        public async Task<IActionResult> CambiarEstado(int id, [FromBody] ChangeStatePetCommand command)
+        public async Task<IActionResult> ChangeState(int id, [FromBody] ChangeStatePetCommand command)
         {
             command.PetId = id;
             var result = await _mediator.Send(command);

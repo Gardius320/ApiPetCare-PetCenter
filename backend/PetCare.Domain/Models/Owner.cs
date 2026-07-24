@@ -15,7 +15,7 @@ public partial class Owner
 
     public string? Gender { get; set; }
 
-    public string? Cedula { get; set; }
+    public string? IdCard { get; set; }
 
     public bool IsActive { get; set; } = true;
 

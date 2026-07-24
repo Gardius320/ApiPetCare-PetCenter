@@ -19,8 +19,8 @@ namespace PetCare.Application.Auth.Commands.Register
 
         public async Task<string> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
-            var usuarioExiste = await _userManager.FindByEmailAsync(request.Email);
-            if (usuarioExiste != null)
+            var userExists = await _userManager.FindByEmailAsync(request.Email);
+            if (userExists != null)
                 throw new InvalidOperationException("El usuario ya existe");
 
             var nuevoUsuario = new ApplicationUser
@@ -31,11 +31,11 @@ namespace PetCare.Application.Auth.Commands.Register
                 LastName = request.LastName
             };
 
-            var resultado = await _userManager.CreateAsync(nuevoUsuario, request.Password);
-            if (!resultado.Succeeded)
+            var result = await _userManager.CreateAsync(nuevoUsuario, request.Password);
+            if (!result.Succeeded)
             {
-                var errores = string.Join(", ", resultado.Errors.Select(e => e.Description));
-                throw new InvalidOperationException(errores);
+                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                throw new InvalidOperationException(errors);
             }
 
             await _userManager.AddToRoleAsync(nuevoUsuario, request.Role);

@@ -29,18 +29,18 @@ namespace PetCare.API.Controllers
             return Ok(ApiResponse<List<GetStatesDTO>>.Success(result));
         }
 
-        [HttpPost("Crear")]
+        [HttpPost("Create")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Crear([FromBody] CreateStatesCommand command)
+        public async Task<IActionResult> Create([FromBody] CreateStatesCommand command)
         {
             
             var result = await _mediator.Send(command);
             return Ok(ApiResponse<int?>.Success(result, "Estado creado correctamente"));
         }
 
-        [HttpDelete("Eliminar/{id}")]
+        [HttpDelete("Delete/{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Eliminar(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var result = await _mediator.Send(new DeleteStatesCommand { Id = id });
             return Ok(ApiResponse<int?>.Success(result));

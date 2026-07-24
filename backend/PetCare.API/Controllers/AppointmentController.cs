@@ -23,7 +23,7 @@ public class AppointmentController : ControllerBase
     }
 
     [HttpGet("GetAll")]
-    [Authorize(Roles = "Admin,Veterinario,Auxiliar")]
+    [Authorize(Roles = "Admin,Veterinarian,Assistant")]
     public async Task<IActionResult> GetAll(
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 10,
@@ -39,33 +39,33 @@ public class AppointmentController : ControllerBase
         return Ok(ApiResponse<PaginatedAppointmentsResult?>.Success(result));
     }
 
-    [HttpPost("Crear")]
-    [Authorize(Roles = "Admin,Veterinario,Auxiliar")]
-    public async Task<IActionResult> Crear([FromBody] CreateAppointmentCommand command)
+    [HttpPost("Create")]
+    [Authorize(Roles = "Admin,Veterinarian,Assistant")]
+    public async Task<IActionResult> Create([FromBody] CreateAppointmentCommand command)
     {
         var result = await _mediator.Send(command);
         return Ok(ApiResponse<int?>.Success(result));
     }
 
-    [HttpDelete("Eliminar/{id}")]
-    [Authorize(Roles = "Admin,Veterinario")]
-    public async Task<IActionResult> Eliminar(int id)
+    [HttpDelete("Delete/{id}")]
+    [Authorize(Roles = "Admin,Veterinarian")]
+    public async Task<IActionResult> Delete(int id)
     {
         var result = await _mediator.Send(new DeleteAppointmentCommand { Id = id });
         return Ok(ApiResponse<bool>.Success(true, "Cita cancelada exitosamente"));
     }
 
-    [HttpPut("Actualizar/{id}")]
-    [Authorize(Roles = "Admin,Veterinario")]
-    public async Task<IActionResult> Actualizar(int id, [FromBody] UpdateAppointmentCommand command)
+    [HttpPut("Update/{id}")]
+    [Authorize(Roles = "Admin,Veterinarian")]
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateAppointmentCommand command)
     {
         command.Id = id;
         var result = await _mediator.Send(command);
         return Ok(ApiResponse<int?>.Success(result));
     }
-    [HttpPatch("CambiarEstado/{id}")]
-    [Authorize(Roles = "Admin,Veterinario,Auxiliar")]
-    public async Task<IActionResult> CambiarEstado(int id, [FromBody] ChangeAppointmentStateCommand command)
+    [HttpPatch("ChangeState/{id}")]
+    [Authorize(Roles = "Admin,Veterinarian,Assistant")]
+    public async Task<IActionResult> ChangeStatus(int id, [FromBody] ChangeAppointmentStateCommand command)
     {
         command.Id = id;
         var result = await _mediator.Send(command);

@@ -118,12 +118,12 @@ namespace PetCare.Infrastructure.Persistence
                 .Include(p => p.Specie)
                 .ToListAsync();
 
-            int perrosActivos   = 0;
-            int perrosInactivos = 0;
-            int gatosActivos    = 0;
-            int gatosInactivos  = 0;
-            int otrosActivos    = 0;
-            int otrosInactivos  = 0;
+            int activeDogs = 0;
+            int inactiveDogs = 0;
+            int activeCats = 0;
+            int inactiveCats = 0;
+            int activeOthers = 0;
+            int inactiveOthers = 0;
 
             foreach (var pet in pets)
             {
@@ -131,26 +131,26 @@ namespace PetCare.Infrastructure.Persistence
 
                 if (especie == "Perro")
                 {
-                    if (pet.IsActive) perrosActivos++;
-                    else perrosInactivos++;
+                    if (pet.IsActive) activeDogs++;
+                    else inactiveDogs++;
                 }
                 else if (especie == "Gato")
                 {
-                    if (pet.IsActive) gatosActivos++;
-                    else gatosInactivos++;
+                    if (pet.IsActive) activeCats++;
+                    else inactiveCats++;
                 }
                 else
                 {
-                    if (pet.IsActive) otrosActivos++;
-                    else otrosInactivos++;
+                    if (pet.IsActive) activeOthers++;
+                    else inactiveOthers++;
                 }
             }
 
             return new PetStatsDTO
             {
-                Perros = new SpecieStatsDTO { Activos = perrosActivos,  Inactivos = perrosInactivos },
-                Gatos  = new SpecieStatsDTO { Activos = gatosActivos,   Inactivos = gatosInactivos  },
-                Otros  = new SpecieStatsDTO { Activos = otrosActivos,   Inactivos = otrosInactivos  }
+                Dogs = new SpecieStatsDTO { Assets = activeDogs, Inactive = inactiveDogs },
+                Cats  = new SpecieStatsDTO { Assets = activeCats,   Inactive = inactiveCats  },
+                Others  = new SpecieStatsDTO { Assets = activeOthers,   Inactive = inactiveOthers  }
             };
         }
     }

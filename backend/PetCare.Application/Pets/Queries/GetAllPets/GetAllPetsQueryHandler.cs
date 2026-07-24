@@ -33,13 +33,13 @@ public class GetAllPetsQueryHandler : IRequestHandler<GetAllPetsQuery, Paginated
             var dto = new GetPetDTO
             {
                 Id               = pet.Id,
-                Nombre           = pet.PetName,
-                Especie          = pet.Specie?.SpecieName ?? string.Empty,
-                PropietarioId    = pet.OwnerId,
-                Propietario      = pet.Owner?.OwnerName ?? string.Empty,
-                EmailPropietario = pet.Owner?.Email ?? string.Empty,
-               
-                Estado           = pet.IsActive ? "Activo" : "Inactivo"
+                Name             = pet.PetName,
+                Species          = pet.Specie?.SpecieName ?? string.Empty,
+                OwnerId          = pet.OwnerId,
+                OwnerName        = pet.Owner?.OwnerName ?? string.Empty,
+                EmailOwner       = pet.Owner?.Email ?? string.Empty,
+
+                State           = pet.IsActive ? "Activo" : "Inactivo"
             };
             items.Add(dto);
         }

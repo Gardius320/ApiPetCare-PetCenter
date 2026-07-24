@@ -1,4 +1,3 @@
-// Handler que busca el dueño, le actualiza los datos y lo guarda
 using MediatR;
 using PetCare.Domain.Interfaces;
 
@@ -16,21 +15,17 @@ namespace PetCare.Application.Owners.Commands.UpdateOwner
 
         public async Task<int?> Handle(UpdateOwnerCommand request, CancellationToken cancellationToken)
         {
-            // Buscamos el dueño en la base de datos
-            var dueno = await _ownerRepository.GetByIdAsync(request.OwnerId);
-
-            // Si no existe, devolvemos null para que el controlador responda 404
-            if (dueno == null) return null;
-
-            // Actualizamos los campos con los datos nuevos
-            dueno.OwnerName   = request.OwnerName;
-            dueno.Email       = request.OwnerEmail;
-            dueno.PhoneNumber = request.OwnerPhone;
-            dueno.Gender      = request.Gender;
-            dueno.Cedula      = request.Cedula;
-
-            // Guardamos los cambios
-            await _ownerRepository.UpdateOwner(dueno);
+           var owner = await _ownerRepository.GetByIdAsync(request.OwnerId);
+            
+            if (owner == null) return null;
+           
+            owner.OwnerName   = request.OwnerName;
+            owner.Email       = request.OwnerEmail;
+            owner.PhoneNumber = request.OwnerPhone;
+            owner.Gender      = request.Gender;
+            owner.IdCard      = request.IdCard;
+            
+            await _ownerRepository.UpdateOwner(owner);
             return request.OwnerId;
         }
     }
