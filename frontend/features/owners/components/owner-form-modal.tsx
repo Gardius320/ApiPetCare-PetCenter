@@ -12,7 +12,7 @@ import {
   Select, SelectContent, SelectItem,
   SelectTrigger, SelectValue,
 } from "@/components/ui/select"
-import type { Owner, CreateOwnerDto, UpdateOwnerDto } from "../types/owner.types"
+import { GENDER, type Owner, type CreateOwnerDto, type UpdateOwnerDto } from "../types/owner.types"
 
 interface OwnerFormModalProps {
   open: boolean
@@ -149,8 +149,8 @@ export function OwnerFormModal({ open, onOpenChange, isSaving, onSave, owner }: 
                 <SelectValue placeholder="Selecciona el género" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Masculino">♂ Masculino</SelectItem>
-                <SelectItem value="Femenino">♀ Femenino</SelectItem>
+                <SelectItem value={GENDER.MALE}>♂ {GENDER.MALE}</SelectItem>
+                <SelectItem value={GENDER.FEMALE}>♀ {GENDER.FEMALE}</SelectItem>
               </SelectContent>
             </Select>
           </div>

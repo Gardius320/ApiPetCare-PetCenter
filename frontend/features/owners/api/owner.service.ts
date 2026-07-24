@@ -1,5 +1,5 @@
 import { ownerRepository } from "./owner.repository"
-import type { Owner, CreateOwnerDto, UpdateOwnerDto, OwnerStats } from "../types/owner.types"
+import { GENDER, type Owner, type CreateOwnerDto, type UpdateOwnerDto, type OwnerStats } from "../types/owner.types"
 
 export const ownerService = {
   getAll: (page = 1, pageSize = 100, search = "") => ownerRepository.getAll(page, pageSize, search),
@@ -10,8 +10,8 @@ export const ownerService = {
   computeStats(owners: Owner[]): OwnerStats {
     return {
       total: owners.length,
-      male: owners.filter((o) => o.gender?.toLowerCase() === "masculino").length,
-      female: owners.filter((o) => o.gender?.toLowerCase() === "femenino").length,
+      male: owners.filter((o) => o.gender?.toLowerCase() === GENDER.MALE.toLowerCase()).length,
+      female: owners.filter((o) => o.gender?.toLowerCase() === GENDER.FEMALE.toLowerCase()).length,
     }
   },
 }

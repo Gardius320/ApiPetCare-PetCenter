@@ -1,3 +1,10 @@
+export const GENDER = {
+  MALE: "Masculino",
+  FEMALE: "Femenino",
+} as const
+
+export type Gender = typeof GENDER[keyof typeof GENDER]
+
 export interface Owner {
   id: number
   ownerName: string

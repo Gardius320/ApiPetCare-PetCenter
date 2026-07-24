@@ -13,6 +13,6 @@ namespace PetCare.Domain.DTOs
         [Display(Name = "Email del Propietario")]
         public string? EmailOwner { get; set; }
 
-        public string? State { get; set; }
+        public bool IsActive { get; set; }
     }
 }

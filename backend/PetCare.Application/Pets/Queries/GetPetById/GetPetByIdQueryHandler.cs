@@ -29,7 +29,7 @@ namespace PetCare.Application.Pets.Queries.GetPetById
                 Species          = pet.Specie?.SpecieName ?? string.Empty,
                 OwnerName        = pet.Owner?.OwnerName ?? string.Empty,
                 EmailOwner       = pet.Owner?.Email ?? string.Empty,
-                State           = pet.IsActive ? "Activo" : "Inactivo"
+                IsActive        = pet.IsActive
             };
 
             return dto;

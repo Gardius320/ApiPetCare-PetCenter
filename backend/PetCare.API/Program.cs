@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PetCare.Application.Appointments.Commands.CreateAppointment;
 using PetCare.Application.Common.Behaviors;
+using PetCare.Domain.Constants;
 using PetCare.Domain.Identity;
 using PetCare.Domain.Interfaces;
 using PetCare.Domain.Models;
@@ -143,22 +144,22 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<PetsDbContext>();
 
-    var estadosRequeridos = new (string Nombre, string Descripcion)[]
+    var requiredStates = new (string Name, string Description)[]
     {
-        ("Agendada", "Cita programada, pendiente de atención"),
-        ("Completada", "Cita atendida y finalizada"),
-        ("Cancelada", "Cita cancelada por el propietario o la clínica"),
+        (AppointmentStateNames.Scheduled, "Cita programada, pendiente de atención"),
+        (AppointmentStateNames.Completed, "Cita atendida y finalizada"),
+        (AppointmentStateNames.Cancelled, "Cita cancelada por el propietario o la clínica"),
     };
 
-    foreach (var (nombre, descripcion) in estadosRequeridos)
+    foreach (var (name, description) in requiredStates)
     {
-        bool existe = dbContext.States.Any(s => s.StateName == nombre);
-        if (!existe)
+        bool exists = dbContext.States.Any(s => s.StateName == name);
+        if (!exists)
         {
             dbContext.States.Add(new State
             {
-                StateName = nombre,
-                Description = descripcion
+                StateName = name,
+                Description = description
             });
         }
     }

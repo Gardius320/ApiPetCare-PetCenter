@@ -7,16 +7,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select"
 import { useAllOwners } from "@/features/owners/hooks/use-owners"
+import { useSpecies } from "@/features/species/hooks/use-species"
 import type { CreatePetDto } from "../types/pet.types"
-import { Dog, Cat, Bird, Rabbit,PawPrint } from "lucide-react"
-
-const SPECIES_OPTIONS = [
-  { id: 1, label: "Perro",  Icon: Dog },
-  { id: 2, label: "Gato",   Icon: Cat },
-  { id: 3, label: "Ave",    Icon: Bird },
-  { id: 4, label: "Conejo", Icon: Rabbit },
-  { id: 5, label: "Otro",   Icon: PawPrint },
-]
+import { PawPrint } from "lucide-react"
 
 interface PetFormModalProps {
   open: boolean
@@ -32,6 +25,8 @@ export function PetFormModal({ open, onOpenChange, isSaving, onSave }: PetFormMo
 
   const { data, isLoading: loadingOwners } = useAllOwners()
 const owners = data?.items ?? []
+
+  const { data: species, isLoading: loadingSpecies } = useSpecies()
 
   const isValid =
     name.trim() !== "" &&
@@ -83,16 +78,16 @@ const owners = data?.items ?? []
           {/* Especie */}
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="pet-species">Especie</Label>
-            <Select value={specieId} onValueChange={setSpecieId}>
+            <Select value={specieId} onValueChange={setSpecieId} disabled={loadingSpecies}>
               <SelectTrigger id="pet-species" className="w-full">
-                <SelectValue placeholder="Selecciona la especie" />
+                <SelectValue placeholder={loadingSpecies ? "Cargando..." : "Selecciona la especie"} />
               </SelectTrigger>
               <SelectContent>
-                {SPECIES_OPTIONS.map((s) => (
+                {(species ?? []).map((s) => (
                 <SelectItem key={s.id} value={String(s.id)}>
                  <span className="flex items-center gap-2">
-                  <s.Icon className="h-4 w-4" />
-                  {s.label}
+                  <PawPrint className="h-4 w-4" />
+                  {s.speciesName}
                     </span>
                      </SelectItem>
                           ))}

@@ -10,7 +10,7 @@ interface RawPet {
   ownerId: number
   ownerName: string
   emailOwner: string
-  state: string
+  isActive: boolean
 }
 
 export const petRepository = {
@@ -25,7 +25,7 @@ export const petRepository = {
         ownerId: p.ownerId,
         ownerName: p.ownerName,
         emailOwner: p.emailOwner,
-        isActive: p.state === "Activo",
+        isActive: p.isActive,
       })),
       total: res.data.data.totalRecords,
     }))

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using PetCare.Domain.Constants;
 using PetCare.Domain.Interfaces;
 using PetCare.Domain.Models;
 using PetCare.Infrastructure.Data;
@@ -19,9 +20,9 @@ namespace PetCare.Infrastructure.Persistence
             bool ownerExists = await _context.Owners.AnyAsync(o => o.Id == ownerId);
             if (!ownerExists) return null;
 
-            var initialState = await _context.States.FirstOrDefaultAsync(s => s.StateName == "Agendada");
+            var initialState = await _context.States.FirstOrDefaultAsync(s => s.StateName == AppointmentStateNames.Scheduled);
             if (initialState == null)
-                throw new InvalidOperationException("El estado 'Agendada' no existe en la base de datos. Verifica el seed de States.");
+                throw new InvalidOperationException($"El estado '{AppointmentStateNames.Scheduled}' no existe en la base de datos. Verifica el seed de States.");
 
             var appointment = new Appointment
             {
@@ -71,9 +72,9 @@ namespace PetCare.Infrastructure.Persistence
             var appointment = await _context.Appointments.FindAsync(id);
             if (appointment == null) return false;
 
-            var cancelledStatus = await _context.States.FirstOrDefaultAsync(s => s.StateName == "Cancelada");
+            var cancelledStatus = await _context.States.FirstOrDefaultAsync(s => s.StateName == AppointmentStateNames.Cancelled);
             if (cancelledStatus == null)
-                throw new InvalidOperationException("El estado 'Cancelada' no existe en la base de datos. Verifica el seed de States.");
+                throw new InvalidOperationException($"El estado '{AppointmentStateNames.Cancelled}' no existe en la base de datos. Verifica el seed de States.");
 
             appointment.StateId = cancelledStatus.IdState;
             appointment.Observation = "Cita cancelada";

@@ -17,10 +17,10 @@ namespace PetCare.Application.SupplyCategories.Commands.Create
         public CreateCommandValidator()
         {
             RuleFor(x => x.Name)
-                .NotEmpty().WithMessage("Name is required.")
-                .MaximumLength(100).WithMessage("Name cannot exceed 100 characters.");
+                .NotEmpty().WithMessage("El nombre es obligatorio.")
+                .MaximumLength(100).WithMessage("El nombre no puede exceder los 100 caracteres.");
             RuleFor(x => x.Description)
-                .MaximumLength(500).WithMessage("Description cannot exceed 500 characters.");
+                .MaximumLength(500).WithMessage("La descripción no puede exceder los 500 caracteres.");
         }
     }
 
@@ -59,10 +59,10 @@ namespace PetCare.Application.SupplyCategories.Commands.Create
         public UpdateCommandValidator()
         {
             RuleFor(x => x.Name)
-                .NotEmpty().WithMessage("Name is required.")
-                .MaximumLength(100).WithMessage("Name cannot exceed 100 characters.");
+                .NotEmpty().WithMessage("El nombre es obligatorio.")
+                .MaximumLength(100).WithMessage("El nombre no puede exceder los 100 caracteres.");
             RuleFor(x => x.Description)
-                .MaximumLength(500).WithMessage("Description cannot exceed 500 characters.");
+                .MaximumLength(500).WithMessage("La descripción no puede exceder los 500 caracteres.");
         }
     }
 

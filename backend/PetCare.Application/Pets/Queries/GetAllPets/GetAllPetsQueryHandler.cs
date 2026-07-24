@@ -39,7 +39,7 @@ public class GetAllPetsQueryHandler : IRequestHandler<GetAllPetsQuery, Paginated
                 OwnerName        = pet.Owner?.OwnerName ?? string.Empty,
                 EmailOwner       = pet.Owner?.Email ?? string.Empty,
 
-                State           = pet.IsActive ? "Activo" : "Inactivo"
+                IsActive        = pet.IsActive
             };
             items.Add(dto);
         }
