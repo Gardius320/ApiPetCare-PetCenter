@@ -10,17 +10,14 @@ export const petService = {
   update: (id: number, dto: UpdatePetDto): Promise<Pet> =>
     petRepository.update(id, dto),
 
-  delete: (id: number): Promise<void> => petRepository.delete(id),
-
   changeState: (id: number, isActive: boolean): Promise<void> =>
     petRepository.changeState(id, isActive),
 
   computeStats(pets: Pet[]): PetStats {
     return {
       total: pets.length,
-      activos: pets.filter((p) => p.estadoId === 1).length,
-      enTratamiento: pets.filter((p) => p.estadoId === 2).length,
-      inactivos: pets.filter((p) => p.estadoId === 3).length,
+      active: pets.filter((p) => p.isActive).length,
+      inactive: pets.filter((p) => !p.isActive).length,
     }
   },
 }

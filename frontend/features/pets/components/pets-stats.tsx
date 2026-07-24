@@ -1,4 +1,4 @@
-import { PawPrint, Heart, Stethoscope, Archive } from "lucide-react"
+import { PawPrint, Heart, Archive } from "lucide-react"
 import {
   Card,
   CardContent,
@@ -31,21 +31,14 @@ const STATS: {
     iconBg: "bg-blue-50",
   },
   {
-    key: "activos",
+    key: "active",
     label: "Activas",
     icon: Heart,
     iconColor: "text-green-600",
     iconBg: "bg-green-50",
   },
   {
-    key: "enTratamiento",
-    label: "En Tratamiento",
-    icon: Stethoscope,
-    iconColor: "text-amber-600",
-    iconBg: "bg-amber-50",
-  },
-  {
-    key: "inactivos",
+    key: "inactive",
     label: "Inactivas",
     icon: Archive,
     iconColor: "text-gray-500",

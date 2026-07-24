@@ -8,6 +8,7 @@ export interface Supply {
   isActive: boolean
   supplyCategoryId: number
   categoryName: string
+  supplyType: number
 }
 
 export interface CreateSupplyDto {
@@ -17,6 +18,7 @@ export interface CreateSupplyDto {
   currentStock: number
   minimumStock: number
   supplyCategoryId: number
+  supplyType: number
 }
 
 export interface UpdateSupplyDto {
@@ -27,11 +29,12 @@ export interface UpdateSupplyDto {
   minimumStock: number
   isActive: boolean
   supplyCategoryId: number
+  supplyType: number
 }
 
 export interface SupplyStats {
   total: number
-  bajoStock: number
-  agotados: number
-  categoriasEnUso: number
+  lowStock: number
+  outOfStock: number
+  categoriesInUse: number
 }

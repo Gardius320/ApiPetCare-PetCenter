@@ -22,3 +22,7 @@ export interface ApiResponse<T> {
   data: T
   errors: string[] | null
 }
+
+export interface LogoutDto {
+  refreshToken: string
+}

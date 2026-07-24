@@ -1,6 +1,6 @@
 "use client"
 
-import { Users, UserCheck, UserX } from "lucide-react"
+import { Users, UserCheck } from "lucide-react"
 import {
   Card,
   CardContent,
@@ -33,25 +33,18 @@ const STATS: {
     iconBg: "bg-blue-50",
   },
   {
-    key: "hombres",
+    key: "male",
     label: "Hombres",
     icon: UserCheck,
     iconColor: "text-sky-600",
     iconBg: "bg-sky-50",
   },
   {
-    key: "mujeres",
+    key: "female",
     label: "Mujeres",
     icon: UserCheck,
     iconColor: "text-pink-600",
     iconBg: "bg-pink-50",
-  },
-  {
-    key: "inactivos",
-    label: "Inactivos",
-    icon: UserX,
-    iconColor: "text-gray-500",
-    iconBg: "bg-gray-100",
   },
 ]
 

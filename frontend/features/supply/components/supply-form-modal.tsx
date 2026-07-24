@@ -16,6 +16,11 @@ import { useAllSupplyCategories } from "../../supply-categories/hooks/use-supply
 import type { SupplyCategory } from "../../supply-categories/types/supply-category.types"
 import type { Supply, CreateSupplyDto, UpdateSupplyDto } from "../types/supply.types"
 
+const SUPPLY_TYPE_OPTIONS = [
+  { value: 1, label: "Clínico" },
+  { value: 2, label: "Venta" },
+]
+
 interface SupplyFormModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
@@ -35,6 +40,7 @@ export function SupplyFormModal({ open, onOpenChange, isSaving, onSave, supply }
   const [currentStock, setCurrentStock] = useState(supply?.currentStock?.toString() ?? "")
   const [minimumStock, setMinimumStock] = useState(supply?.minimumStock?.toString() ?? "")
   const [categoryId, setCategoryId]     = useState(supply?.supplyCategoryId?.toString() ?? "")
+  const [supplyType, setSupplyType]     = useState(supply?.supplyType?.toString() ?? "")
   const [isActive, setIsActive]         = useState(supply?.isActive ?? true)
   const [wasOpen, setWasOpen]           = useState(open)
 
@@ -46,6 +52,7 @@ export function SupplyFormModal({ open, onOpenChange, isSaving, onSave, supply }
     setCurrentStock(supply?.currentStock?.toString() ?? "")
     setMinimumStock(supply?.minimumStock?.toString() ?? "")
     setCategoryId(supply?.supplyCategoryId?.toString() ?? "")
+    setSupplyType(supply?.supplyType?.toString() ?? "")
     setIsActive(supply?.isActive ?? true)
   } else if (!open && wasOpen) {
     setWasOpen(false)
@@ -56,7 +63,8 @@ export function SupplyFormModal({ open, onOpenChange, isSaving, onSave, supply }
     unit.trim() !== "" &&
     currentStock !== "" &&
     minimumStock !== "" &&
-    categoryId !== ""
+    categoryId !== "" &&
+    supplyType !== ""
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -69,6 +77,7 @@ export function SupplyFormModal({ open, onOpenChange, isSaving, onSave, supply }
       currentStock: Number(currentStock),
       minimumStock: Number(minimumStock),
       supplyCategoryId: Number(categoryId),
+      supplyType: Number(supplyType),
     }
 
     if (isEditing) {
@@ -157,6 +166,22 @@ export function SupplyFormModal({ open, onOpenChange, isSaving, onSave, supply }
                 {categories?.map((cat: SupplyCategory) => (
                   <SelectItem key={cat.id} value={cat.id.toString()}>
                     {cat.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="supply-type">Tipo</Label>
+            <Select value={supplyType} onValueChange={setSupplyType}>
+              <SelectTrigger id="supply-type" className="w-full">
+                <SelectValue placeholder="Selecciona el tipo" />
+              </SelectTrigger>
+              <SelectContent>
+                {SUPPLY_TYPE_OPTIONS.map((opt) => (
+                  <SelectItem key={opt.value} value={opt.value.toString()}>
+                    {opt.label}
                   </SelectItem>
                 ))}
               </SelectContent>

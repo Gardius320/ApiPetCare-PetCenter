@@ -3,9 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, PawPrint, Users, Calendar, Cat, UserCog, ChevronLeft, ChevronRight, Stethoscope, Package,} from "lucide-react";
+import { LayoutDashboard, PawPrint, Users, Calendar, Cat, UserCog, ChevronLeft, ChevronRight, Stethoscope, Package, LogOut,} from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger,} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/features/auth/hooks/use-auth";
 
 interface NavItem {
   label: string;
@@ -26,6 +27,22 @@ const navItems: NavItem[] = [
 export function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const pathname = usePathname();
+  const { logout } = useAuth();
+
+  const logoutButton = (
+    <button
+      onClick={() => logout()}
+      className={cn(
+        "flex items-center gap-3 px-2.5 py-2 rounded-md text-sm font-medium w-full",
+        "transition-colors duration-100",
+        collapsed && "justify-center px-0",
+        "text-sidebar-foreground hover:bg-destructive/10 hover:text-destructive"
+      )}
+    >
+      <LogOut className="size-4 shrink-0" />
+      {!collapsed && <span className="truncate">Cerrar sesión</span>}
+    </button>
+  );
 
   return (
     <aside
@@ -84,6 +101,18 @@ export function Sidebar() {
           return <div key={href}>{linkEl}</div>;
         })}
       </nav>
+
+      {/* Cerrar sesión */}
+      <div className="border-t border-sidebar-border p-2">
+        {collapsed ? (
+          <Tooltip>
+            <TooltipTrigger asChild>{logoutButton}</TooltipTrigger>
+            <TooltipContent side="right">Cerrar sesión</TooltipContent>
+          </Tooltip>
+        ) : (
+          logoutButton
+        )}
+      </div>
 
       {/* Alternador para contraer */}
       <div className="border-t border-sidebar-border p-2">

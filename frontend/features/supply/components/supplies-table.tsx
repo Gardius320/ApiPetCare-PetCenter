@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Package, Plus, Pencil, Trash2 } from "lucide-react"
 import { SupplyFormModal } from "./supply-form-modal"
+import { SupplyCategoriesModal } from "../../supply-categories/components/supply-categories-modal"
 import { useCreateSupply, useUpdateSupply, useToggleSupplyStatus } from "../hook/use-supplies"
 import type { Supply, CreateSupplyDto, UpdateSupplyDto } from "../types/supply.types"
 import { TableSkeleton } from "@/components/shared/table-skeleton"
@@ -26,6 +27,7 @@ export function SuppliesTable({
 }: SuppliesTableProps) {
   const [isModalOpen, setIsModalOpen]     = useState(false)
   const [editingSupply, setEditingSupply] = useState<Supply | undefined>(undefined)
+  const [isCategoriesModalOpen, setIsCategoriesModalOpen] = useState(false)
 
   const createSupply = useCreateSupply()
   const updateSupply = useUpdateSupply()
@@ -77,13 +79,21 @@ export function SuppliesTable({
             <Package className="h-5 w-5 text-primary" />
             <h2 className="text-xl font-bold text-gray-800">Lista de Insumos</h2>
           </div>
-          <button
-            onClick={() => { setEditingSupply(undefined); setIsModalOpen(true) }}
-            className="flex items-center gap-2 bg-blue-400 text-white px-4 py-2 rounded-lg text-sm hover:opacity-90 transition"
-          >
-            <Plus className="h-4 w-4" />
-            Nuevo insumo
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setIsCategoriesModalOpen(true)}
+              className="flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-200 transition"
+            >
+              Gestionar categorías
+            </button>
+            <button
+              onClick={() => { setEditingSupply(undefined); setIsModalOpen(true) }}
+              className="flex items-center gap-2 bg-blue-400 text-white px-4 py-2 rounded-lg text-sm hover:opacity-90 transition"
+            >
+              <Plus className="h-4 w-4" />
+              Nuevo insumo
+            </button>
+          </div>
         </div>
 
         {/* Tabla */}
@@ -111,7 +121,7 @@ export function SuppliesTable({
 
             {/* Filas */}
             {supplies.map((supply) => {
-              const bajoStock = supply.currentStock <= supply.minimumStock
+              const lowStock = supply.currentStock <= supply.minimumStock
 
               return (
                 <tr
@@ -122,7 +132,7 @@ export function SuppliesTable({
                   <td className="py-4 px-4 text-gray-600">{supply.categoryName}</td>
                   <td className="py-4 px-4 text-gray-600">{supply.unit}</td>
                   <td className="py-4 px-4">
-                    <span className={bajoStock ? "text-orange-600 font-semibold" : "text-gray-600"}>
+                    <span className={lowStock ? "text-orange-600 font-semibold" : "text-gray-600"}>
                       {supply.currentStock} / {supply.minimumStock}
                     </span>
                   </td>
@@ -197,13 +207,19 @@ export function SuppliesTable({
         )}
       </div>
 
-      {/* Modal */}
+      {/* Modal de insumo */}
       <SupplyFormModal
         open={isModalOpen}
         onOpenChange={handleOpenChange}
         isSaving={isSaving}
         onSave={handleSave}
         supply={editingSupply}
+      />
+
+      {/* Modal de categorías */}
+      <SupplyCategoriesModal
+        open={isCategoriesModalOpen}
+        onOpenChange={setIsCategoriesModalOpen}
       />
     </>
   )

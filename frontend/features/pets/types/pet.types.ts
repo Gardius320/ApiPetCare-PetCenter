@@ -1,26 +1,23 @@
 export interface Pet {
   id: number
-  nombre: string
-  especieId: number
-  especie: string
-  propietarioId: number
-  propietario: string
-  emailPropietario: string
-  estadoId: number
-  estado: string
+  name: string
+  species: string
+  ownerId: number
+  ownerName: string
+  emailOwner: string
+  isActive: boolean
 }
 
 export interface CreatePetDto {
-  nombre: string
-  especieId: number
-  propietarioId: number
+  petName: string
+  specieId: number
+  ownerId: number
 }
 
 export type UpdatePetDto = Partial<CreatePetDto>
 
 export interface PetStats {
   total: number
-  activos: number
-  enTratamiento: number
-  inactivos: number
+  active: number
+  inactive: number
 }

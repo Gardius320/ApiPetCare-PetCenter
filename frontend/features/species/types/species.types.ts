@@ -4,12 +4,7 @@ export interface Species {
 }
 
 export interface CreateSpeciesDto {
-    SpecieName: string
-}
-
-export interface UpdateSpeciesDto {
-    id: number
-    speciesName: string
+    specieName: string
 }
 
 export interface SpeciesStats {

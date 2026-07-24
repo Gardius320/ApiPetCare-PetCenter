@@ -19,11 +19,11 @@ export function useDashboardStats() {
     const owners = ownersData?.items ?? []
     const appointments = appointmentsData?.items ?? []
 
-    const activePets = pets.filter((p: Pet) => p.estadoId === 1).length
-    const inactivePets = pets.filter((p: Pet) => p.estadoId !== 1).length
+    const activePets = pets.filter((p: Pet) => p.isActive).length
+    const inactivePets = pets.filter((p: Pet) => !p.isActive).length
 
     const recentAppointments = [...appointments]
-      .sort((a: Appointment, b: Appointment) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime())
+      .sort((a: Appointment, b: Appointment) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .slice(0, 5)
 
     return {
@@ -34,8 +34,8 @@ export function useDashboardStats() {
       inactivePets,
       recentAppointments,
       chartData: [
-        { estado: "Activos", cantidad: activePets },
-        { estado: "Inactivos", cantidad: inactivePets },
+        { status: "Activos", count: activePets },
+        { status: "Inactivos", count: inactivePets },
       ],
     }
   }, [petsData, ownersData, appointmentsData])

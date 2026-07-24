@@ -22,7 +22,7 @@ export function AppointmentFormModal({ open, onOpenChange, selected }: Props) {
   const { data: petsData }   = usePets(1, 100, "")
 
   const owners = ownersData?.items ?? []
-  const pets   = petsData?.items.filter(p => p.propietarioId === Number(ownerId)) ?? []
+  const pets   = petsData?.items.filter(p => p.ownerId === Number(ownerId)) ?? []
 
   const createAppointment = useCreateAppointment()
   const updateAppointment = useUpdateAppointment()
@@ -32,9 +32,9 @@ export function AppointmentFormModal({ open, onOpenChange, selected }: Props) {
   useEffect(() => {
   if (!open) return
   if (selected) {
-    const fecha = selected.fecha ? new Date(selected.fecha).toISOString().slice(0, 16) : ""
-    setDate(fecha)
-    setObservation(selected.observacion ?? "")
+    const formattedDate = selected.date ? new Date(selected.date).toISOString().slice(0, 16) : ""
+    setDate(formattedDate)
+    setObservation(selected.observation ?? "")
     setOwnerId("")
     setPetId("")
   } else {
@@ -106,7 +106,7 @@ export function AppointmentFormModal({ open, onOpenChange, selected }: Props) {
             >
               <option value="">Selecciona una mascota</option>
               {pets.map((p) => (
-                <option key={p.id} value={p.id}>{p.nombre}</option>
+                <option key={p.id} value={p.id}>{p.name}</option>
               ))}
             </select>
           </div>

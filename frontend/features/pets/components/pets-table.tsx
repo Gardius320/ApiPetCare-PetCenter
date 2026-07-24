@@ -6,13 +6,13 @@ import { PetFormModal } from "./pet-form-modal"
 import { useCreatePet, useChangePetState, usePets } from "../hooks/use-pets"
 import { TableSkeleton } from "@/components/shared/table-skeleton"
 
-function SpeciesIcon({ especie }: { especie: string }) {
+function SpeciesIcon({ species }: { species: string }) {
   const props = { className: "w-4 h-4", strokeWidth: 1.5 }
-  if (especie === "Perro")  return <Dog    {...props} />
-  if (especie === "Gato")   return <Cat    {...props} />
-  if (especie === "Ave")    return <Bird   {...props} />
-  if (especie === "Conejo") return <Rabbit {...props} />
-  if (especie === "Pez")    return <Fish   {...props} />
+  if (species === "Perro")  return <Dog    {...props} />
+  if (species === "Gato")   return <Cat    {...props} />
+  if (species === "Ave")    return <Bird   {...props} />
+  if (species === "Conejo") return <Rabbit {...props} />
+  if (species === "Pez")    return <Fish   {...props} />
   return <PawPrint {...props} />
 }
 
@@ -73,27 +73,26 @@ export function PetsTable() {
           </thead>
           <tbody>
             {pets.map((pet) => {
-              const activo = pet.estadoId === 1
               return (
                 <tr
                   key={pet.id}
                   className="border-b border-gray-100 hover:bg-blue-50 transition-colors"
                 >
-                  <td className="py-4 px-4 text-gray-700 font-medium">{pet.nombre}</td>
+                  <td className="py-4 px-4 text-gray-700 font-medium">{pet.name}</td>
 
                   <td className="py-4 px-4 text-gray-600">
                     <span className="flex items-center gap-1.5">
-                      <SpeciesIcon especie={pet.especie} />
-                      {pet.especie}
+                      <SpeciesIcon species={pet.species} />
+                      {pet.species}
                     </span>
                   </td>
 
-                  <td className="py-4 px-4 text-gray-600">{pet.propietario}</td>
-                  <td className="py-4 px-4 text-gray-600">{pet.emailPropietario}</td>
+                  <td className="py-4 px-4 text-gray-600">{pet.ownerName}</td>
+                  <td className="py-4 px-4 text-gray-600">{pet.emailOwner}</td>
 
                   {/* Badge Estado */}
                   <td className="py-4 px-4">
-                    {activo ? (
+                    {pet.isActive ? (
                       <span className="bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full">
                         Activo
                       </span>
@@ -107,14 +106,14 @@ export function PetsTable() {
                   {/* Botón Acción */}
                   <td className="py-4 px-4">
                     <button
-                      onClick={() => changePetState.mutate({ id: pet.id, isActive: !activo })}
+                      onClick={() => changePetState.mutate({ id: pet.id, isActive: !pet.isActive })}
                       disabled={changePetState.isPending}
-                      className={activo
+                      className={pet.isActive
                         ? "bg-red-100 text-red-700 text-xs font-semibold px-3 py-1 rounded-full hover:bg-red-200 transition"
                         : "bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full hover:bg-green-200 transition"
                       }
                     >
-                      {activo ? "Inactivar" : "Activar"}
+                      {pet.isActive ? "Inactivar" : "Activar"}
                     </button>
                   </td>
                 </tr>

@@ -36,7 +36,18 @@ export function useAuth() {
     }
   }
 
-  const logout = () => {
+  const logout = async () => {
+    const refreshToken = localStorage.getItem('refreshToken')
+
+    try {
+      if (refreshToken) {
+        await authRepository.logout({ refreshToken })
+      }
+    } catch (err) {
+      console.error('No se pudo revocar el token en backend:', err)
+      
+    }
+
     localStorage.removeItem('token')
     localStorage.removeItem('refreshToken')
     localStorage.removeItem('role')

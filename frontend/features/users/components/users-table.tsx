@@ -46,8 +46,8 @@ export function UsersTable() {
   function getRoleBadgeColor(role: string) {
     switch (role) {
       case "Admin": return "destructive"
-      case "Veterinario": return "default"
-      case "Auxiliar": return "secondary"
+      case "Veterinarian": return "default"
+      case "Assistant": return "secondary"
       default: return "outline"
     }
   }

@@ -18,4 +18,7 @@ export const appointmentService = {
   changeState: (id: number, stateId: number) => {
     return appointmentRepository.changeState(id, stateId)
   },
+  getStates: () => {
+    return appointmentRepository.getStates()
+  },
 }

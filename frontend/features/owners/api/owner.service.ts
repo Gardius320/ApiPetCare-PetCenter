@@ -10,10 +10,8 @@ export const ownerService = {
   computeStats(owners: Owner[]): OwnerStats {
     return {
       total: owners.length,
-      hombres: owners.filter((o) => o.gender?.toLowerCase() === "masculino").length,
-      mujeres: owners.filter((o) => o.gender?.toLowerCase() === "femenino").length,
-      // se asume que propietarios sin mascota activa son "inactivos" — placeholder
-      inactivos: 0,
+      male: owners.filter((o) => o.gender?.toLowerCase() === "masculino").length,
+      female: owners.filter((o) => o.gender?.toLowerCase() === "femenino").length,
     }
   },
 }

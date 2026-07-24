@@ -1,11 +1,11 @@
 export interface Appointment {
   id: number
-  fecha: string
-  nombreDueno: string
-  nombreMascota: string
-  estado: string
-  observacion: string
-  especie: string
+  date: string
+  ownerName: string
+  petName: string
+  state: string
+  observation: string
+  species: string
 }
 
 export interface CreateAppointmentDto {
@@ -19,4 +19,10 @@ export interface UpdateAppointmentDto {
   appointmentDate?: string
   observation?: string
   id: number
+}
+
+export interface AppointmentState {
+  id: number
+  name: string
+  description: string | null
 }

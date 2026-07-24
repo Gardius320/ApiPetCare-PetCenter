@@ -4,11 +4,20 @@ import type { CreateAppointmentDto, UpdateAppointmentDto } from "../types/appoin
 import { toast } from "sonner"
 
 const QUERY_KEY = ["appointments"] as const
+const STATES_KEY = ["appointment-states"] as const
 
 export const useAppointments = (page = 1, pageSize = 10, search = "") => {
   return useQuery({
     queryKey: [...QUERY_KEY, page, pageSize, search],
     queryFn: () => appointmentService.getAll(page, pageSize, search),
+  })
+}
+
+export const useAppointmentStates = () => {
+  return useQuery({
+    queryKey: STATES_KEY,
+    queryFn: () => appointmentService.getStates(),
+    staleTime: 5 * 60 * 1000,
   })
 }
 

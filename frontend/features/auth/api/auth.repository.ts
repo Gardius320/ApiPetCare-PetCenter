@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type { LoginDto, AuthResponse, RefreshTokenDto } from '../types/auth.types'
+import type { LoginDto, AuthResponse, RefreshTokenDto, LogoutDto } from '../types/auth.types'
 
 const authApi = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -18,5 +18,15 @@ export const authRepository = {
   refresh: async (dto: RefreshTokenDto): Promise<AuthResponse> => {
     const res = await authApi.post<AuthResponse>('/Auth/refresh', dto)
     return res.data
+  },
+
+  logout: async (dto: LogoutDto): Promise<void> => {
+    const token = localStorage.getItem('token')
+
+    await authApi.post('/Auth/logout', dto, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
   }
 }

@@ -54,12 +54,16 @@ export function useDeleteOwner() {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: (id: number) => ownerService.delete(id),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: OWNERS_KEY })
-      toast.success("Propierario Eliminado")
+    onSuccess: (data) => {
+      if (data.isSuccess) {
+        qc.invalidateQueries({ queryKey: OWNERS_KEY })
+        toast.success(data.message)
+      } else {
+        toast.error(data.message)
+      }
     },
     onError: () => {
-      toast.success("El propietario no pudo ser eliminado")
+      toast.error("El propietario no pudo ser eliminado")
     }
   })
 }

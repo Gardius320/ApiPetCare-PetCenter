@@ -5,25 +5,22 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import type { Species, CreateSpeciesDto, UpdateSpeciesDto } from "../types/species.types"
+import type { CreateSpeciesDto } from "../types/species.types"
 
 interface SpeciesFormModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   isSaving: boolean
-  onSave: (dto: CreateSpeciesDto | UpdateSpeciesDto, id?: number) => void
-  species?: Species
+  onSave: (dto: CreateSpeciesDto) => void
 }
 
-export function SpeciesFormModal({ open, onOpenChange, isSaving, onSave, species }: SpeciesFormModalProps) {
-  const isEditing = !!species
-
-  const [speciesName, setSpeciesName] = useState(species?.speciesName ?? "")
+export function SpeciesFormModal({ open, onOpenChange, isSaving, onSave }: SpeciesFormModalProps) {
+  const [speciesName, setSpeciesName] = useState("")
 
   const isValid = speciesName.trim() !== ""
 
   function reset() {
-    setSpeciesName(species?.speciesName ?? "")
+    setSpeciesName("")
   }
 
   function handleOpenChange(isOpen: boolean) {
@@ -34,17 +31,14 @@ export function SpeciesFormModal({ open, onOpenChange, isSaving, onSave, species
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!isValid) return
-    onSave(
-  { SpecieName: speciesName.trim() },
-  species?.id
-)
+    onSave({ specieName: speciesName.trim() })
   }
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{isEditing ? "Editar Especie" : "Nueva Especie"}</DialogTitle>
+          <DialogTitle>Nueva Especie</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -69,7 +63,7 @@ export function SpeciesFormModal({ open, onOpenChange, isSaving, onSave, species
               Cancelar
             </Button>
             <Button type="submit" disabled={!isValid || isSaving}>
-              {isSaving ? "Guardando..." : isEditing ? "Actualizar" : "Crear"}
+              {isSaving ? "Guardando..." : "Crear"}
             </Button>
           </DialogFooter>
         </form>

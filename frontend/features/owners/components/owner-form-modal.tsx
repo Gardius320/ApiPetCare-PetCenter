@@ -25,21 +25,24 @@ interface OwnerFormModalProps {
 export function OwnerFormModal({ open, onOpenChange, isSaving, onSave, owner }: OwnerFormModalProps) {
   const isEditing = !!owner
 
-  const [ownerName, setOwnerName] = useState(owner?.ownerName ?? "")
-  const [email, setEmail]         = useState(owner?.email ?? "")
-  const [phone, setPhone]         = useState(owner?.phone ?? "")
-  const [gender, setGender]       = useState(owner?.gender ?? "")
+  const [ownerName, setOwnerName]     = useState(owner?.ownerName ?? "")
+  const [email, setEmail]             = useState(owner?.email ?? "")
+  const [phoneNumber, setPhoneNumber] = useState(owner?.phoneNumber ?? "")
+  const [idCard, setIdCard]           = useState(owner?.idCard ?? "")
+  const [gender, setGender]           = useState(owner?.gender ?? "")
 
   const isValid =
     ownerName.trim() !== "" &&
     email.trim() !== "" &&
-    phone.trim() !== "" &&
-    gender !== ""
+    phoneNumber.trim() !== "" &&
+    gender !== "" &&
+    (isEditing || (idCard.trim().length >= 7 && idCard.trim().length <= 10))
 
   function reset() {
     setOwnerName(owner?.ownerName ?? "")
     setEmail(owner?.email ?? "")
-    setPhone(owner?.phone ?? "")
+    setPhoneNumber(owner?.phoneNumber ?? "")
+    setIdCard(owner?.idCard ?? "")
     setGender(owner?.gender ?? "")
   }
 
@@ -51,12 +54,27 @@ export function OwnerFormModal({ open, onOpenChange, isSaving, onSave, owner }: 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!isValid) return
-    onSave({
-      ownerName: ownerName.trim(),
-      email: email.trim(),
-      phone: phone.trim(),
-      gender,
-    }, owner?.id)
+
+    if (isEditing) {
+      onSave(
+        {
+          ownerName: ownerName.trim(),
+          ownerEmail: email.trim(),
+          ownerPhone: phoneNumber.trim(),
+          gender,
+          idCard: idCard.trim(),
+        },
+        owner?.id
+      )
+    } else {
+      onSave({
+        ownerName: ownerName.trim(),
+        email: email.trim(),
+        phoneNumber: phoneNumber.trim(),
+        idCard: idCard.trim(),
+        gender,
+      })
+    }
   }
 
   return (
@@ -102,11 +120,26 @@ export function OwnerFormModal({ open, onOpenChange, isSaving, onSave, owner }: 
               id="owner-phone"
               type="tel"
               placeholder="Ej. 300 123 4567"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
               autoComplete="off"
             />
           </div>
+
+          {/* Cédula — solo al crear, el backend la exige en Create pero no en Update */}
+          {!isEditing && (
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="owner-idcard">Cédula</Label>
+              <Input
+                id="owner-idcard"
+                placeholder="Ej. 1020304050"
+                value={idCard}
+                onChange={(e) => setIdCard(e.target.value)}
+                maxLength={10}
+                autoComplete="off"
+              />
+            </div>
+          )}
 
           {/* Género */}
           <div className="flex flex-col gap-1.5">

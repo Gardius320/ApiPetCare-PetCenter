@@ -11,7 +11,7 @@ import {
 } from "recharts"
 
 interface DashboardChartProps {
-  data: { estado: string; cantidad: number }[]
+  data: { status: string; count: number }[]
 }
 
 export function DashboardChart({ data }: DashboardChartProps) {
@@ -24,12 +24,12 @@ export function DashboardChart({ data }: DashboardChartProps) {
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data}>
           <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-          <XAxis dataKey="estado" stroke="#6b7280" />
+          <XAxis dataKey="status" stroke="#6b7280" />
           <YAxis stroke="#6b7280" allowDecimals={false} />
           <Tooltip
             contentStyle={{ borderRadius: "8px", border: "1px solid #e5e7eb" }}
           />
-          <Bar dataKey="cantidad" fill="#3b82f6" radius={[6, 6, 0, 0]} />
+          <Bar dataKey="count" fill="#3b82f6" radius={[6, 6, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>

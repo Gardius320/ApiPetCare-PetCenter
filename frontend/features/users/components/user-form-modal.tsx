@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import type { User, CreateUserDto, ChangeRoleDto } from "../types/user.types"
 
-const ROLES = ["Admin", "Veterinario", "Auxiliar"]
+const ROLES = ["Admin", "Veterinarian", "Assistant"]
 
 interface UserFormModalProps {
   open: boolean

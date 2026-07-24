@@ -26,21 +26,21 @@ interface PetFormModalProps {
 }
 
 export function PetFormModal({ open, onOpenChange, isSaving, onSave }: PetFormModalProps) {
-  const [nombre, setNombre]       = useState("")
-  const [especieId, setEspecieId] = useState("")
-  const [ownerId, setOwnerId]     = useState("")
+  const [name, setName]         = useState("")
+  const [specieId, setSpecieId] = useState("")
+  const [ownerId, setOwnerId]   = useState("")
 
   const { data, isLoading: loadingOwners } = useAllOwners()
 const owners = data?.items ?? []
 
   const isValid =
-    nombre.trim() !== "" &&
-    especieId !== "" &&
+    name.trim() !== "" &&
+    specieId !== "" &&
     ownerId !== ""
 
   function reset() {
-    setNombre("")
-    setEspecieId("")
+    setName("")
+    setSpecieId("")
     setOwnerId("")
   }
 
@@ -53,9 +53,9 @@ const owners = data?.items ?? []
     e.preventDefault()
     if (!isValid) return
     onSave({
-      nombre: nombre.trim(),
-      especieId: Number(especieId),
-      propietarioId: Number(ownerId),
+      petName: name.trim(),
+      specieId: Number(specieId),
+      ownerId: Number(ownerId),
     })
   }
 
@@ -70,21 +70,21 @@ const owners = data?.items ?? []
 
           {/* Nombre */}
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="pet-nombre">Nombre</Label>
+            <Label htmlFor="pet-name">Nombre</Label>
             <Input
-              id="pet-nombre"
+              id="pet-name"
               placeholder="Ej. Firulais"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               autoComplete="off"
             />
           </div>
 
           {/* Especie */}
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="pet-especie">Especie</Label>
-            <Select value={especieId} onValueChange={setEspecieId}>
-              <SelectTrigger id="pet-especie" className="w-full">
+            <Label htmlFor="pet-species">Especie</Label>
+            <Select value={specieId} onValueChange={setSpecieId}>
+              <SelectTrigger id="pet-species" className="w-full">
                 <SelectValue placeholder="Selecciona la especie" />
               </SelectTrigger>
               <SelectContent>

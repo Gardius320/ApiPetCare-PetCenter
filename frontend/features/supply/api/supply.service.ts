@@ -4,7 +4,7 @@ import type { Supply, CreateSupplyDto, UpdateSupplyDto } from '../types/supply.t
 
 export const supplyService = {
   async getAll(page = 1, pageSize = 10, search = '', categoryId?: number, onlyActive = true) {
-    const response = await supplyRepository.getAll(page, pageSize, search, categoryId, onlyActive)
+    const response = await supplyRepository.Getall(page, pageSize, search, categoryId, onlyActive)
     return response.data
   },
 

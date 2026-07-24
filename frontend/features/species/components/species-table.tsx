@@ -6,7 +6,7 @@ import { SpeciesFormModal } from "./species-form-modal"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import type { CreateSpeciesDto, UpdateSpeciesDto } from "../types/species.types"
+import type { CreateSpeciesDto } from "../types/species.types"
 import { TableSkeleton } from "@/components/shared/table-skeleton"
 
 export function SpeciesTable() {
@@ -16,8 +16,8 @@ export function SpeciesTable() {
 
   const [modalOpen, setModalOpen] = useState(false)
 
-  async function handleSave(dto: CreateSpeciesDto | UpdateSpeciesDto) {
-    await createSpecies.mutateAsync(dto as CreateSpeciesDto)
+  async function handleSave(dto: CreateSpeciesDto) {
+    await createSpecies.mutateAsync(dto)
     setModalOpen(false)
 }
 

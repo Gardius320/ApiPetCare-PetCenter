@@ -22,7 +22,7 @@ export function SuppliesStats({ stats }: SuppliesStatsProps) {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm text-gray-500">Bajo stock</p>
-            <p className="text-2xl font-bold">{stats.bajoStock}</p>
+            <p className="text-2xl font-bold">{stats.lowStock}</p>
           </div>
           <AlertTriangle className="h-8 w-8 text-orange-500" />
         </div>
@@ -32,7 +32,7 @@ export function SuppliesStats({ stats }: SuppliesStatsProps) {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm text-gray-500">Agotados</p>
-            <p className="text-2xl font-bold">{stats.agotados}</p>
+            <p className="text-2xl font-bold">{stats.outOfStock}</p>
           </div>
           <PackageX className="h-8 w-8 text-red-500" />
         </div>
@@ -42,7 +42,7 @@ export function SuppliesStats({ stats }: SuppliesStatsProps) {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm text-gray-500">Categorías en uso</p>
-            <p className="text-2xl font-bold">{stats.categoriasEnUso}</p>
+            <p className="text-2xl font-bold">{stats.categoriesInUse}</p>
           </div>
           <Layers className="h-8 w-8 text-purple-500" />
         </div>

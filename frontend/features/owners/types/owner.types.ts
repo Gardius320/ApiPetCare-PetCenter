@@ -2,28 +2,29 @@ export interface Owner {
   id: number
   ownerName: string
   email: string
-  phone: string
+  phoneNumber: string
+  idCard: string
   gender: string
-  estado: string
 }
 
 export interface CreateOwnerDto {
   ownerName: string
   email: string
-  phone: string
+  phoneNumber: string
+  idCard: string
   gender: string
 }
 
 export interface UpdateOwnerDto {
   ownerName: string
-  email: string
-  phone: string
+  ownerEmail: string
+  ownerPhone: string
   gender: string
+  idCard: string
 }
 
 export interface OwnerStats {
   total: number
-  hombres: number
-  mujeres: number
-  inactivos: number
+  male: number
+  female: number
 }

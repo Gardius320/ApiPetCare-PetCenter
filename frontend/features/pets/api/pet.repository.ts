@@ -5,13 +5,12 @@ const BASE = "/Pets"
 
 interface RawPet {
   id: number
-  nombre: string
-  especie: string
-  propietario: string
-  emailPropietario: string
-  estado: string
-  especieId: number
-  propietarioId: number
+  name: string
+  species: string
+  ownerId: number
+  ownerName: string
+  emailOwner: string
+  state: string
 }
 
 export const petRepository = {
@@ -20,32 +19,27 @@ export const petRepository = {
       params: { page, pageSize, search }
     }).then((res) => ({
       items: res.data.data.items.map((p: RawPet) => ({
-        ...p,
-        estadoId: p.estado === "Activo" ? 1 : 3,
-        especieId: p.especieId ?? 0,
-        propietarioId: p.propietarioId ?? 0,
+        id: p.id,
+        name: p.name,
+        species: p.species,
+        ownerId: p.ownerId,
+        ownerName: p.ownerName,
+        emailOwner: p.emailOwner,
+        isActive: p.state === "Activo",
       })),
       total: res.data.data.totalRecords,
     }))
   },
 
   create(dto: CreatePetDto): Promise<Pet> {
-  return api.post<Pet>(`${BASE}/Crear`, {
-    petName: dto.nombre,
-    specieId: dto.especieId,
-    ownerId: dto.propietarioId,
-  }).then((res) => res.data)
-},
-
-  update(id: number, dto: UpdatePetDto): Promise<Pet> {
-    return api.put<Pet>(`${BASE}/Actualizar/${id}`, dto).then((res) => res.data)
+    return api.post<Pet>(`${BASE}/Create`, dto).then((res) => res.data)
   },
 
-  delete(id: number): Promise<void> {
-    return api.delete(`${BASE}/Eliminar/${id}`).then(() => undefined)
+  update(id: number, dto: UpdatePetDto): Promise<Pet> {
+    return api.put<Pet>(`${BASE}/Update/${id}`, dto).then((res) => res.data)
   },
 
   changeState(id: number, isActive: boolean): Promise<void> {
-    return api.patch(`${BASE}/CambiarEstado/${id}`, { petId: id, isActive }).then(() => undefined)
+    return api.patch(`${BASE}/ChangeState/${id}`, { petId: id, isActive }).then(() => undefined)
   },
 }

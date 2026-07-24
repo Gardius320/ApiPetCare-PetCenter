@@ -110,7 +110,7 @@ export function OwnersTable({ owners, isLoading, onDelete }: OwnersTableProps) {
               >
                 <td className="py-4 px-4 text-gray-700 font-medium">{owner.ownerName}</td>
                 <td className="py-4 px-4 text-gray-600">{owner.email}</td>
-                <td className="py-4 px-4 text-gray-600">{owner.phone}</td>
+                <td className="py-4 px-4 text-gray-600">{owner.phoneNumber}</td>
                 <td className="py-4 px-4 text-gray-600">{owner.gender}</td>
 
                 {/* Acciones */}

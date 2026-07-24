@@ -9,10 +9,10 @@ export const speciesRepository = {
   },
 
   create(dto: CreateSpeciesDto): Promise<void> {
-    return api.post(`${BASE}/Crear`, dto).then(() => undefined)
+    return api.post(`${BASE}/Create`, dto).then(() => undefined)
   },
 
   delete(id: number): Promise<void> {
-    return api.delete(`${BASE}/Eliminar/${id}`).then(() => undefined)
+    return api.delete(`${BASE}/Delete/${id}`).then(() => undefined)
   }
 }

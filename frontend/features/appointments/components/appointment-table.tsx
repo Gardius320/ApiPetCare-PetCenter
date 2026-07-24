@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { CalendarDays, Plus, Pencil } from "lucide-react"
 import { AppointmentFormModal } from "./appointment-form-modal"
-import { useAppointments, useChangeAppointmentState } from "../hooks/use-appointments"
+import { useAppointments, useAppointmentStates, useChangeAppointmentState } from "../hooks/use-appointments"
 import type { Appointment } from "../types/appointment.types"
 import { TableSkeleton } from "@/components/shared/table-skeleton"
 import {
@@ -15,13 +15,6 @@ import {
 } from "@/components/ui/select"
 
 const PAGE_SIZE = 10
-
-const APPOINTMENT_STATES = [
-  { id: 1, name: "Agendada" },
-  { id: 2, name: "Pendiente" },
-  { id: 3, name: "Cancelada" },
-  { id: 4, name: "Completada" },
-]
 
 const STATE_COLORS: Record<string, string> = {
   Agendada: "bg-blue-100 text-blue-700",
@@ -36,11 +29,13 @@ export function AppointmentTable() {
   const [page, setPage]                       = useState(1)
 
   const { data, isLoading } = useAppointments(page, PAGE_SIZE, "")
+  const { data: states }    = useAppointmentStates()
   const changeState = useChangeAppointmentState()
 
   const appointments = data?.items ?? []
   const total        = data?.total ?? 0
   const totalPages   = Math.ceil(total / PAGE_SIZE)
+  const appointmentStates = states ?? []
 
   if (isLoading) {
     return (
@@ -63,7 +58,7 @@ export function AppointmentTable() {
   }
 
   const handleStateChange = (appointment: Appointment, newStateName: string) => {
-    const newState = APPOINTMENT_STATES.find((s) => s.name === newStateName)
+    const newState = appointmentStates.find((s) => s.name === newStateName)
     if (!newState) return
     changeState.mutate({ id: appointment.id, stateId: newState.id })
   }
@@ -106,24 +101,24 @@ export function AppointmentTable() {
                 className="border-b border-gray-100 hover:bg-blue-50 transition-colors"
               >
                 <td className="py-4 px-4 text-gray-700 font-medium">
-                  {new Date(appointment.fecha).toLocaleDateString("es-CO")}
+                  {new Date(appointment.date).toLocaleDateString("es-CO")}
                 </td>
-                <td className="py-4 px-4 text-gray-600">{appointment.nombreDueno}</td>
-                <td className="py-4 px-4 text-gray-600">{appointment.nombreMascota}</td>
+                <td className="py-4 px-4 text-gray-600">{appointment.ownerName}</td>
+                <td className="py-4 px-4 text-gray-600">{appointment.petName}</td>
                 <td className="py-4 px-4">
                   <Select
-                    value={appointment.estado}
+                    value={appointment.state}
                     onValueChange={(value) => handleStateChange(appointment, value)}
                   >
                     <SelectTrigger
                       className={`w-[130px] h-7 text-xs font-semibold rounded-full border-none focus:ring-0 ${
-                        STATE_COLORS[appointment.estado] ?? "bg-gray-100 text-gray-700"
+                        STATE_COLORS[appointment.state] ?? "bg-gray-100 text-gray-700"
                       }`}
                     >
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      {APPOINTMENT_STATES.map((s) => (
+                      {appointmentStates.map((s) => (
                         <SelectItem key={s.id} value={s.name}>
                           {s.name}
                         </SelectItem>
@@ -131,7 +126,7 @@ export function AppointmentTable() {
                     </SelectContent>
                   </Select>
                 </td>
-                <td className="py-4 px-4 text-gray-600">{appointment.observacion}</td>
+                <td className="py-4 px-4 text-gray-600">{appointment.observation}</td>
                 <td className="py-4 px-4">
                   <button
                     onClick={() => handleEdit(appointment)}

@@ -43,20 +43,6 @@ export function useUpdatePet() {
   })
 }
 
-export function useDeletePet() {
-  const qc = useQueryClient()
-  return useMutation({
-    mutationFn: (id: number) => petService.delete(id),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: PETS_KEY })
-      toast.success("Mascota eliminada correctamente")
-    },
-    onError: () => {
-      toast.error("No se pudo eliminar la mascota")
-    },
-  })
-}
-
 export function useChangePetState() {
   const qc = useQueryClient()
   return useMutation({
