@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import axios from 'axios'
 import { authRepository } from '../api/auth.repository'
 import type { LoginDto } from '../types/auth.types'
 
@@ -30,7 +31,18 @@ export function useAuth() {
 
     } catch (err) {
       console.error('Error en login:', err)
-      setError('Credenciales incorrectas. Intenta de nuevo.')
+
+      if (axios.isAxiosError(err)) {
+        if (!err.response) {
+          setError('No se pudo conectar con el servidor. Intenta más tarde.')
+        } else if (err.response.status === 401) {
+          setError('Credenciales incorrectas. Intenta de nuevo.')
+        } else {
+          setError('Ocurrió un error en el servidor. Intenta más tarde.')
+        }
+      } else {
+        setError('Ocurrió un error inesperado. Intenta de nuevo.')
+      }
     } finally {
       setIsLoading(false)
     }
