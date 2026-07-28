@@ -13,3 +13,5 @@ node_modules
 tsconfig.tsbuildinfo
 appsettings.json
 appsettings.*.json
+web.config
+**/PublishProfiles/*.pubxml
