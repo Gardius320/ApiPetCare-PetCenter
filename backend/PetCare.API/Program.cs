@@ -31,7 +31,10 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend", policy =>
     {
         policy
-            .WithOrigins(allowedOrigins)
+            .SetIsOriginAllowed(origin =>
+                allowedOrigins.Contains(origin) ||
+                Uri.TryCreate(origin, UriKind.Absolute, out var originUri) &&
+                originUri.Host.EndsWith(".vercel.app", StringComparison.OrdinalIgnoreCase))
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
