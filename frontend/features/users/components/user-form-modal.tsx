@@ -1,11 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { UserCog } from "lucide-react"
+import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { FormDialogHeader } from "@/components/shared/form-dialog-header"
 import type { User, CreateUserDto, ChangeRoleDto } from "../types/user.types"
 
 const ROLES = ["Admin", "Veterinarian", "Assistant"]
@@ -58,9 +60,11 @@ export function UserFormModal({ open, onOpenChange, isSaving, onSave, user }: Us
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{isEditing ? "Cambiar Rol" : "Nuevo Usuario"}</DialogTitle>
-        </DialogHeader>
+        <FormDialogHeader
+          icon={UserCog}
+          title={isEditing ? "Cambiar rol" : "Nuevo usuario"}
+          accent="#FF8C6B"
+        />
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {!isEditing && (
@@ -131,7 +135,11 @@ export function UserFormModal({ open, onOpenChange, isSaving, onSave, user }: Us
             <Button type="button" variant="outline" onClick={() => handleOpenChange(false)} disabled={isSaving}>
               Cancelar
             </Button>
-            <Button type="submit" disabled={!isValid || isSaving}>
+            <Button
+              type="submit"
+              disabled={!isValid || isSaving}
+              className="bg-[#1F6F5C] text-white hover:bg-[#18594a]"
+            >
               {isSaving ? "Guardando..." : isEditing ? "Actualizar Rol" : "Crear Usuario"}
             </Button>
           </DialogFooter>

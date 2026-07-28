@@ -2,8 +2,9 @@
 
 import { useState } from "react"
 import { Layers, Plus, Pencil, Trash2 } from "lucide-react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
+import { FormDialogHeader } from "@/components/shared/form-dialog-header"
 import {
   useAllSupplyCategories, useCreateSupplyCategory,
   useUpdateSupplyCategory, useDeleteSupplyCategory,
@@ -54,17 +55,12 @@ export function SupplyCategoriesModal({ open, onOpenChange }: SupplyCategoriesMo
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="sm:max-w-lg">
-          <DialogHeader>
-            <div className="flex items-center gap-2">
-              <Layers className="h-5 w-5 text-primary" />
-              <DialogTitle>Categorías de insumos</DialogTitle>
-            </div>
-          </DialogHeader>
+          <FormDialogHeader icon={Layers} title="Categorías de insumos" accent="#E0A458" />
 
           <div className="flex justify-end -mt-2 mb-2">
             <Button
               onClick={() => { setEditingCategory(undefined); setIsFormOpen(true) }}
-              className="bg-blue-400 hover:bg-blue-500 text-white"
+              className="bg-[#1F6F5C] text-white hover:bg-[#18594a]"
               size="sm"
             >
               <Plus className="h-4 w-4 mr-1" />
@@ -75,35 +71,35 @@ export function SupplyCategoriesModal({ open, onOpenChange }: SupplyCategoriesMo
           <div className="max-h-80 overflow-y-auto">
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="bg-gray-50">
-                  <th className="border-b border-gray-200 py-2 px-3 text-gray-600">Nombre</th>
-                  <th className="border-b border-gray-200 py-2 px-3 text-gray-600">Descripción</th>
-                  <th className="border-b border-gray-200 py-2 px-3 text-gray-600">Acciones</th>
+                <tr className="bg-[#F5F7F4]">
+                  <th className="border-b border-[#16302B]/10 py-2 px-3 text-[11px] font-medium uppercase tracking-wide text-[#5B6B66]">Nombre</th>
+                  <th className="border-b border-[#16302B]/10 py-2 px-3 text-[11px] font-medium uppercase tracking-wide text-[#5B6B66]">Descripción</th>
+                  <th className="border-b border-[#16302B]/10 py-2 px-3 text-[11px] font-medium uppercase tracking-wide text-[#5B6B66]">Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 {isLoading && (
-                  <tr><td colSpan={3} className="py-8 text-center text-gray-400">Cargando categorías...</td></tr>
+                  <tr><td colSpan={3} className="py-8 text-center text-[#5B6B66]">Cargando categorías...</td></tr>
                 )}
                 {!isLoading && (categories?.length ?? 0) === 0 && (
-                  <tr><td colSpan={3} className="py-8 text-center text-gray-400">No hay categorías registradas</td></tr>
+                  <tr><td colSpan={3} className="py-8 text-center text-[#5B6B66]">No hay categorías registradas</td></tr>
                 )}
                 {categories?.map((cat) => (
-                  <tr key={cat.id} className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
-                    <td className="py-2 px-3 text-gray-700 font-medium">{cat.name}</td>
-                    <td className="py-2 px-3 text-gray-500">{cat.description || "—"}</td>
+                  <tr key={cat.id} className="border-b border-[#16302B]/5 transition-colors hover:bg-[#1F6F5C]/5">
+                    <td className="py-2 px-3 font-medium text-[#16302B]">{cat.name}</td>
+                    <td className="py-2 px-3 text-[#5B6B66]">{cat.description || "—"}</td>
                     <td className="py-2 px-3">
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleEdit(cat)}
-                          className="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full hover:bg-blue-200 transition"
+                          className="rounded-full bg-[#1F6F5C]/10 px-3 py-1 text-xs font-semibold text-[#1F6F5C] transition hover:bg-[#1F6F5C]/20"
                         >
                           <Pencil className="h-3 w-3 inline mr-1" />
                           Editar
                         </button>
                         <button
                           onClick={() => handleDelete(cat)}
-                          className="bg-red-100 text-red-700 text-xs font-semibold px-3 py-1 rounded-full hover:bg-red-200 transition"
+                          className="rounded-full bg-[#B5443A]/10 px-3 py-1 text-xs font-semibold text-[#B5443A] transition hover:bg-[#B5443A]/20"
                         >
                           <Trash2 className="h-3 w-3 inline mr-1" />
                           Eliminar

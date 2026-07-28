@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, PawPrint, Users, Calendar, Cat, UserCog, ChevronLeft, ChevronRight, Stethoscope, Package, LogOut,} from "lucide-react";
+import { LayoutDashboard, PawPrint, Users, Calendar, Cat, UserCog, ChevronLeft, ChevronRight, Package, LogOut,} from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger,} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/features/auth/hooks/use-auth";
@@ -33,10 +33,10 @@ export function Sidebar() {
     <button
       onClick={() => logout()}
       className={cn(
-        "flex items-center gap-3 px-2.5 py-2 rounded-md text-sm font-medium w-full",
+        "flex items-center gap-3 px-2.5 py-2 rounded-[8px] text-sm font-medium w-full",
         "transition-colors duration-100",
         collapsed && "justify-center px-0",
-        "text-sidebar-foreground hover:bg-destructive/10 hover:text-destructive"
+        "text-[#B5443A] hover:bg-[#B5443A]/10"
       )}
     >
       <LogOut className="size-4 shrink-0" />
@@ -48,17 +48,18 @@ export function Sidebar() {
     <aside
       className={cn(
         "relative flex flex-col h-screen bg-sidebar border-r border-sidebar-border",
+        "font-[family-name:var(--font-inter)]",
         "transition-[width] duration-200 ease-in-out shrink-0",
         collapsed ? "w-14" : "w-60"
       )}
     >
       {/* Marca */}
       <div className="flex items-center h-16 px-3 border-b border-sidebar-border overflow-hidden">
-        <div className="flex items-center justify-center size-8 rounded-lg bg-sidebar-primary shrink-0">
-          <Stethoscope className="size-4 text-sidebar-primary-foreground" />
+        <div className="flex items-center justify-center w-[26px] h-[26px] rounded-lg bg-[#1F6F5C] shrink-0">
+          <PawPrint className="size-4 text-white" />
         </div>
         {!collapsed && (
-          <span className="ml-3 font-semibold text-sidebar-foreground text-sm tracking-tight whitespace-nowrap">
+          <span className="ml-3 font-[family-name:var(--font-space-grotesk)] font-medium text-sidebar-foreground text-sm tracking-tight whitespace-nowrap">
             PetCare
           </span>
         )}
@@ -74,12 +75,12 @@ export function Sidebar() {
             <Link
               href={href}
               className={cn(
-                "flex items-center gap-3 px-2.5 py-2 rounded-md text-sm font-medium",
+                "flex items-center gap-3 px-2.5 py-2 rounded-[8px] text-sm font-medium",
                 "transition-colors duration-100",
                 collapsed && "justify-center px-0",
                 isActive
-                  ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                  : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                  ? "bg-[#1F6F5C] text-white"
+                  : "text-[#5B6B66] hover:bg-[#1F6F5C]/10 hover:text-[#16302B]"
               )}
             >
               <Icon className="size-4 shrink-0" />
@@ -102,8 +103,21 @@ export function Sidebar() {
         })}
       </nav>
 
+      {/* Decoracion */}
+      {!collapsed && (
+        <div className="flex justify-center py-2 px-2 overflow-hidden">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/decorations/leaf-sprig.svg"
+            alt=""
+            aria-hidden="true"
+            className="w-[95px] opacity-55 select-none pointer-events-none"
+          />
+        </div>
+      )}
+
       {/* Cerrar sesión */}
-      <div className="border-t border-sidebar-border p-2">
+      <div className="border-t border-[#16302B]/10 p-2">
         {collapsed ? (
           <Tooltip>
             <TooltipTrigger asChild>{logoutButton}</TooltipTrigger>

@@ -1,11 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import {  Dialog, DialogContent, DialogFooter,  DialogHeader, DialogTitle,} from "@/components/ui/dialog"
+import {  Dialog, DialogContent, DialogFooter,} from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select"
+import { FormDialogHeader } from "@/components/shared/form-dialog-header"
 import { useAllOwners } from "@/features/owners/hooks/use-owners"
 import { useSpecies } from "@/features/species/hooks/use-species"
 import type { CreatePetDto } from "../types/pet.types"
@@ -57,9 +58,7 @@ const owners = data?.items ?? []
   return (
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-sm">
-        <DialogHeader>
-          <DialogTitle>Nueva mascota</DialogTitle>
-        </DialogHeader>
+        <FormDialogHeader icon={PawPrint} title="Nueva mascota" accent="#1F6F5C" />
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 py-1">
 
@@ -116,13 +115,13 @@ const owners = data?.items ?? []
             <Button type="button" variant="outline" onClick={() => handleClose(false)} disabled={isSaving}>
               Cancelar
             </Button>
-            <Button 
-              type="submit" 
-               disabled={!isValid || isSaving}
-                 className="bg-blue-400 hover:bg-blue-500 text-white"
-                   >
-                  {isSaving ? "Guardando..." : "Guardar mascota"}
-                 </Button>
+            <Button
+              type="submit"
+              disabled={!isValid || isSaving}
+              className="bg-[#1F6F5C] text-white hover:bg-[#18594a]"
+            >
+              {isSaving ? "Guardando..." : "Guardar mascota"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

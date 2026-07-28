@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react"
+import { Package } from "lucide-react"
 import {
   Dialog, DialogContent, DialogFooter,
-  DialogHeader, DialogTitle,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -12,6 +12,7 @@ import {
   Select, SelectContent, SelectItem,
   SelectTrigger, SelectValue,
 } from "@/components/ui/select"
+import { FormDialogHeader } from "@/components/shared/form-dialog-header"
 import { useAllSupplyCategories } from "../../supply-categories/hooks/use-supply-categories"
 import type { SupplyCategory } from "../../supply-categories/types/supply-category.types"
 import type { Supply, CreateSupplyDto, UpdateSupplyDto } from "../types/supply.types"
@@ -90,11 +91,11 @@ export function SupplyFormModal({ open, onOpenChange, isSaving, onSave, supply }
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-sm">
-        <DialogHeader>
-          <DialogTitle>
-            {isEditing ? "Editar insumo" : "Nuevo insumo"}
-          </DialogTitle>
-        </DialogHeader>
+        <FormDialogHeader
+          icon={Package}
+          title={isEditing ? "Editar insumo" : "Nuevo insumo"}
+          accent="#E0A458"
+        />
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 py-1">
 
@@ -210,7 +211,7 @@ export function SupplyFormModal({ open, onOpenChange, isSaving, onSave, supply }
             <Button
               type="submit"
               disabled={!isValid || isSaving}
-              className="bg-blue-400 hover:bg-blue-500 text-white"
+              className="bg-[#1F6F5C] text-white hover:bg-[#18594a]"
             >
               {isSaving ? "Guardando..." : isEditing ? "Guardar cambios" : "Crear insumo"}
             </Button>

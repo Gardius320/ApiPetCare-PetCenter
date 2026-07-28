@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react"
+import { Users } from "lucide-react"
 import {
   Dialog, DialogContent, DialogFooter,
-  DialogHeader, DialogTitle,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -12,6 +12,7 @@ import {
   Select, SelectContent, SelectItem,
   SelectTrigger, SelectValue,
 } from "@/components/ui/select"
+import { FormDialogHeader } from "@/components/shared/form-dialog-header"
 import { GENDER, type Owner, type CreateOwnerDto, type UpdateOwnerDto } from "../types/owner.types"
 
 interface OwnerFormModalProps {
@@ -80,11 +81,11 @@ export function OwnerFormModal({ open, onOpenChange, isSaving, onSave, owner }: 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-sm">
-        <DialogHeader>
-          <DialogTitle>
-            {isEditing ? "Editar propietario" : "Nuevo propietario"}
-          </DialogTitle>
-        </DialogHeader>
+        <FormDialogHeader
+          icon={Users}
+          title={isEditing ? "Editar propietario" : "Nuevo propietario"}
+          accent="#FF8C6B"
+        />
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 py-1">
 
@@ -159,10 +160,10 @@ export function OwnerFormModal({ open, onOpenChange, isSaving, onSave, owner }: 
             <Button type="button" variant="outline" onClick={() => handleOpenChange(false)} disabled={isSaving}>
               Cancelar
             </Button>
-            <Button 
-            type="submit" 
-            disabled={!isValid || isSaving}
-            className="bg-blue-400 hover:bg-blue-500 text-white"
+            <Button
+              type="submit"
+              disabled={!isValid || isSaving}
+              className="bg-[#1F6F5C] text-white hover:bg-[#18594a]"
             >
               {isSaving ? "Guardando..." : isEditing ? "Guardar cambios" : "Crear propietario"}
             </Button>

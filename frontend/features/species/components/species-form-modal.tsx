@@ -1,10 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Cat } from "lucide-react"
+import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { FormDialogHeader } from "@/components/shared/form-dialog-header"
 import type { CreateSpeciesDto } from "../types/species.types"
 
 interface SpeciesFormModalProps {
@@ -37,9 +39,7 @@ export function SpeciesFormModal({ open, onOpenChange, isSaving, onSave }: Speci
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Nueva Especie</DialogTitle>
-        </DialogHeader>
+        <FormDialogHeader icon={Cat} title="Nueva especie" accent="#1F6F5C" />
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
@@ -62,7 +62,11 @@ export function SpeciesFormModal({ open, onOpenChange, isSaving, onSave }: Speci
             >
               Cancelar
             </Button>
-            <Button type="submit" disabled={!isValid || isSaving}>
+            <Button
+              type="submit"
+              disabled={!isValid || isSaving}
+              className="bg-[#1F6F5C] text-white hover:bg-[#18594a]"
+            >
               {isSaving ? "Guardando..." : "Crear"}
             </Button>
           </DialogFooter>
