@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supplyService } from '../api/supply.service'
 import type { CreateSupplyDto, UpdateSupplyDto } from '../types/supply.types'
 import { toast } from "sonner"
+import { getErrorMessage } from "@/lib/get-error-message"
 
 export const SUPPLIES_KEY = ['supplies'] as const
 export const SUPPLY_STATS_KEY = ['supplies', 'stats'] as const
@@ -29,8 +30,8 @@ export function useCreateSupply() {
       queryClient.invalidateQueries({ queryKey: SUPPLY_STATS_KEY })
       toast.success("Insumo creado")
     },
-    onError: () => {
-      toast.error("No se pudo crear el insumo")
+    onError: (err) => {
+      toast.error(getErrorMessage(err, "No se pudo crear el insumo"))
     }
   })
 }
@@ -45,8 +46,8 @@ export function useUpdateSupply() {
         qc.invalidateQueries({ queryKey: SUPPLY_STATS_KEY })
         toast.success("Insumo actualizado")
       },
-      onError: () => {
-        toast.error("No se pudo actualizar el insumo")
+      onError: (err) => {
+        toast.error(getErrorMessage(err, "No se pudo actualizar el insumo"))
       },
     })
 }
@@ -60,8 +61,8 @@ export function useToggleSupplyStatus() {
       qc.invalidateQueries({ queryKey: SUPPLY_STATS_KEY })
       toast.success("Estado del insumo actualizado")
     },
-    onError: () => {
-      toast.error("No se pudo actualizar el estado del insumo")
+    onError: (err) => {
+      toast.error(getErrorMessage(err, "No se pudo actualizar el estado del insumo"))
     },
   })
 }

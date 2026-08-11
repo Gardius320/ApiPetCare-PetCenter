@@ -20,8 +20,8 @@ namespace PetCare.Application.Owners.Commands.UpdateOwner
             if (owner == null) return null;
            
             owner.OwnerName   = request.OwnerName;
-            owner.Email       = request.OwnerEmail;
-            owner.PhoneNumber = request.OwnerPhone;
+            owner.Email       = request.Email;
+            owner.PhoneNumber = request.PhoneNumber;
             owner.Gender      = request.Gender;
             owner.IdCard      = request.IdCard;
             

@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PetCare.Application.Appointments.Commands.CreateAppointment;
 using PetCare.Application.Common.Behaviors;
+using PetCare.Application.Common.Settings;
 using PetCare.Domain.Constants;
 using PetCare.Domain.Identity;
 using PetCare.Domain.Interfaces;
@@ -98,6 +99,7 @@ builder.Services.AddSwaggerGen(options =>
         In = ParameterLocation.Header,
         Description = "Escribe: Bearer {tu token aquí}"
     });
+    options.CustomSchemaIds(type => type.FullName);
 
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
@@ -133,8 +135,15 @@ builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<ISupplyCategoryRepository, SupplyCategoryRepository>();
 builder.Services.AddScoped<ISpeciesRepository, SpeciesRepository>();
 builder.Services.AddScoped<IStateRepository, StateRepository>();
+builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
+builder.Services.AddScoped<IMedicalRecordRepository, MedicalRecordRepository>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+builder.Services.AddScoped<IEmailService, SendGridEmailService>();
+builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IJwtService, JwtService>();
+
+builder.Services.Configure<InvoiceSettings>(builder.Configuration.GetSection("InvoiceSettings"));
 
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssemblyContaining<CreateAppointmentCommand>());
@@ -148,13 +157,14 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<PetsDbContext>();
 
-    dbContext.Database.Migrate(); // 👈 aplica migraciones pendientes al arrancar (idempotente)
+    dbContext.Database.Migrate(); 
 
     var requiredStates = new (string Name, string Description)[]
     {
         (AppointmentStateNames.Scheduled, "Cita programada, pendiente de atención"),
         (AppointmentStateNames.Completed, "Cita atendida y finalizada"),
         (AppointmentStateNames.Cancelled, "Cita cancelada por el propietario o la clínica"),
+        (AppointmentStateNames.PendingConfirmation, "Cita solicitada en línea, pendiente de confirmación por la clínica"),
     };
 
     foreach (var (name, description) in requiredStates)

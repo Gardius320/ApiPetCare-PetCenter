@@ -13,15 +13,15 @@ namespace PetCare.Application.Owners.Commands.UpdateOwner
                 .GreaterThan(0)
                 .WithMessage("Debes seleccionar un dueño válido");
 
-            RuleFor(x => x.OwnerEmail)
+            RuleFor(x => x.Email)
                 .EmailAddress()
                 .WithMessage("El correo electrónico no es válido")
-                .When(x => !string.IsNullOrEmpty(x.OwnerEmail));
+                .When(x => !string.IsNullOrEmpty(x.Email));
 
-            RuleFor(x => x.OwnerPhone)
+            RuleFor(x => x.PhoneNumber)
                 .Matches(@"^\+?\d{10,15}$")
                 .WithMessage("El número de teléfono no es válido")
-                .When(x => !string.IsNullOrEmpty(x.OwnerPhone));
+                .When(x => !string.IsNullOrEmpty(x.PhoneNumber));
 
             RuleFor(x => x.IdCard)
                 .Matches(@"^\d{6,10}$")

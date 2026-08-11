@@ -1,12 +1,21 @@
 import api from "@/lib/axios"
 import type { ApiResponse } from "@/lib/types/api-response.types"
-import type { CreateSupplyCategoryDto, SupplyCategory } from "../types/supply-category.types"
+import type { CreateSupplyCategoryDto, PaginatedSupplyCategories, SupplyCategory } from "../types/supply-category.types"
 
 const BASE = "/SupplyCategories"
 
+export interface GetAllSupplyCategoriesParams {
+  page?: number
+  pageSize?: number
+  search?: string
+  onlyActive?: boolean
+}
+
 export const supplyCategoryRepository = {
-  all(): Promise<SupplyCategory[]> {
-    return api.get<SupplyCategory[]>(`${BASE}/all`).then((res) => res.data)
+  getAll(params: GetAllSupplyCategoriesParams = {}): Promise<PaginatedSupplyCategories> {
+    return api
+      .get<ApiResponse<PaginatedSupplyCategories>>(`${BASE}/GetAll`, { params })
+      .then((res) => res.data.data ?? { items: [], totalRecords: 0, totalPages: 1 })
   },
 
   create(supplyCategory: CreateSupplyCategoryDto): Promise<number> {

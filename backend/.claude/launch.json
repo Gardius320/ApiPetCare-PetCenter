@@ -7,6 +7,13 @@
       "runtimeArgs": ["--prefix", "../frontend", "run", "dev"],
       "port": 3000,
       "autoPort": true
+    },
+    {
+      "name": "backend-api",
+      "runtimeExecutable": "dotnet",
+      "runtimeArgs": ["run", "--project", "PetCare.API/PetCare.API.csproj", "--launch-profile", "PetCare.API"],
+      "port": 60495,
+      "url": "http://localhost:60495"
     }
   ]
 }

@@ -1,14 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { supplyCategoryRepository } from "../api/supply-category.repository"
+import { supplyCategoryRepository, type GetAllSupplyCategoriesParams } from "../api/supply-category.repository"
 import { toast } from "sonner"
 import type { CreateSupplyCategoryDto } from "../types/supply-category.types"
 
 export const SUPPLY_CATEGORIES_KEY = ["supply-categories"] as const
 
-export function useAllSupplyCategories() {
+export function useAllSupplyCategories(params: GetAllSupplyCategoriesParams = {}) {
   return useQuery({
-    queryKey: SUPPLY_CATEGORIES_KEY,
-    queryFn: () => supplyCategoryRepository.all(),
+    queryKey: [...SUPPLY_CATEGORIES_KEY, params],
+    queryFn: () => supplyCategoryRepository.getAll(params),
+    select: (result) => result.items,
   })
 }
 

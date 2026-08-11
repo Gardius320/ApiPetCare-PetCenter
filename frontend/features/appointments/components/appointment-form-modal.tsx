@@ -41,6 +41,7 @@ export function AppointmentFormModal({ open, onOpenChange, selected }: Props) {
   if (!open) return
   if (selected) {
     const formattedDate = selected.date ? new Date(selected.date).toISOString().slice(0, 16) : ""
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setDate(formattedDate)
     setObservation(selected.observation ?? "")
     setOwnerId("")

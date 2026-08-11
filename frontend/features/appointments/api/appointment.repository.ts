@@ -1,9 +1,10 @@
 import api from "@/lib/axios"
-import type { Appointment, AppointmentState, CreateAppointmentDto, UpdateAppointmentDto } from "../types/appointment.types"
+import type { Appointment, AppointmentState, BillableAppointment, CreateAppointmentDto, UpdateAppointmentDto } from "../types/appointment.types"
 
 interface RawAppointment {
   id: number
   date: string
+  ownerId: number
   ownerName: string
   petName: string
   state: string
@@ -21,6 +22,7 @@ function mapAppointment(a: RawAppointment): Appointment {
   return {
     id: a.id,
     date: a.date,
+    ownerId: a.ownerId,
     ownerName: a.ownerName,
     petName: a.petName,
     state: a.state,
@@ -30,9 +32,9 @@ function mapAppointment(a: RawAppointment): Appointment {
 }
 
 export const appointmentRepository = {
-  getAll: async (page = 1, pageSize = 10, search = ""): Promise<{ items: Appointment[]; total: number }> => {
+  getAll: async (page = 1, pageSize = 10, search = "", petId?: number): Promise<{ items: Appointment[]; total: number }>=> {
     const response = await api.get<{ data: { items: RawAppointment[]; totalRecords: number } }>("/Appointment/GetAll", {
-      params: { page, pageSize, search }
+      params: { page, pageSize, search, petId }
     })
     return {
       items: response.data.data.items.map(mapAppointment),
@@ -67,4 +69,10 @@ export const appointmentRepository = {
       description: s.description,
     }))
   },
+  getBillable: async (ownerId: number): Promise<BillableAppointment[]> => {
+  const response = await api.get<{ data: BillableAppointment[] }>("/Appointment/Billable", {
+    params: { ownerId }
+  })
+  return response.data.data
+},
 }

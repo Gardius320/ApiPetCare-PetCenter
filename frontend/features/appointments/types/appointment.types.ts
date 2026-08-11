@@ -1,6 +1,7 @@
 export interface Appointment {
   id: number
   date: string
+  ownerId: number
   ownerName: string
   petName: string
   state: string
@@ -25,4 +26,9 @@ export interface AppointmentState {
   id: number
   name: string
   description: string | null
+}
+export interface BillableAppointment {
+  id: number
+  appointmentDate: string
+  petName: string
 }

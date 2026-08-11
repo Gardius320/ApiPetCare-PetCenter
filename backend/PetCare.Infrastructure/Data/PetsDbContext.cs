@@ -21,6 +21,11 @@ public partial class PetsDbContext : IdentityDbContext<ApplicationUser>
     public virtual DbSet<Supply> Supplies { get; set; }
     public virtual DbSet<SupplyCategory> SupplyCategories { get; set; }
     public virtual DbSet<SupplyMovement> SupplyMovements { get; set; }
+    public virtual DbSet<Service> Services { get; set; }
+    public DbSet<Invoice> Invoices { get; set; }
+    public DbSet<InvoiceItem> InvoiceItems { get; set; }
+    public DbSet<MedicalRecord> MedicalRecords { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {       
@@ -161,5 +166,73 @@ public partial class PetsDbContext : IdentityDbContext<ApplicationUser>
                 .OnDelete(DeleteBehavior.SetNull);
         });
 
+        modelBuilder.Entity<Service>(entity =>
+        {
+            entity.ToTable("services");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Name).HasColumnName("name").HasMaxLength(50);
+            entity.Property(e => e.Description).HasColumnName("description").HasMaxLength(150);
+            entity.Property(e => e.Price).HasColumnName("price").HasPrecision(18, 2);
+            entity.Property(e => e.IsActive).HasColumnName("is_active");
+            entity.Property(e => e.CreatedAt).HasColumnName("created_at");
+        });
+        modelBuilder.Entity<Invoice>(entity =>
+        {
+            entity.ToTable("Invoices");
+            entity.HasKey(i => i.Id);
+
+            entity.Property(i => i.InvoiceNumber).IsRequired().HasMaxLength(20);
+            entity.HasIndex(i => i.InvoiceNumber).IsUnique();
+
+            entity.Property(i => i.Subtotal).HasColumnType("decimal(18,2)");
+            entity.Property(i => i.Tax).HasColumnType("decimal(18,2)");
+            entity.Property(i => i.Total).HasColumnType("decimal(18,2)");
+
+            entity.HasMany(i => i.Items)
+                .WithOne()
+                .HasForeignKey(ii => ii.InvoiceId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<InvoiceItem>(entity =>
+        {
+            entity.ToTable("InvoiceItems");
+            entity.HasKey(ii => ii.Id);
+
+            entity.Property(ii => ii.Description).IsRequired().HasMaxLength(250);
+            entity.Property(ii => ii.UnitPrice).HasColumnType("decimal(18,2)");
+            entity.Property(ii => ii.LineTotal).HasColumnType("decimal(18,2)");
+        });
+        modelBuilder.Entity<MedicalRecord>(entity =>
+        {
+            entity.HasKey(mr => mr.Id);
+
+            entity.Property(mr => mr.Diagnopsis)
+                  .IsRequired();
+
+            entity.Property(mr => mr.Treatment)
+                  .IsRequired();
+
+            entity.Property(mr => mr.VeterinarianUserId)
+                  .IsRequired();
+            
+            entity.HasOne(mr => mr.Pet)
+                  .WithMany()
+                  .HasForeignKey(mr => mr.PetId)
+                  .OnDelete(DeleteBehavior.Restrict);
+           
+            entity.HasOne(mr => mr.Appointment)
+                  .WithMany()
+                  .HasForeignKey(mr => mr.AppointmentId)
+                  .OnDelete(DeleteBehavior.SetNull);
+           
+            entity.HasOne(mr => mr.Veterinarian)
+                  .WithMany()
+                  .HasForeignKey(mr => mr.VeterinarianUserId)
+                  .OnDelete(DeleteBehavior.Restrict);
+            entity.Property(mr => mr.Weight).HasPrecision(18, 2);
+            entity.Property(mr => mr.Temperature).HasPrecision(18, 2);
+        });
     }
+
 }

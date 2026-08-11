@@ -10,5 +10,6 @@ namespace PetCare.Domain.Interfaces
         Task<Owner?> UpdateOwner(Owner owner);
         Task<string> DeleteOwner(int id);
         Task<(int petsCount, int appointmentsCount)> GetDependencyCountsAsync(int ownerId);
+        Task<Owner?> GetByEmailAsync(string email);
     }
 }

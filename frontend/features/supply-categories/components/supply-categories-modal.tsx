@@ -21,7 +21,7 @@ export function SupplyCategoriesModal({ open, onOpenChange }: SupplyCategoriesMo
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [editingCategory, setEditingCategory] = useState<SupplyCategory | undefined>(undefined)
 
-  const { data: categories, isLoading } = useAllSupplyCategories()
+  const { data: categories, isLoading } = useAllSupplyCategories({ onlyActive: false, pageSize: 100 })
   const createCategory = useCreateSupplyCategory()
   const updateCategory = useUpdateSupplyCategory()
   const deleteCategory = useDeleteSupplyCategory()

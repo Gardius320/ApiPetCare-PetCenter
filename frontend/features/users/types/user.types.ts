@@ -16,3 +16,7 @@ export interface CreateUserDto {
 export interface ChangeRoleDto {
   role: string
 }
+export interface UserByRole {
+  id: string
+  fullName: string
+}

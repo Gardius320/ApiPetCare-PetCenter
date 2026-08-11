@@ -26,10 +26,10 @@ namespace PetCare.Application.Common.Behaviors
 
             var context = new ValidationContext<TRequest>(request);   
 
-            //ejecuto toda los validators y espero el resultado
+            
             var validationResults = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
 
-            //capturo todos los errores en una lista
+            
             var errors = validationResults
                 .SelectMany(r => r.Errors)
                 .Where(f => f != null)
@@ -37,11 +37,11 @@ namespace PetCare.Application.Common.Behaviors
 
             if (errors.Count != 0) 
             {
-                throw new ValidationException(errors);  //si hay errores, lanzo la exception y no se ejecuta el handler
+                throw new ValidationException(errors);  
             }
             else
             {
-                return await next();  //si no hay errores, paso al handler
+                return await next(); 
             }
 
         }

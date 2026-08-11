@@ -35,6 +35,10 @@ public class SuppliesController : ControllerBase
     {
         command.Id = id;
         var result = await _mediator.Send(command);
+
+        if (!result.IsSuccess)
+            return NotFound(result);
+
         return Ok(result);
     }
 
@@ -43,6 +47,10 @@ public class SuppliesController : ControllerBase
     public async Task<IActionResult> ChangeState(int id)
     {
         var result = await _mediator.Send(new ToggleSupplyStatusCommand { Id = id });
+
+        if (!result.IsSuccess)
+            return NotFound(result);
+
         return Ok(result);
     }
 

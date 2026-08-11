@@ -18,3 +18,9 @@ export  interface UpdateSupplyCategoryDto {
 export interface DeleteSupplyCategoryDto {
   id: number
 }
+
+export interface PaginatedSupplyCategories {
+  items: SupplyCategory[]
+  totalRecords: number
+  totalPages: number
+}

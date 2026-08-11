@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PetCare.Application.Common;
 using PetCare.Application.SupplyCategories.Commands.Create;
 using PetCare.Application.SupplyCategories.Queries.GetAllCategories;
 using PetCare.Domain.DTOs;
@@ -19,11 +20,22 @@ namespace PetCare.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("all")]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll(
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] string? search = null,
+            [FromQuery] bool onlyActive = true)
         {
-            var result = await _mediator.Send(new GetAllCategoriesQuery());
-            return Ok(result);
+            var result = await _mediator.Send(new GetAllCategoriesQuery
+            {
+                Page = page,
+                PageSize = pageSize,
+                Search = search,
+                OnlyActive = onlyActive
+            });
+
+            return Ok(ApiResponse<PaginatedCategoriesResult>.Success(result));
         }
 
         [HttpPost("Create")]

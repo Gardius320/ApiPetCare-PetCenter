@@ -31,6 +31,18 @@ export function OwnerFormModal({ open, onOpenChange, isSaving, onSave, owner }: 
   const [phoneNumber, setPhoneNumber] = useState(owner?.phoneNumber ?? "")
   const [idCard, setIdCard]           = useState(owner?.idCard ?? "")
   const [gender, setGender]           = useState(owner?.gender ?? "")
+  const [wasOpen, setWasOpen]         = useState(open)
+
+  if (open && !wasOpen) {
+    setWasOpen(true)
+    setOwnerName(owner?.ownerName ?? "")
+    setEmail(owner?.email ?? "")
+    setPhoneNumber(owner?.phoneNumber ?? "")
+    setIdCard(owner?.idCard ?? "")
+    setGender(owner?.gender ?? "")
+  } else if (!open && wasOpen) {
+    setWasOpen(false)
+  }
 
   const isValid =
     ownerName.trim() !== "" &&
@@ -60,8 +72,8 @@ export function OwnerFormModal({ open, onOpenChange, isSaving, onSave, owner }: 
       onSave(
         {
           ownerName: ownerName.trim(),
-          ownerEmail: email.trim(),
-          ownerPhone: phoneNumber.trim(),
+          email: email.trim(),
+          phoneNumber: phoneNumber.trim(),
           gender,
           idCard: idCard.trim(),
         },

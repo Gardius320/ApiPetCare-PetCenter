@@ -72,5 +72,10 @@ namespace PetCare.Infrastructure.Persistence
             int appointmentsCount = await _context.Appointments.CountAsync(a => a.OwnerId == ownerId);
             return (petsCount, appointmentsCount);
         }
+
+        public async Task<Owner?> GetByEmailAsync(string email) 
+        {
+            return await _context.Owners.FirstOrDefaultAsync(o => o.Email == email);
+        }
     }
 }

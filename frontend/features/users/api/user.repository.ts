@@ -1,11 +1,15 @@
 import api from "@/lib/axios"
-import type { User, CreateUserDto, ChangeRoleDto } from "../types/user.types"
+import type { User, CreateUserDto, ChangeRoleDto, UserByRole } from "../types/user.types"
 
 const BASE = "/Users"
 
 export const userRepository = {
   getAll(): Promise<User[]> {
     return api.get(`${BASE}/GetAll`).then((res) => res.data.data)
+  },
+
+  getByRole(role: string): Promise<UserByRole[]> {
+    return api.get(`${BASE}/ByRole/${role}`).then((res) => res.data.data)
   },
 
   create(dto: CreateUserDto): Promise<void> {

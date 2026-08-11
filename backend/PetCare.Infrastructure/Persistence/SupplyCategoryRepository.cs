@@ -29,6 +29,32 @@ namespace PetCare.Infrastructure.Persistence
                 .ToListAsync();
         }
 
+        public async Task<(List<SupplyCategory> categories, int totalRecords)> GetAllPagesAsync(
+            int page, int pageSize, string? search = null, bool onlyActive = true)
+        {
+            var query = _context.SupplyCategories.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                query = query.Where(c => c.Name.Contains(search));
+            }
+
+            if (onlyActive)
+            {
+                query = query.Where(c => c.IsActive);
+            }
+
+            int totalRecords = await query.CountAsync();
+
+            var categories = await query
+                .AsNoTracking()
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (categories, totalRecords);
+        }
+
         public async Task<SupplyCategory?> GetByIdAsync(int id)
         {
             return await _context.SupplyCategories

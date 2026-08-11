@@ -5,5 +5,6 @@ namespace PetCare.Domain.Constants
         public const string Scheduled = "Agendada";
         public const string Completed = "Completada";
         public const string Cancelled = "Cancelada";
+        public const string PendingConfirmation = "Pendiente de confirmación";
     }
 }

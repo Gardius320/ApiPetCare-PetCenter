@@ -31,7 +31,10 @@ namespace PetCare.Application.Users.Commands.CreateUsers
 
             var result = await _userManager.CreateAsync(user, request.Password);
             if (!result.Succeeded)
-                return ApiResponse<string>.Failure("Error al crear el usuario");
+                return ApiResponse<string>.Failure(
+                    string.Join(", ", result.Errors.Select(e => e.Description)));
+
+            await _userManager.AddToRoleAsync(user, request.Role);
 
             return ApiResponse<string>.Success("Usuario creado exitosamente");
         }

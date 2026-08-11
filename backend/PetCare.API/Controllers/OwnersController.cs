@@ -50,6 +50,10 @@ public class OwnersController : ControllerBase
     {
         command.OwnerId = id;
         var result = await _mediator.Send(command);
+
+        if (result is null)
+            return NotFound(ApiResponse<int?>.Failure("El propietario no existe."));
+
         return Ok(ApiResponse<int?>.Success(result));
     }
 
@@ -58,6 +62,15 @@ public class OwnersController : ControllerBase
     public async Task<IActionResult> Delete(int id)
     {
         var result = await _mediator.Send(new DeleteOwnerCommand { Id = id });
+
+        if (!result.IsSuccess)
+        {
+            if (result.Message == "Propietario no encontrado")
+                return NotFound(result);
+
+            return BadRequest(result);
+        }
+
         return Ok(result);
     }
 }

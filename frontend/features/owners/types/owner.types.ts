@@ -24,8 +24,8 @@ export interface CreateOwnerDto {
 
 export interface UpdateOwnerDto {
   ownerName: string
-  ownerEmail: string
-  ownerPhone: string
+  email: string
+  phoneNumber: string
   gender: string
   idCard: string
 }

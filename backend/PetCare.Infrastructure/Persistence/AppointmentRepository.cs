@@ -15,14 +15,15 @@ namespace PetCare.Infrastructure.Persistence
             _context = context;
         }
 
-        public async Task<Appointment?> CreateAppointment(int ownerId, DateTime appointmentDate, string description, int? petId = null)
+        public async Task<Appointment?> CreateAppointment(int ownerId, DateTime appointmentDate, string description, int? petId = null, string? stateName = null)
         {
             bool ownerExists = await _context.Owners.AnyAsync(o => o.Id == ownerId);
             if (!ownerExists) return null;
 
-            var initialState = await _context.States.FirstOrDefaultAsync(s => s.StateName == AppointmentStateNames.Scheduled);
+            var resolvedStateName = stateName ?? AppointmentStateNames.Scheduled;
+            var initialState = await _context.States.FirstOrDefaultAsync(s => s.StateName == resolvedStateName);
             if (initialState == null)
-                throw new InvalidOperationException($"El estado '{AppointmentStateNames.Scheduled}' no existe en la base de datos. Verifica el seed de States.");
+                throw new InvalidOperationException($"El estado '{resolvedStateName}' no existe en la base de datos. Verifica el seed de States.");
 
             var appointment = new Appointment
             {
@@ -36,6 +37,13 @@ namespace PetCare.Infrastructure.Persistence
             _context.Appointments.Add(appointment);
             await _context.SaveChangesAsync();
             return appointment;
+        }
+
+        public async Task<Appointment?> GetByIdAsync(int id)
+        {
+            return await _context.Appointments
+                .Include(a => a.State)
+                .FirstOrDefaultAsync(a => a.Id == id);
         }
 
         public async Task<(List<Appointment> appointments, int totalRecords)> GetAllPagesAsync(
@@ -106,6 +114,48 @@ namespace PetCare.Infrastructure.Persistence
             appointment.StateId = stateId;
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<List<Appointment>> GetByPetIdAsync(int petId)
+        {
+            return await _context.Appointments
+                .Where(a => a.PetId == petId)
+                .Include(a => a.Owner)
+                .Include(a => a.State)
+                .Include(a => a.Pet)
+                    .ThenInclude(p => p!.Specie)
+                .ToListAsync();
+        }
+
+        public async Task<List<Appointment>> GetBillableAppointmentsAsync(int ownerId)
+        {
+            return await (
+                from a in _context.Appointments
+                    .Include(a => a.State)
+                    .Include(a => a.Pet)
+                where a.OwnerId == ownerId
+                    && a.State.StateName == AppointmentStateNames.Completed
+                    && !_context.Invoices.Any(i => i.AppointmentId == a.Id)
+                orderby a.AppointmentDate descending
+                select a
+            ).ToListAsync();
+        }
+
+        public async Task<List<Appointment>> GetScheduledAppointmentsForDateAsync(DateTime date)
+        {
+            var startOfDay = date.Date;
+            var endOfDay = startOfDay.AddDays(1);
+
+            return await (
+                from a in _context.Appointments
+                    .Include(a => a.Owner)
+                    .Include(a => a.Pet)
+                    .Include(a => a.State)
+                where a.AppointmentDate >= startOfDay
+                    && a.AppointmentDate < endOfDay
+                    && a.State.StateName == AppointmentStateNames.Scheduled
+                select a
+            ).ToListAsync();
         }
     }
 }

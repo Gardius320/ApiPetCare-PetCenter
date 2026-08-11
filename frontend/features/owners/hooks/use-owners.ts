@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { ownerService } from "../api/owner.service"
 import type { CreateOwnerDto, UpdateOwnerDto } from "../types/owner.types"
 import { toast } from "sonner"
+import { getErrorMessage } from "@/lib/get-error-message"
 
 export const OWNERS_KEY = ["owners"] as const
 
@@ -27,10 +28,10 @@ export function useCreateOwner() {
     mutationFn: (dto: CreateOwnerDto) => ownerService.create(dto),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: OWNERS_KEY })
-      toast.success("Propietario Creado")  
+      toast.success("Propietario Creado")
     },
-    onError: () => {
-      toast.error("No se pudo crear el propietario")
+    onError: (err) => {
+      toast.error(getErrorMessage(err, "No se pudo crear el propietario"))
     },
   })
 }
@@ -44,8 +45,8 @@ export function useUpdateOwner() {
       qc.invalidateQueries({ queryKey: OWNERS_KEY })
       toast.success("Propietario actualizado")
     },
-    onError: () => {
-      toast.error("No se pudo actualizar el propietario")
+    onError: (err) => {
+      toast.error(getErrorMessage(err, "No se pudo actualizar el propietario"))
     },
   })
 }
@@ -55,15 +56,11 @@ export function useDeleteOwner() {
   return useMutation({
     mutationFn: (id: number) => ownerService.delete(id),
     onSuccess: (data) => {
-      if (data.isSuccess) {
-        qc.invalidateQueries({ queryKey: OWNERS_KEY })
-        toast.success(data.message)
-      } else {
-        toast.error(data.message)
-      }
+      qc.invalidateQueries({ queryKey: OWNERS_KEY })
+      toast.success(data.message)
     },
-    onError: () => {
-      toast.error("El propietario no pudo ser eliminado")
+    onError: (err) => {
+      toast.error(getErrorMessage(err, "El propietario no pudo ser eliminado"))
     }
   })
 }

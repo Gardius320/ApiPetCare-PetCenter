@@ -33,7 +33,7 @@ interface SupplyFormModalProps {
 export function SupplyFormModal({ open, onOpenChange, isSaving, onSave, supply }: SupplyFormModalProps) {
   const isEditing = !!supply
 
-  const { data: categories, isLoading: loadingCategories } = useAllSupplyCategories()
+  const { data: categories, isLoading: loadingCategories } = useAllSupplyCategories({ pageSize: 100 })
 
   const [name, setName]                 = useState(supply?.name ?? "")
   const [description, setDescription]   = useState(supply?.description ?? "")

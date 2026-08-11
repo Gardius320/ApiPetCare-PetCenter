@@ -31,7 +31,7 @@ namespace PetCare.Application.Owners.Commands.DeleteOwner
             }
 
             var mensaje = await _ownerRepository.DeleteOwner(command.Id);
-            return ApiResponse<string>.Success(mensaje);
+            return ApiResponse<string>.Success(mensaje, mensaje);
         }
     }
 }

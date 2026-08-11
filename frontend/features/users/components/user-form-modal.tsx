@@ -10,7 +10,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { FormDialogHeader } from "@/components/shared/form-dialog-header"
 import type { User, CreateUserDto, ChangeRoleDto } from "../types/user.types"
 
-const ROLES = ["Admin", "Veterinarian", "Assistant"]
+const ROLES = [
+  { value: "Admin", label: "Administrador" },
+  { value: "Veterinarian", label: "Veterinario" },
+  { value: "Assistant", label: "Asistente" },
+]
 
 interface UserFormModalProps {
   open: boolean
@@ -125,8 +129,8 @@ export function UserFormModal({ open, onOpenChange, isSaving, onSave, user }: Us
               </SelectTrigger>
               <SelectContent>
                 {ROLES.map((r) => (
-                  <SelectItem key={r} value={r}>{r}</SelectItem>
-                ))}
+                <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>
+                 ))}
               </SelectContent>
             </Select>
           </div>

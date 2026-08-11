@@ -1,7 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { PawPrint, Plus, Dog, Cat, Bird, Rabbit, Fish } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { PawPrint, Plus, Dog, Cat, Bird, Rabbit, Fish, Stethoscope } from "lucide-react"
 import { PetFormModal } from "./pet-form-modal"
 import { useCreatePet, useChangePetState, usePets } from "../hooks/use-pets"
 import { TableSkeleton } from "@/components/shared/table-skeleton"
@@ -19,6 +20,7 @@ function SpeciesIcon({ species }: { species: string }) {
 const PAGE_SIZE = 10
 
 export function PetsTable() {
+  const router = useRouter()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [page, setPage]               = useState(1)
 
@@ -103,18 +105,29 @@ export function PetsTable() {
                     )}
                   </td>
 
-                  {/* Botón Acción */}
+                  {/* Botones Acción */}
                   <td className="py-4 px-4">
-                    <button
-                      onClick={() => changePetState.mutate({ id: pet.id, isActive: !pet.isActive })}
-                      disabled={changePetState.isPending}
-                      className={pet.isActive
-                        ? "bg-red-100 text-red-700 text-xs font-semibold px-3 py-1 rounded-full hover:bg-red-200 transition"
-                        : "bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full hover:bg-green-200 transition"
-                      }
-                    >
-                      {pet.isActive ? "Inactivar" : "Activar"}
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => router.push(`/medical-records?petId=${pet.id}`)}
+                        title="Ver historial clínico"
+                        className="flex items-center gap-1 bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full hover:bg-blue-200 transition"
+                      >
+                        <Stethoscope className="h-3.5 w-3.5" />
+                        Historial
+                      </button>
+
+                      <button
+                        onClick={() => changePetState.mutate({ id: pet.id, isActive: !pet.isActive })}
+                        disabled={changePetState.isPending}
+                        className={pet.isActive
+                          ? "bg-red-100 text-red-700 text-xs font-semibold px-3 py-1 rounded-full hover:bg-red-200 transition"
+                          : "bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full hover:bg-green-200 transition"
+                        }
+                      >
+                        {pet.isActive ? "Inactivar" : "Activar"}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               )
@@ -163,7 +176,7 @@ export function PetsTable() {
         )}
       </div>
 
-      {/* Modal */}
+      {/* Modal crear mascota */}
       <PetFormModal
         open={isModalOpen}
         onOpenChange={setIsModalOpen}

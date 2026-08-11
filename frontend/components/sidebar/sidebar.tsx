@@ -3,8 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, PawPrint, Users, Calendar, Cat, UserCog, ChevronLeft, ChevronRight, Package, LogOut,} from "lucide-react";
+import { LayoutDashboard, PawPrint, Users, Calendar, Cat, UserCog, ChevronLeft, ChevronRight, Package, Wrench, Receipt, LogOut,} from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger,} from "@/components/ui/tooltip";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/features/auth/hooks/use-auth";
 
@@ -21,13 +22,15 @@ const navItems: NavItem[] = [
   { label: "Citas",        href: "/appointments",  icon: Calendar },
   { label: "Especies",     href: "/species",       icon: Cat },
   { label: "Insumos",      href: "/Supply",        icon: Package },
+  { label: "Servicios",    href: "/services",     icon: Wrench },
+  { label: "Facturación",  href: "/invoices",      icon: Receipt },
   { label: "Usuarios",     href: "/users",         icon: UserCog },
 ];
 
 export function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const pathname = usePathname();
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
 
   const logoutButton = (
     <button
@@ -113,6 +116,25 @@ export function Sidebar() {
             aria-hidden="true"
             className="w-[95px] opacity-55 select-none pointer-events-none"
           />
+        </div>
+      )}
+
+      {/* Usuario */}
+      {user && (
+        <div className={cn("flex items-center gap-2 px-3 py-2", collapsed && "justify-center px-0")}>
+          <Avatar className="size-8 shrink-0">
+            <AvatarFallback className="bg-[#1F6F5C]/10 text-[#1F6F5C] text-xs font-semibold">
+              {user.fullName.charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          {!collapsed && (
+            <div className="min-w-0">
+              <p className="text-sm font-medium text-sidebar-foreground truncate">
+                {user.fullName}
+              </p>
+              <p className="text-xs text-[#5B6B66] truncate">{user.role}</p>
+            </div>
+          )}
         </div>
       )}
 

@@ -5,10 +5,29 @@ import axios from 'axios'
 import { authRepository } from '../api/auth.repository'
 import type { LoginDto } from '../types/auth.types'
 
+interface AuthUser {
+  fullName: string
+  role: string
+  email: string
+}
+
+function readUserFromStorage(): AuthUser | null {
+  if (typeof window === 'undefined') return null
+
+  const fullName = localStorage.getItem('fullName')
+  const role = localStorage.getItem('role')
+  const email = localStorage.getItem('email')
+
+  if (!fullName || !role || !email) return null
+
+  return { fullName, role, email }
+}
+
 export function useAuth() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [user, setUser] = useState<AuthUser | null>(readUserFromStorage)
 
   const login = async (dto: LoginDto) => {
     setIsLoading(true)
@@ -26,6 +45,8 @@ export function useAuth() {
       localStorage.setItem('role', response.role)
       localStorage.setItem('fullName', response.fullName)
       localStorage.setItem('email', response.email)
+
+      setUser({ fullName: response.fullName, role: response.role, email: response.email })
 
       router.push('/dashboard')
 
@@ -57,7 +78,6 @@ export function useAuth() {
       }
     } catch (err) {
       console.error('No se pudo revocar el token en backend:', err)
-      
     }
 
     localStorage.removeItem('token')
@@ -66,8 +86,9 @@ export function useAuth() {
     localStorage.removeItem('fullName')
     localStorage.removeItem('email')
 
+    setUser(null)
     router.push('/login')
   }
 
-  return { login, logout, isLoading, error }
+  return { login, logout, isLoading, error, user }
 }
