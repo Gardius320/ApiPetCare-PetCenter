@@ -10,6 +10,7 @@ using PetCare.Application.Appointments.Queries.GetBillableAppointments;
 using PetCare.Application.Appointments.Commands.ChangeAppointmentState;
 using PetCare.Application.Common;
 using PetCare.Domain.DTOs;
+using PetCare.Application.Appointments.Queries.GetAvailableSlots;
 
 [Authorize]
 [ApiController]
@@ -102,6 +103,14 @@ public class AppointmentController : ControllerBase
             return BadRequest(ApiResponse<int?>.Failure("No fue posible registrar la reserva."));
 
         return Ok(ApiResponse<int?>.Success(result, "Solicitud de cita recibida. Te contactaremos para confirmarla."));
+    }
+
+    [HttpGet("AvailableSlots")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetAvailableSlots([FromQuery] DateTime date)
+    {
+        var result = await _mediator.Send(new GetAvailableSlotsQuery { Date = date });
+        return Ok(ApiResponse<List<string>>.Success(result));
     }
 
     [HttpGet("Billable")]

@@ -20,5 +20,8 @@ namespace PetCare.Domain.Interfaces
         Task<List<Appointment>> GetBillableAppointmentsAsync(int ownerId);
 
         Task<List<Appointment>> GetScheduledAppointmentsForDateAsync(DateTime date);
+
+        Task<List<Appointment>> GetActiveAppointmentsForDateAsync(DateTime date);
+
     }
 }

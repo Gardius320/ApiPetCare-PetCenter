@@ -157,5 +157,21 @@ namespace PetCare.Infrastructure.Persistence
                 select a
             ).ToListAsync();
         }
+
+        public async Task<List<Appointment>> GetActiveAppointmentsForDateAsync(DateTime date)
+        {
+            var startOfDay = date.Date;
+            var endOfDay = startOfDay.AddDays(1);
+            return await (
+                from a in _context.Appointments
+                    .Include(a => a.Owner)
+                    .Include(a => a.Pet)
+                    .Include(a => a.State)
+                where a.AppointmentDate >= startOfDay
+                    && a.AppointmentDate < endOfDay
+                    && (a.State.StateName == AppointmentStateNames.Scheduled || a.State.StateName == AppointmentStateNames.PendingConfirmation)
+                select a
+            ).ToListAsync();
+        }
     }
 }
