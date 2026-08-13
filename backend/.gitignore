@@ -16,3 +16,5 @@ appsettings.*.json
 web.config
 **/PublishProfiles/*.pubxml
 .claude/worktrees/
+.claude/settings.local.json
+test-output.txt

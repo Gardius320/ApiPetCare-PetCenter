@@ -24,4 +24,8 @@
     <ProjectReference Include="..\PetCare.Domain\PetCare.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="States\" />
+  </ItemGroup>
+
 </Project>
