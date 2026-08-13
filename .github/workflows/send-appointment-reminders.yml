@@ -1,0 +1,12 @@
+name: Enviar recordatorios de citas
+
+on:
+  schedule:
+    - cron: '0 13 * * *'
+
+jobs:
+  send-reminders:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Llamar al endpoint de recordatorios
+        run: curl -X POST -f -d "" -H "X-Reminder-Token: ${{ secrets.REMINDER_TOKEN }}" http://petapicare-api.somee.com/api/notifications/send-reminders
