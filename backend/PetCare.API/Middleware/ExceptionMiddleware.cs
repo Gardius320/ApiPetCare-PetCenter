@@ -17,11 +17,11 @@ namespace PetCare.API.Middleware
         {
             try
             {
-                
+
                 await _next(context);
             }
             catch (ValidationException ex)
-            {                
+            {
                 var errors = ex.Errors
                     .Select(e => e.ErrorMessage)
                     .ToList();
@@ -32,8 +32,17 @@ namespace PetCare.API.Middleware
                     ApiResponse<object>.Failure("Error de validación", errors)
                 );
             }
+
+            catch (UnauthorizedAccessException ex) 
+            {
+                await WriteResponse(
+                    context,
+                    HttpStatusCode.Unauthorized,
+                    ApiResponse<object>.Failure("Acceso no autorizado: " + ex.Message)
+                );
+            }
             catch (Exception ex)
-            {               
+            {
                 await WriteResponse(
                     context,
                     HttpStatusCode.InternalServerError,
