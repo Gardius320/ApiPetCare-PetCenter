@@ -43,16 +43,16 @@ export function InvoiceTable() {
   const list = invoices ?? []
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-md">
+    <div className="rounded-lg border border-border bg-card p-6 shadow-md">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <Receipt className="h-5 w-5 text-primary" />
-          <h2 className="text-xl font-bold text-gray-800">Lista de Facturas</h2>
+          <h2 className="text-xl font-bold text-foreground">Lista de Facturas</h2>
         </div>
         <Link
           href="/invoices/new"
-          className="flex items-center gap-2 bg-blue-400 text-white px-4 py-2 rounded-lg text-sm hover:opacity-90 transition"
+          className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm hover:opacity-90 transition"
         >
           <Plus className="h-4 w-4" />
           Nueva factura
@@ -62,7 +62,7 @@ export function InvoiceTable() {
       {/* Filtros */}
       <div className="flex flex-wrap items-end gap-4 mb-4">
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm text-gray-600">Estado</label>
+          <label className="text-sm text-muted-foreground">Estado</label>
           <Select value={status} onValueChange={setStatus}>
             <SelectTrigger className="w-[160px]">
               <SelectValue />
@@ -79,22 +79,22 @@ export function InvoiceTable() {
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm text-gray-600">Desde</label>
+          <label className="text-sm text-muted-foreground">Desde</label>
           <input
             type="date"
             value={from}
             onChange={(e) => setFrom(e.target.value)}
-            className="h-9 rounded-md border border-gray-200 px-3 text-sm"
+            className="h-9 rounded-md border border-border px-3 text-sm"
           />
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm text-gray-600">Hasta</label>
+          <label className="text-sm text-muted-foreground">Hasta</label>
           <input
             type="date"
             value={to}
             onChange={(e) => setTo(e.target.value)}
-            className="h-9 rounded-md border border-gray-200 px-3 text-sm"
+            className="h-9 rounded-md border border-border px-3 text-sm"
           />
         </div>
       </div>
@@ -102,19 +102,19 @@ export function InvoiceTable() {
       {/* Tabla */}
       <table className="w-full text-left">
         <thead>
-          <tr className="bg-gray-50">
-            <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">N° Factura</th>
-            <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Dueño</th>
-            <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Fecha</th>
-            <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Total</th>
-            <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Estado</th>
-            <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Acciones</th>
+          <tr className="bg-muted">
+            <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">N° Factura</th>
+            <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Dueño</th>
+            <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Fecha</th>
+            <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Total</th>
+            <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Estado</th>
+            <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Acciones</th>
           </tr>
         </thead>
         <tbody>
           {list.length === 0 && (
             <tr>
-              <td colSpan={6} className="py-16 text-center text-sm text-gray-400">
+              <td colSpan={6} className="py-16 text-center text-sm text-muted-foreground">
                 <Receipt className="mx-auto mb-2 size-8 opacity-25" />
                 No se encontraron facturas
               </td>
@@ -122,17 +122,17 @@ export function InvoiceTable() {
           )}
 
           {list.map((invoice) => (
-            <tr key={invoice.id} className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+            <tr key={invoice.id} className="border-b border-border hover:bg-accent transition-colors">
               <td className="py-4 px-4">
-                <Link href={`/invoices/${invoice.id}`} className="text-blue-600 font-medium hover:underline">
+                <Link href={`/invoices/${invoice.id}`} className="text-primary font-medium hover:underline">
                   {invoice.invoiceNumber}
                 </Link>
               </td>
-              <td className="py-4 px-4 text-gray-600">{ownerName(invoice.ownerId)}</td>
-              <td className="py-4 px-4 text-gray-600">
+              <td className="py-4 px-4 text-muted-foreground">{ownerName(invoice.ownerId)}</td>
+              <td className="py-4 px-4 text-muted-foreground">
                 {new Date(invoice.issueDate).toLocaleDateString("es-CO")}
               </td>
-              <td className="py-4 px-4 text-gray-700 font-medium">
+              <td className="py-4 px-4 text-foreground font-medium font-mono">
                 ${invoice.total.toLocaleString("es-CO", { minimumFractionDigits: 2 })}
               </td>
               <td className="py-4 px-4">
@@ -142,7 +142,7 @@ export function InvoiceTable() {
                 {invoice.status === InvoiceStatus.Pending && (
                   <button
                     onClick={() => setPayDialogInvoice({ id: invoice.id, invoiceNumber: invoice.invoiceNumber })}
-                    className="flex items-center gap-1 bg-green-100 text-green-700 text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-green-200 transition"
+                    className="flex items-center gap-1 bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-emerald-200 transition"
                   >
                     <CircleDollarSign className="h-3 w-3" />
                     Marcar pagada

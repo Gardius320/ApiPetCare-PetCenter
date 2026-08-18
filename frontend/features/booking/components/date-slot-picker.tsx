@@ -45,11 +45,11 @@ export function DateSlotPicker({
           <Label>Horario disponible</Label>
 
           {isLoading && (
-            <p className="text-sm text-[#5B6B66]">Cargando horarios...</p>
+            <p className="text-sm text-muted-foreground">Cargando horarios...</p>
           )}
 
           {!isLoading && slots && slots.length === 0 && (
-            <p className="text-sm text-[#5B6B66]">
+            <p className="text-sm text-muted-foreground">
               No hay horarios disponibles ese día. Intenta con otra fecha.
             </p>
           )}
@@ -63,7 +63,7 @@ export function DateSlotPicker({
                   variant={hora === selectedSlot ? "default" : "outline"}
                   className={
                     hora === selectedSlot
-                      ? "bg-[#1F6F5C] text-white hover:bg-[#18594a]"
+                      ? "bg-primary text-primary-foreground hover:bg-primary/90"
                       : ""
                   }
                   onClick={() => onSlotChange(hora)}

@@ -118,7 +118,7 @@ const owners = data?.items ?? []
             <Button
               type="submit"
               disabled={!isValid || isSaving}
-              className="bg-[#1F6F5C] text-white hover:bg-[#18594a]"
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
             >
               {isSaving ? "Guardando..." : "Guardar mascota"}
             </Button>

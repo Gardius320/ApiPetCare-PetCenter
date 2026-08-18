@@ -119,10 +119,10 @@ export function InvoiceForm() {
   }
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-md space-y-6">
+    <div className="rounded-lg border border-border bg-card p-6 shadow-md space-y-6">
       <div className="flex items-center gap-2">
         <Receipt className="h-5 w-5 text-primary" />
-        <h2 className="text-xl font-bold text-gray-800">Nueva factura</h2>
+        <h2 className="text-xl font-bold text-foreground">Nueva factura</h2>
       </div>
 
       {/* Owner / Appointment */}
@@ -169,10 +169,10 @@ export function InvoiceForm() {
       {/* Items */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="font-semibold text-gray-800">Ítems</h3>
+          <h3 className="font-semibold text-foreground">Ítems</h3>
           <button
             onClick={addItem}
-            className="flex items-center gap-1 bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-blue-200 transition"
+            className="flex items-center gap-1 bg-secondary text-secondary-foreground text-xs font-semibold px-3 py-1.5 rounded-full hover:opacity-90 transition"
           >
             <Plus className="h-3 w-3" />
             Agregar ítem
@@ -186,10 +186,10 @@ export function InvoiceForm() {
               item.itemType === InvoiceItemType.Supply && !!supply && item.quantity > supply.currentStock
 
             return (
-              <div key={item.key} className="rounded-xl border border-gray-200 p-4 space-y-3">
+              <div key={item.key} className="rounded-lg border border-border p-4 space-y-3">
                 <div className="grid grid-cols-1 sm:grid-cols-[140px_1fr] gap-3">
                   <div className="flex flex-col gap-1.5">
-                    <Label className="text-xs text-gray-500">Tipo</Label>
+                    <Label className="text-xs text-muted-foreground">Tipo</Label>
                     <Select
                       value={String(item.itemType)}
                       onValueChange={(v) => handleTypeChange(item.key, Number(v) as InvoiceItemType)}
@@ -206,7 +206,7 @@ export function InvoiceForm() {
 
                   {item.itemType === InvoiceItemType.Service ? (
                     <div className="flex flex-col gap-1.5">
-                      <Label className="text-xs text-gray-500">Servicio</Label>
+                      <Label className="text-xs text-muted-foreground">Servicio</Label>
                       <Select
                         value={item.serviceId ? String(item.serviceId) : ""}
                         onValueChange={(v) => handleServiceChange(item.key, v)}
@@ -225,7 +225,7 @@ export function InvoiceForm() {
                     </div>
                   ) : (
                     <div className="flex flex-col gap-1.5">
-                      <Label className="text-xs text-gray-500">Insumo</Label>
+                      <Label className="text-xs text-muted-foreground">Insumo</Label>
                       <Select
                         value={item.supplyId ? String(item.supplyId) : ""}
                         onValueChange={(v) => handleSupplyChange(item.key, v)}
@@ -247,7 +247,7 @@ export function InvoiceForm() {
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 items-end">
                   <div className="flex flex-col gap-1.5">
-                    <Label className="text-xs text-gray-500">Cantidad</Label>
+                    <Label className="text-xs text-muted-foreground">Cantidad</Label>
                     <Input
                       type="number"
                       min={1}
@@ -255,14 +255,14 @@ export function InvoiceForm() {
                       onChange={(e) => updateItem(item.key, { quantity: Number(e.target.value) })}
                     />
                     {supply && (
-                      <span className={`text-xs ${overStock ? "text-red-600 font-semibold" : "text-gray-400"}`}>
+                      <span className={`text-xs ${overStock ? "text-destructive font-semibold" : "text-muted-foreground"}`}>
                         Disponible: {supply.currentStock}
                       </span>
                     )}
                   </div>
 
                   <div className="flex flex-col gap-1.5">
-                    <Label className="text-xs text-gray-500">Precio unitario</Label>
+                    <Label className="text-xs text-muted-foreground">Precio unitario</Label>
                     <Input
                       type="number"
                       min={0}
@@ -273,8 +273,8 @@ export function InvoiceForm() {
                   </div>
 
                   <div className="flex flex-col gap-1.5">
-                    <Label className="text-xs text-gray-500">Subtotal ítem</Label>
-                    <div className="h-9 flex items-center text-sm font-medium text-gray-700">
+                    <Label className="text-xs text-muted-foreground">Subtotal ítem</Label>
+                    <div className="h-9 flex items-center text-sm font-medium text-foreground font-mono">
                       ${(item.quantity * item.unitPrice).toLocaleString("es-CO", { minimumFractionDigits: 2 })}
                     </div>
                   </div>
@@ -283,7 +283,7 @@ export function InvoiceForm() {
                     <button
                       onClick={() => removeItem(item.key)}
                       disabled={items.length === 1}
-                      className="flex items-center gap-1 bg-red-100 text-red-700 text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-red-200 transition disabled:opacity-40"
+                      className="flex items-center gap-1 bg-destructive/10 text-destructive text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-destructive/20 transition disabled:opacity-40"
                     >
                       <Trash2 className="h-3 w-3" />
                       Quitar
@@ -297,19 +297,19 @@ export function InvoiceForm() {
       </div>
 
       {/* Totales */}
-      <div className="rounded-xl bg-gray-50 border border-gray-200 p-4 space-y-1">
-        <p className="text-xs text-gray-400 mb-2">
+      <div className="rounded-lg bg-muted border border-border p-4 space-y-1">
+        <p className="text-xs text-muted-foreground mb-2">
           Previsualización — el total final se calcula y confirma al guardar en el servidor.
         </p>
-        <div className="flex justify-between text-sm text-gray-600">
+        <div className="flex justify-between text-sm text-muted-foreground">
           <span>Subtotal</span>
-          <span>${subtotal.toLocaleString("es-CO", { minimumFractionDigits: 2 })}</span>
+          <span className="font-mono">${subtotal.toLocaleString("es-CO", { minimumFractionDigits: 2 })}</span>
         </div>
-        <div className="flex justify-between text-sm text-gray-600">
+        <div className="flex justify-between text-sm text-muted-foreground">
           <span>IVA</span>
           <span>Se calcula al guardar</span>
         </div>
-        <div className="flex justify-between text-base font-bold text-gray-800 pt-1 border-t border-gray-200 mt-1">
+        <div className="flex justify-between text-base font-bold text-foreground pt-1 border-t border-border mt-1">
           <span>Total</span>
           <span>Se calcula al guardar</span>
         </div>
@@ -324,7 +324,7 @@ export function InvoiceForm() {
           type="button"
           onClick={handleSubmit}
           disabled={!isValid || createInvoice.isPending}
-          className="bg-[#1F6F5C] text-white hover:bg-[#18594a]"
+          className="bg-primary text-primary-foreground hover:opacity-90"
         >
           {createInvoice.isPending ? "Guardando..." : "Guardar factura"}
         </Button>

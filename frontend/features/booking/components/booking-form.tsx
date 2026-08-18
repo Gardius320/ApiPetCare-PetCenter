@@ -155,7 +155,7 @@ export function BookingForm({ date, slot, onSubmit, isSubmitting }: Props) {
       <Button
         type="submit"
         disabled={!isValid || isSubmitting}
-        className="w-full bg-[#1F6F5C] text-white hover:bg-[#18594a]"
+        className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
       >
         {isSubmitting ? "Enviando solicitud..." : "Reservar cita"}
       </Button>

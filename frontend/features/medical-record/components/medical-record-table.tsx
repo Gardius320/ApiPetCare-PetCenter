@@ -33,7 +33,7 @@ export function MedicalRecordTable({ petId, onCreateClick, onEditClick }: Medica
   <div className="timeline-actions flex gap-3">
     <button
       onClick={onCreateClick}
-      className="flex items-center gap-1 bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-blue-200 transition" >
+      className="flex items-center gap-1 bg-primary text-primary-foreground text-xs font-semibold px-3 py-1.5 rounded-full hover:opacity-90 transition" >
       <NotebookPen className="h-4 w-4" />
       Nuevo Historial
     </button>
@@ -62,11 +62,11 @@ export function MedicalRecordTable({ petId, onCreateClick, onEditClick }: Medica
               )}
             </div>
             <div className="timeline-actions flex gap-3">
-             <button onClick={() => onEditClick(record)} 
-             className="flex items-center gap-1 bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-blue-200 transition" >
+             <button onClick={() => onEditClick(record)}
+             className="flex items-center gap-1 bg-secondary text-secondary-foreground text-xs font-semibold px-3 py-1.5 rounded-full hover:opacity-90 transition" >
               <Pencil className="h-3 w-3" /> Editar</button>
               <button onClick={() => handleDelete(record.id)}
-               className="flex items-center gap-1 bg-red-100 text-red-700 text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-red-200 transition" >
+               className="flex items-center gap-1 bg-destructive/10 text-destructive text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-destructive/20 transition" >
                <Trash2 className="h-3 w-3" /> Eliminar</button>
               </div>
           </li>

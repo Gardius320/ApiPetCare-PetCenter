@@ -60,7 +60,7 @@ export function SupplyCategoriesModal({ open, onOpenChange }: SupplyCategoriesMo
           <div className="flex justify-end -mt-2 mb-2">
             <Button
               onClick={() => { setEditingCategory(undefined); setIsFormOpen(true) }}
-              className="bg-[#1F6F5C] text-white hover:bg-[#18594a]"
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
               size="sm"
             >
               <Plus className="h-4 w-4 mr-1" />
@@ -71,35 +71,35 @@ export function SupplyCategoriesModal({ open, onOpenChange }: SupplyCategoriesMo
           <div className="max-h-80 overflow-y-auto">
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="bg-[#F5F7F4]">
-                  <th className="border-b border-[#16302B]/10 py-2 px-3 text-[11px] font-medium uppercase tracking-wide text-[#5B6B66]">Nombre</th>
-                  <th className="border-b border-[#16302B]/10 py-2 px-3 text-[11px] font-medium uppercase tracking-wide text-[#5B6B66]">Descripción</th>
-                  <th className="border-b border-[#16302B]/10 py-2 px-3 text-[11px] font-medium uppercase tracking-wide text-[#5B6B66]">Acciones</th>
+                <tr className="bg-muted">
+                  <th className="border-b border-border py-2 px-3 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Nombre</th>
+                  <th className="border-b border-border py-2 px-3 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Descripción</th>
+                  <th className="border-b border-border py-2 px-3 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 {isLoading && (
-                  <tr><td colSpan={3} className="py-8 text-center text-[#5B6B66]">Cargando categorías...</td></tr>
+                  <tr><td colSpan={3} className="py-8 text-center text-muted-foreground">Cargando categorías...</td></tr>
                 )}
                 {!isLoading && (categories?.length ?? 0) === 0 && (
-                  <tr><td colSpan={3} className="py-8 text-center text-[#5B6B66]">No hay categorías registradas</td></tr>
+                  <tr><td colSpan={3} className="py-8 text-center text-muted-foreground">No hay categorías registradas</td></tr>
                 )}
                 {categories?.map((cat) => (
-                  <tr key={cat.id} className="border-b border-[#16302B]/5 transition-colors hover:bg-[#1F6F5C]/5">
-                    <td className="py-2 px-3 font-medium text-[#16302B]">{cat.name}</td>
-                    <td className="py-2 px-3 text-[#5B6B66]">{cat.description || "—"}</td>
+                  <tr key={cat.id} className="border-b border-border transition-colors hover:bg-accent">
+                    <td className="py-2 px-3 font-medium text-foreground">{cat.name}</td>
+                    <td className="py-2 px-3 text-muted-foreground">{cat.description || "—"}</td>
                     <td className="py-2 px-3">
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleEdit(cat)}
-                          className="rounded-full bg-[#1F6F5C]/10 px-3 py-1 text-xs font-semibold text-[#1F6F5C] transition hover:bg-[#1F6F5C]/20"
+                          className="rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-secondary-foreground transition hover:opacity-90"
                         >
                           <Pencil className="h-3 w-3 inline mr-1" />
                           Editar
                         </button>
                         <button
                           onClick={() => handleDelete(cat)}
-                          className="rounded-full bg-[#B5443A]/10 px-3 py-1 text-xs font-semibold text-[#B5443A] transition hover:bg-[#B5443A]/20"
+                          className="rounded-full bg-destructive/10 px-3 py-1 text-xs font-semibold text-destructive transition hover:bg-destructive/20"
                         >
                           <Trash2 className="h-3 w-3 inline mr-1" />
                           Eliminar

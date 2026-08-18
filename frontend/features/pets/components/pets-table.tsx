@@ -44,17 +44,17 @@ export function PetsTable() {
 
   return (
     <>
-      <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-md">
+      <div className="rounded-lg border border-border bg-card p-6 shadow-md">
 
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <PawPrint className="h-5 w-5 text-primary" />
-            <h2 className="text-xl font-bold text-gray-800">Lista de Mascotas</h2>
+            <h2 className="text-xl font-bold text-foreground">Lista de Mascotas</h2>
           </div>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-2 bg-blue-400 text-white px-4 py-2 rounded-lg text-sm hover:opacity-90 transition"
+            className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm hover:opacity-90 transition"
           >
             <Plus className="h-4 w-4" />
             Nueva mascota
@@ -64,13 +64,13 @@ export function PetsTable() {
         {/* Tabla */}
         <table className="w-full text-left">
           <thead>
-            <tr className="bg-gray-50">
-              <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Nombre</th>
-              <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Especie</th>
-              <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Propietario</th>
-              <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Email</th>
-              <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Estado</th>
-              <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Acciones</th>
+            <tr className="bg-muted">
+              <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Nombre</th>
+              <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Especie</th>
+              <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Propietario</th>
+              <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Email</th>
+              <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Estado</th>
+              <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -78,24 +78,24 @@ export function PetsTable() {
               return (
                 <tr
                   key={pet.id}
-                  className="border-b border-gray-100 hover:bg-blue-50 transition-colors"
+                  className="border-b border-border hover:bg-accent transition-colors"
                 >
-                  <td className="py-4 px-4 text-gray-700 font-medium">{pet.name}</td>
+                  <td className="py-4 px-4 text-foreground font-medium">{pet.name}</td>
 
-                  <td className="py-4 px-4 text-gray-600">
+                  <td className="py-4 px-4 text-muted-foreground">
                     <span className="flex items-center gap-1.5">
                       <SpeciesIcon species={pet.species} />
                       {pet.species}
                     </span>
                   </td>
 
-                  <td className="py-4 px-4 text-gray-600">{pet.ownerName}</td>
-                  <td className="py-4 px-4 text-gray-600">{pet.emailOwner}</td>
+                  <td className="py-4 px-4 text-muted-foreground">{pet.ownerName}</td>
+                  <td className="py-4 px-4 text-muted-foreground">{pet.emailOwner}</td>
 
                   {/* Badge Estado */}
                   <td className="py-4 px-4">
                     {pet.isActive ? (
-                      <span className="bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full">
+                      <span className="bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1 rounded-full">
                         Activo
                       </span>
                     ) : (
@@ -111,7 +111,7 @@ export function PetsTable() {
                       <button
                         onClick={() => router.push(`/medical-records?petId=${pet.id}`)}
                         title="Ver historial clínico"
-                        className="flex items-center gap-1 bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full hover:bg-blue-200 transition"
+                        className="flex items-center gap-1 bg-secondary text-secondary-foreground text-xs font-semibold px-3 py-1 rounded-full hover:opacity-90 transition"
                       >
                         <Stethoscope className="h-3.5 w-3.5" />
                         Historial
@@ -121,8 +121,8 @@ export function PetsTable() {
                         onClick={() => changePetState.mutate({ id: pet.id, isActive: !pet.isActive })}
                         disabled={changePetState.isPending}
                         className={pet.isActive
-                          ? "bg-red-100 text-red-700 text-xs font-semibold px-3 py-1 rounded-full hover:bg-red-200 transition"
-                          : "bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full hover:bg-green-200 transition"
+                          ? "bg-destructive/10 text-destructive text-xs font-semibold px-3 py-1 rounded-full hover:bg-destructive/20 transition"
+                          : "bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1 rounded-full hover:bg-emerald-200 transition"
                         }
                       >
                         {pet.isActive ? "Inactivar" : "Activar"}
@@ -137,7 +137,7 @@ export function PetsTable() {
 
         {/* Paginación */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between border-t border-gray-200 px-2 py-3 mt-2 text-sm text-gray-500">
+          <div className="flex items-center justify-between border-t border-border px-2 py-3 mt-2 text-sm text-muted-foreground">
             <span>
               Mostrando {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, total)} de {total} mascotas
             </span>
@@ -145,7 +145,7 @@ export function PetsTable() {
               <button
                 disabled={page === 1}
                 onClick={() => setPage((p) => p - 1)}
-                className="px-3 py-1 rounded border border-gray-200 hover:bg-gray-50 disabled:opacity-40 transition"
+                className="px-3 py-1 rounded border border-border hover:bg-muted disabled:opacity-40 transition"
               >
                 ←
               </button>
@@ -156,8 +156,8 @@ export function PetsTable() {
                   onClick={() => setPage(p)}
                   className={`px-3 py-1 rounded border transition ${
                     p === page
-                      ? "bg-blue-400 text-white border-blue-400"
-                      : "border-gray-200 hover:bg-gray-50"
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "border-border hover:bg-muted"
                   }`}
                 >
                   {p}
@@ -167,7 +167,7 @@ export function PetsTable() {
               <button
                 disabled={page === totalPages}
                 onClick={() => setPage((p) => p + 1)}
-                className="px-3 py-1 rounded border border-gray-200 hover:bg-gray-50 disabled:opacity-40 transition"
+                className="px-3 py-1 rounded border border-border hover:bg-muted disabled:opacity-40 transition"
               >
                 →
               </button>

@@ -58,7 +58,7 @@ export function UsersTable() {
     <div className="p-6 space-y-4">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Usuarios</h1>
-        <Button onClick={handleNew} className="bg-blue-400 hover:bg-blue-600 text-white">
+        <Button onClick={handleNew} className="bg-primary hover:opacity-90 text-primary-foreground">
           + Nuevo Usuario
         </Button>
       </div>

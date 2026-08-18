@@ -151,7 +151,7 @@ export function AppointmentFormModal({ open, onOpenChange, selected }: Props) {
             type="button"
             onClick={handleSave}
             disabled={isEditing ? !date || isPending : !ownerId || !petId || !date || isPending}
-            className="bg-[#1F6F5C] text-white hover:bg-[#18594a]"
+            className="bg-primary text-primary-foreground hover:bg-primary/90"
           >
             {isPending ? "Guardando..." : isEditing ? "Actualizar cita" : "Guardar cita"}
           </Button>

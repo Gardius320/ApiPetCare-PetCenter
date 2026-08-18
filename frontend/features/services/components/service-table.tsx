@@ -66,17 +66,17 @@ export function ServiceTable({ services, isLoading, search, onSearchChange, onDe
 
   return (
     <>
-      <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-md">
+      <div className="rounded-lg border border-border bg-card p-6 shadow-md">
 
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <Wrench className="h-5 w-5 text-primary" />
-            <h2 className="text-xl font-bold text-gray-800">Lista de Servicios</h2>
+            <h2 className="text-xl font-bold text-foreground">Lista de Servicios</h2>
           </div>
           <button
             onClick={() => { setEditingService(undefined); setIsModalOpen(true) }}
-            className="flex items-center gap-2 bg-blue-400 text-white px-4 py-2 rounded-lg text-sm hover:opacity-90 transition"
+            className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm hover:opacity-90 transition"
           >
             <Plus className="h-4 w-4" />
             Nuevo servicio
@@ -85,7 +85,7 @@ export function ServiceTable({ services, isLoading, search, onSearchChange, onDe
 
         {/* Buscador */}
         <div className="relative mb-4 max-w-xs">
-          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Buscar servicio..."
             value={search}
@@ -97,12 +97,12 @@ export function ServiceTable({ services, isLoading, search, onSearchChange, onDe
         {/* Tabla */}
         <table className="w-full text-left">
           <thead>
-            <tr className="bg-gray-50">
-              <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Nombre</th>
-              <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Descripción</th>
-              <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Precio</th>
-              <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Estado</th>
-              <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Acciones</th>
+            <tr className="bg-muted">
+              <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Nombre</th>
+              <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Descripción</th>
+              <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Precio</th>
+              <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Estado</th>
+              <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -110,7 +110,7 @@ export function ServiceTable({ services, isLoading, search, onSearchChange, onDe
             {/* Empty */}
             {services.length === 0 && (
               <tr>
-                <td colSpan={5} className="py-16 text-center text-sm text-gray-400">
+                <td colSpan={5} className="py-16 text-center text-sm text-muted-foreground">
                   <Wrench className="mx-auto mb-2 size-8 opacity-25" />
                   No hay servicios registrados
                 </td>
@@ -121,16 +121,16 @@ export function ServiceTable({ services, isLoading, search, onSearchChange, onDe
             {services.map((service) => (
               <tr
                 key={service.id}
-                className="border-b border-gray-100 hover:bg-blue-50 transition-colors"
+                className="border-b border-border hover:bg-accent transition-colors"
               >
-                <td className="py-4 px-4 text-gray-700 font-medium">{service.name}</td>
-                <td className="py-4 px-4 text-gray-600">{service.description || "—"}</td>
-                <td className="py-4 px-4 text-gray-600">{currencyFormatter.format(service.price)}</td>
+                <td className="py-4 px-4 text-foreground font-medium">{service.name}</td>
+                <td className="py-4 px-4 text-muted-foreground">{service.description || "—"}</td>
+                <td className="py-4 px-4 text-muted-foreground font-mono">{currencyFormatter.format(service.price)}</td>
 
                 {/* Badge Estado */}
                 <td className="py-4 px-4">
                   {service.isActive ? (
-                    <Badge className="bg-green-100 text-green-700 hover:bg-green-100">Activo</Badge>
+                    <Badge className="bg-emerald-100 text-emerald-800 hover:bg-emerald-100">Activo</Badge>
                   ) : (
                     <Badge className="bg-red-100 text-red-700 hover:bg-red-100">Inactivo</Badge>
                   )}
@@ -141,7 +141,7 @@ export function ServiceTable({ services, isLoading, search, onSearchChange, onDe
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => handleEdit(service)}
-                      className="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full hover:bg-blue-200 transition"
+                      className="bg-secondary text-secondary-foreground text-xs font-semibold px-3 py-1 rounded-full hover:opacity-90 transition"
                     >
                       <Pencil className="h-3 w-3 inline mr-1" />
                       Editar
@@ -152,7 +152,7 @@ export function ServiceTable({ services, isLoading, search, onSearchChange, onDe
                           onDelete(service.id)
                         }
                       }}
-                      className="bg-red-100 text-red-700 text-xs font-semibold px-3 py-1 rounded-full hover:bg-red-200 transition"
+                      className="bg-destructive/10 text-destructive text-xs font-semibold px-3 py-1 rounded-full hover:bg-destructive/20 transition"
                     >
                       <Trash2 className="h-3 w-3 inline mr-1" />
                       Eliminar

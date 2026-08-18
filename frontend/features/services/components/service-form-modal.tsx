@@ -102,7 +102,7 @@ export function ServiceFormModal({ open, onOpenChange, isSaving, onSave, service
             <Button
               type="submit"
               disabled={!isValid || isSaving}
-              className="bg-[#1F6F5C] text-white hover:bg-[#18594a]"
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
             >
               {isSaving ? "Guardando..." : isEditing ? "Guardar cambios" : "Crear servicio"}
             </Button>

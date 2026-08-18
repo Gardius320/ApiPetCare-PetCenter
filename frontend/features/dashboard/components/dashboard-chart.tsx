@@ -1,29 +1,18 @@
 "use client"
 
-import {
-  BarChart,
-  Bar,
-  Cell,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts"
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,} from "recharts"
 
 interface DashboardChartProps {
+  title: string
   data: { status: string; count: number }[]
 }
 
-const STATUS_COLOR: Record<string, string> = {
-  Activos: "#1F6F5C",
-  Inactivos: "#E0A458",
-}
+const CHART_COLORS = ["#1F6F5C", "#FF8C6B", "#E0A458", "#5B6B66", "#16302B"]
 
-export function DashboardChart({ data }: DashboardChartProps) {
+export function DashboardChart({ title, data }: DashboardChartProps) {
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-md font-[family-name:var(--font-inter)]">
-      <h2 className="flex items-center gap-2 font-[family-name:var(--font-space-grotesk)] font-medium text-xl text-[#16302B] mb-4">
+    <div className="rounded-lg border border-border bg-card p-6 shadow-md">
+      <h2 className="flex items-center gap-2 font-heading font-medium text-xl text-foreground mb-4">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/decorations/paw-print.svg"
@@ -31,10 +20,10 @@ export function DashboardChart({ data }: DashboardChartProps) {
           aria-hidden="true"
           className="w-[14px] h-[14px]"
         />
-        Mascotas por estado
+        {title}
       </h2>
 
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="80%" height={150}>
         <BarChart data={data}>
           <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
           <XAxis dataKey="status" stroke="#6b7280" />
@@ -43,10 +32,10 @@ export function DashboardChart({ data }: DashboardChartProps) {
             contentStyle={{ borderRadius: "8px", border: "1px solid #e5e7eb" }}
           />
           <Bar dataKey="count" radius={[8, 8, 0, 0]}>
-            {data.map((entry) => (
+            {data.map((entry, index) => (
               <Cell
                 key={entry.status}
-                fill={STATUS_COLOR[entry.status] ?? "#1F6F5C"}
+                fill={CHART_COLORS[index % CHART_COLORS.length]}
               />
             ))}
           </Bar>

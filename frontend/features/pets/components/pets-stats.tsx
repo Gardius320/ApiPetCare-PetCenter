@@ -1,11 +1,5 @@
 import { PawPrint, Heart, Archive } from "lucide-react"
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardAction,
-} from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardAction,} from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
 import { petService } from "../api/pet.service"
@@ -27,22 +21,22 @@ const STATS: {
     key: "total",
     label: "Total Mascotas",
     icon: PawPrint,
-    iconColor: "text-blue-600",
-    iconBg: "bg-blue-50",
+    iconColor: "text-primary",
+    iconBg: "bg-accent",
   },
   {
     key: "active",
     label: "Activas",
     icon: Heart,
-    iconColor: "text-green-600",
-    iconBg: "bg-green-50",
+    iconColor: "text-emerald-700",
+    iconBg: "bg-emerald-100",
   },
   {
     key: "inactive",
     label: "Inactivas",
     icon: Archive,
-    iconColor: "text-gray-500",
-    iconBg: "bg-gray-100",
+    iconColor: "text-muted-foreground",
+    iconBg: "bg-muted",
   },
 ]
 

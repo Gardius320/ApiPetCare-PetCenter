@@ -29,22 +29,22 @@ const STATS: {
     key: "total",
     label: "Total Propietarios",
     icon: Users,
-    iconColor: "text-blue-600",
-    iconBg: "bg-blue-50",
+    iconColor: "text-primary",
+    iconBg: "bg-accent",
   },
   {
     key: "male",
     label: "Hombres",
     icon: UserCheck,
-    iconColor: "text-sky-600",
-    iconBg: "bg-sky-50",
+    iconColor: "text-[#1F6F5C]",
+    iconBg: "bg-accent",
   },
   {
     key: "female",
     label: "Mujeres",
     icon: UserCheck,
-    iconColor: "text-pink-600",
-    iconBg: "bg-pink-50",
+    iconColor: "text-[#FF8C6B]",
+    iconBg: "bg-secondary",
   },
 ]
 

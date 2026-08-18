@@ -71,24 +71,24 @@ export function SuppliesTable({
 
   return (
     <>
-      <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-md">
+      <div className="rounded-lg border border-border bg-card p-6 shadow-md">
 
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <Package className="h-5 w-5 text-primary" />
-            <h2 className="text-xl font-bold text-gray-800">Lista de Insumos</h2>
+            <h2 className="text-xl font-bold text-foreground">Lista de Insumos</h2>
           </div>
           <div className="flex gap-2">
             <button
               onClick={() => setIsCategoriesModalOpen(true)}
-              className="flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-200 transition"
+              className="flex items-center gap-2 bg-muted text-foreground px-4 py-2 rounded-lg text-sm hover:bg-accent transition"
             >
               Gestionar categorías
             </button>
             <button
               onClick={() => { setEditingSupply(undefined); setIsModalOpen(true) }}
-              className="flex items-center gap-2 bg-blue-400 text-white px-4 py-2 rounded-lg text-sm hover:opacity-90 transition"
+              className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm hover:opacity-90 transition"
             >
               <Plus className="h-4 w-4" />
               Nuevo insumo
@@ -99,12 +99,12 @@ export function SuppliesTable({
         {/* Tabla */}
         <table className="w-full text-left">
           <thead>
-            <tr className="bg-gray-50">
-              <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Nombre</th>
-              <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Categoría</th>
-              <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Unidad</th>
-              <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Stock</th>
-              <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Acciones</th>
+            <tr className="bg-muted">
+              <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Nombre</th>
+              <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Categoría</th>
+              <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Unidad</th>
+              <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Stock</th>
+              <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -112,7 +112,7 @@ export function SuppliesTable({
             {/* Empty */}
             {supplies.length === 0 && (
               <tr>
-                <td colSpan={5} className="py-16 text-center text-sm text-gray-400">
+                <td colSpan={5} className="py-16 text-center text-sm text-muted-foreground">
                   <Package className="mx-auto mb-2 size-8 opacity-25" />
                   No se encontraron insumos
                 </td>
@@ -126,13 +126,13 @@ export function SuppliesTable({
               return (
                 <tr
                   key={supply.id}
-                  className="border-b border-gray-100 hover:bg-blue-50 transition-colors"
+                  className="border-b border-border hover:bg-accent transition-colors"
                 >
-                  <td className="py-4 px-4 text-gray-700 font-medium">{supply.name}</td>
-                  <td className="py-4 px-4 text-gray-600">{supply.categoryName}</td>
-                  <td className="py-4 px-4 text-gray-600">{supply.unit}</td>
+                  <td className="py-4 px-4 text-foreground font-medium">{supply.name}</td>
+                  <td className="py-4 px-4 text-muted-foreground">{supply.categoryName}</td>
+                  <td className="py-4 px-4 text-muted-foreground">{supply.unit}</td>
                   <td className="py-4 px-4">
-                    <span className={lowStock ? "text-orange-600 font-semibold" : "text-gray-600"}>
+                    <span className={lowStock ? "text-orange-600 font-semibold" : "text-muted-foreground"}>
                       {supply.currentStock} / {supply.minimumStock}
                     </span>
                   </td>
@@ -142,7 +142,7 @@ export function SuppliesTable({
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => handleEdit(supply)}
-                        className="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full hover:bg-blue-200 transition"
+                        className="bg-secondary text-secondary-foreground text-xs font-semibold px-3 py-1 rounded-full hover:opacity-90 transition"
                       >
                         <Pencil className="h-3 w-3 inline mr-1" />
                         Editar
@@ -153,7 +153,7 @@ export function SuppliesTable({
                             toggleStatus.mutate(supply.id)
                           }
                         }}
-                        className="bg-red-100 text-red-700 text-xs font-semibold px-3 py-1 rounded-full hover:bg-red-200 transition"
+                        className="bg-destructive/10 text-destructive text-xs font-semibold px-3 py-1 rounded-full hover:bg-destructive/20 transition"
                       >
                         <Trash2 className="h-3 w-3 inline mr-1" />
                         Eliminar
@@ -168,7 +168,7 @@ export function SuppliesTable({
 
         {/* Paginación */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between border-t border-gray-200 px-2 py-3 mt-2 text-sm text-gray-500">
+          <div className="flex items-center justify-between border-t border-border px-2 py-3 mt-2 text-sm text-muted-foreground">
             <span>
               Mostrando {(page - 1) * pageSize + 1}–{Math.min(page * pageSize, totalRecords)} de {totalRecords} insumos
             </span>
@@ -176,7 +176,7 @@ export function SuppliesTable({
               <button
                 disabled={page === 1}
                 onClick={() => onPageChange(page - 1)}
-                className="px-3 py-1 rounded border border-gray-200 hover:bg-gray-50 disabled:opacity-40 transition"
+                className="px-3 py-1 rounded border border-border hover:bg-muted disabled:opacity-40 transition"
               >
                 ←
               </button>
@@ -187,8 +187,8 @@ export function SuppliesTable({
                   onClick={() => onPageChange(p)}
                   className={`px-3 py-1 rounded border transition ${
                     p === page
-                      ? "bg-blue-400 text-white border-blue-400"
-                      : "border-gray-200 hover:bg-gray-50"
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "border-border hover:bg-muted"
                   }`}
                 >
                   {p}
@@ -198,7 +198,7 @@ export function SuppliesTable({
               <button
                 disabled={page === totalPages}
                 onClick={() => onPageChange(page + 1)}
-                className="px-3 py-1 rounded border border-gray-200 hover:bg-gray-50 disabled:opacity-40 transition"
+                className="px-3 py-1 rounded border border-border hover:bg-muted disabled:opacity-40 transition"
               >
                 →
               </button>

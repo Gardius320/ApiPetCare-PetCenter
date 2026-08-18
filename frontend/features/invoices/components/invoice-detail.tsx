@@ -24,7 +24,7 @@ export function InvoiceDetail({ id }: Props) {
 )
 
   if (isLoading || !data) {
-    return <p className="p-4 text-sm text-gray-500">Cargando factura...</p>
+    return <p className="p-4 text-sm text-muted-foreground">Cargando factura...</p>
   }
 
   const { invoice, items } = data
@@ -58,13 +58,13 @@ export function InvoiceDetail({ id }: Props) {
       </div>
 
       {/* Contenido imprimible */}
-      <div className="invoice-detail rounded-2xl border border-gray-200 bg-white p-6 shadow-md space-y-6">
+      <div className="invoice-detail rounded-lg border border-border bg-card p-6 shadow-md space-y-6">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-2">
             <Receipt className="h-5 w-5 text-primary" />
             <div>
-              <p className="text-lg font-bold text-gray-800">{invoice.invoiceNumber}</p>
-              <p className="text-sm text-gray-500">
+              <p className="text-lg font-bold text-foreground">{invoice.invoiceNumber}</p>
+              <p className="text-sm text-muted-foreground">
                 {new Date(invoice.issueDate).toLocaleDateString("es-CO")}
               </p>
             </div>
@@ -74,12 +74,12 @@ export function InvoiceDetail({ id }: Props) {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
           <div>
-            <p className="text-gray-400">Propietario</p>
-            <p className="font-medium text-gray-800">{owner?.ownerName ?? `#${invoice.ownerId}`}</p>
+            <p className="text-muted-foreground">Propietario</p>
+            <p className="font-medium text-foreground">{owner?.ownerName ?? `#${invoice.ownerId}`}</p>
           </div>
           <div>
-            <p className="text-gray-400">Cita asociada</p>
-            <p className="font-medium text-gray-800">
+            <p className="text-muted-foreground">Cita asociada</p>
+            <p className="font-medium text-foreground">
               {invoice.appointmentId
                 ? appointment
                   ? `${new Date(appointment.date).toLocaleDateString("es-CO")} — ${appointment.petName}`
@@ -92,26 +92,26 @@ export function InvoiceDetail({ id }: Props) {
         {/* Items */}
         <table className="w-full text-left">
           <thead>
-            <tr className="bg-gray-50">
-              <th className="border-b border-gray-200 py-2 px-3 text-sm text-gray-600">Descripción</th>
-              <th className="border-b border-gray-200 py-2 px-3 text-sm text-gray-600">Tipo</th>
-              <th className="border-b border-gray-200 py-2 px-3 text-sm text-gray-600 text-right">Cantidad</th>
-              <th className="border-b border-gray-200 py-2 px-3 text-sm text-gray-600 text-right">Precio unitario</th>
-              <th className="border-b border-gray-200 py-2 px-3 text-sm text-gray-600 text-right">Subtotal</th>
+            <tr className="bg-muted">
+              <th className="border-b border-border py-2 px-3 text-sm text-muted-foreground">Descripción</th>
+              <th className="border-b border-border py-2 px-3 text-sm text-muted-foreground">Tipo</th>
+              <th className="border-b border-border py-2 px-3 text-sm text-muted-foreground text-right">Cantidad</th>
+              <th className="border-b border-border py-2 px-3 text-sm text-muted-foreground text-right">Precio unitario</th>
+              <th className="border-b border-border py-2 px-3 text-sm text-muted-foreground text-right">Subtotal</th>
             </tr>
           </thead>
           <tbody>
             {items.map((item) => (
-              <tr key={item.id} className="border-b border-gray-100">
-                <td className="py-3 px-3 text-gray-700">{item.description}</td>
-                <td className="py-3 px-3 text-gray-500">
+              <tr key={item.id} className="border-b border-border">
+                <td className="py-3 px-3 text-foreground">{item.description}</td>
+                <td className="py-3 px-3 text-muted-foreground">
                   {item.itemType === InvoiceItemType.Service ? "Servicio" : "Insumo"}
                 </td>
-                <td className="py-3 px-3 text-right text-gray-600">{item.quantity}</td>
-                <td className="py-3 px-3 text-right text-gray-600">
+                <td className="py-3 px-3 text-right text-muted-foreground font-mono">{item.quantity}</td>
+                <td className="py-3 px-3 text-right text-muted-foreground font-mono">
                   ${item.unitPrice.toLocaleString("es-CO", { minimumFractionDigits: 2 })}
                 </td>
-                <td className="py-3 px-3 text-right text-gray-700 font-medium">
+                <td className="py-3 px-3 text-right text-foreground font-medium font-mono">
                   ${item.lineTotal.toLocaleString("es-CO", { minimumFractionDigits: 2 })}
                 </td>
               </tr>
@@ -122,42 +122,42 @@ export function InvoiceDetail({ id }: Props) {
         {/* Totales */}
         <div className="flex justify-end">
           <div className="w-full sm:w-64 space-y-1">
-            <div className="flex justify-between text-sm text-gray-600">
+            <div className="flex justify-between text-sm text-muted-foreground">
               <span>Subtotal</span>
-              <span>${invoice.subtotal.toLocaleString("es-CO", { minimumFractionDigits: 2 })}</span>
+              <span className="font-mono">${invoice.subtotal.toLocaleString("es-CO", { minimumFractionDigits: 2 })}</span>
             </div>
-            <div className="flex justify-between text-sm text-gray-600">
+            <div className="flex justify-between text-sm text-muted-foreground">
               <span>IVA</span>
-              <span>${invoice.tax.toLocaleString("es-CO", { minimumFractionDigits: 2 })}</span>
+              <span className="font-mono">${invoice.tax.toLocaleString("es-CO", { minimumFractionDigits: 2 })}</span>
             </div>
-            <div className="flex justify-between text-base font-bold text-gray-800 pt-1 border-t border-gray-200 mt-1">
+            <div className="flex justify-between text-base font-bold text-foreground pt-1 border-t border-border mt-1">
               <span>Total</span>
-              <span>${invoice.total.toLocaleString("es-CO", { minimumFractionDigits: 2 })}</span>
+              <span className="font-mono">${invoice.total.toLocaleString("es-CO", { minimumFractionDigits: 2 })}</span>
             </div>
           </div>
         </div>
 
         {/* Información de pago (solo si ya está pagada) */}
         {invoice.status === InvoiceStatus.Paid && (
-          <div className="rounded-xl bg-green-50 border border-green-200 p-4">
+          <div className="rounded-lg bg-emerald-50 border border-emerald-200 p-4">
             <div className="flex items-center gap-2 mb-3">
-              <CreditCard className="h-4 w-4 text-green-700" />
-              <h3 className="text-sm font-semibold text-green-800">Información de pago</h3>
+              <CreditCard className="h-4 w-4 text-emerald-700" />
+              <h3 className="text-sm font-semibold text-emerald-800">Información de pago</h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
               <div>
-                <p className="text-gray-400">Método</p>
-                <p className="font-medium text-gray-800">
+                <p className="text-muted-foreground">Método</p>
+                <p className="font-medium text-foreground">
                   {invoice.paymentMethod !== null ? PAYMENT_METHOD_LABELS[invoice.paymentMethod] : "—"}
                 </p>
               </div>
               <div>
-                <p className="text-gray-400">Referencia</p>
-                <p className="font-medium text-gray-800">{invoice.paymentReference ?? "—"}</p>
+                <p className="text-muted-foreground">Referencia</p>
+                <p className="font-medium text-foreground">{invoice.paymentReference ?? "—"}</p>
               </div>
               <div>
-                <p className="text-gray-400">Fecha de pago</p>
-                <p className="font-medium text-gray-800">
+                <p className="text-muted-foreground">Fecha de pago</p>
+                <p className="font-medium text-foreground">
                   {invoice.paymentDate
                     ? new Date(invoice.paymentDate).toLocaleDateString("es-CO")
                     : "—"}

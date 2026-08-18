@@ -15,9 +15,9 @@ export default function SupplyPage() {
 
   return (
     <div className="space-y-6 p-6">
-      <h1 className="text-2xl font-bold">Insumos</h1>
+      <h1 className="text-2xl font-bold text-foreground">Insumos</h1>
 
-      {loadingStats && <p className="text-sm text-gray-500">Cargando estadísticas...</p>}
+      {loadingStats && <p className="text-sm text-muted-foreground">Cargando estadísticas...</p>}
       {stats && <SuppliesStats stats={stats} />}
 
       <SuppliesTable

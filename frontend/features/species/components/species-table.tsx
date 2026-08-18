@@ -42,7 +42,7 @@ if (isLoading) {
     <div className="p-6 space-y-4">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Especies</h1>
-        <Button onClick={() => setModalOpen(true)} className="bg-blue-400 hover:bg-blue-700 text-white">+ Nueva Especie</Button>
+        <Button onClick={() => setModalOpen(true)} className="bg-primary hover:opacity-90 text-primary-foreground">+ Nueva Especie</Button>
       </div>
 
       <Card>

@@ -91,7 +91,7 @@ export function MarkAsPaidDialog({ invoiceId, invoiceNumber, open, onOpenChange 
             type="button"
             onClick={handleConfirm}
             disabled={markAsPaid.isPending}
-            className="bg-[#1F6F5C] text-white hover:bg-[#18594a]"
+            className="bg-primary text-primary-foreground hover:bg-primary/90"
           >
             {markAsPaid.isPending ? "Guardando..." : "Confirmar pago"}
           </Button>

@@ -18,7 +18,7 @@ export function FormDialogHeader({ icon: Icon, title, accent = "#1F6F5C", classN
       >
         <Icon className="size-[18px] text-white" />
       </div>
-      <DialogTitle className="font-[family-name:var(--font-space-grotesk)] font-medium text-base text-[#16302B]">
+      <DialogTitle className="font-heading font-medium text-base text-foreground">
         {title}
       </DialogTitle>
     </DialogHeader>

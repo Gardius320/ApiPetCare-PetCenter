@@ -15,7 +15,7 @@ const STATUS_COLORS: Record<InvoiceStatus, string> = {
 export function InvoiceStatusBadge({ status }: { status: InvoiceStatus }) {
   return (
     <span
-      className={`px-3 py-1 rounded-full text-xs font-semibold ${STATUS_COLORS[status] ?? "bg-gray-100 text-gray-700"}`}
+      className={`px-3 py-1 rounded-full text-xs font-semibold ${STATUS_COLORS[status] ?? "bg-muted text-muted-foreground"}`}
     >
       {INVOICE_STATUS_LABELS[status] ?? "Desconocido"}
     </span>

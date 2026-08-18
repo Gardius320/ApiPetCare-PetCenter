@@ -5,7 +5,7 @@ import { useOwners, useDeleteOwner } from "@/features/owners/hooks/use-owners"
 
 export default function OwnersPage() {
   const { data, isLoading } = useOwners()
-const owners = data?.items ?? []
+  const owners = data?.items ?? []
   const deleteOwner = useDeleteOwner()
 
   return (

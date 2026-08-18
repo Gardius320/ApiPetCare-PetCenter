@@ -17,9 +17,9 @@ import {
 const PAGE_SIZE = 10
 
 const STATE_COLORS: Record<string, string> = {
-  Agendada: "bg-blue-100 text-blue-700",
-  Pendiente: "bg-yellow-100 text-yellow-700",
-  Completada: "bg-green-100 text-green-700",
+  Agendada: "bg-secondary text-secondary-foreground",
+  Pendiente: "bg-amber-100 text-amber-800",
+  Completada: "bg-emerald-100 text-emerald-800",
   Cancelada: "bg-red-100 text-red-700",
 }
 
@@ -65,17 +65,17 @@ export function AppointmentTable() {
 
   return (
     <>
-      <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-md">
+      <div className="rounded-lg border border-border bg-card p-6 shadow-md">
 
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <CalendarDays className="h-5 w-5 text-primary" />
-            <h2 className="text-xl font-bold text-gray-800">Lista de Citas</h2>
+            <h2 className="text-xl font-bold text-foreground">Lista de Citas</h2>
           </div>
           <button
             onClick={handleNew}
-            className="flex items-center gap-2 bg-blue-400 text-white px-4 py-2 rounded-lg text-sm hover:opacity-90 transition"
+            className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm hover:opacity-90 transition"
           >
             <Plus className="h-4 w-4" />
             Nueva cita
@@ -85,26 +85,26 @@ export function AppointmentTable() {
         {/* Tabla */}
         <table className="w-full text-left">
           <thead>
-            <tr className="bg-gray-50">
-              <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Fecha</th>
-              <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Dueño</th>
-              <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Mascota</th>
-              <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Estado</th>
-              <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Observación</th>
-              <th className="border-b border-gray-200 py-3 px-4 text-sm text-gray-600">Acciones</th>
+            <tr className="bg-muted">
+              <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Fecha</th>
+              <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Dueño</th>
+              <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Mascota</th>
+              <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Estado</th>
+              <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Observación</th>
+              <th className="border-b border-border py-3 px-4 text-sm text-muted-foreground">Acciones</th>
             </tr>
           </thead>
           <tbody>
             {appointments.map((appointment) => (
               <tr
                 key={appointment.id}
-                className="border-b border-gray-100 hover:bg-blue-50 transition-colors"
+                className="border-b border-border hover:bg-accent transition-colors"
               >
-                <td className="py-4 px-4 text-gray-700 font-medium">
+                <td className="py-4 px-4 text-foreground font-medium">
                   {new Date(appointment.date).toLocaleDateString("es-CO")}
                 </td>
-                <td className="py-4 px-4 text-gray-600">{appointment.ownerName}</td>
-                <td className="py-4 px-4 text-gray-600">{appointment.petName}</td>
+                <td className="py-4 px-4 text-muted-foreground">{appointment.ownerName}</td>
+                <td className="py-4 px-4 text-muted-foreground">{appointment.petName}</td>
                 <td className="py-4 px-4">
                   <Select
                     value={appointment.state}
@@ -112,7 +112,7 @@ export function AppointmentTable() {
                   >
                     <SelectTrigger
                       className={`w-[130px] h-7 text-xs font-semibold rounded-full border-none focus:ring-0 ${
-                        STATE_COLORS[appointment.state] ?? "bg-gray-100 text-gray-700"
+                        STATE_COLORS[appointment.state] ?? "bg-muted text-muted-foreground"
                       }`}
                     >
                       <SelectValue />
@@ -126,11 +126,11 @@ export function AppointmentTable() {
                     </SelectContent>
                   </Select>
                 </td>
-                <td className="py-4 px-4 text-gray-600">{appointment.observation}</td>
+                <td className="py-4 px-4 text-muted-foreground">{appointment.observation}</td>
                 <td className="py-4 px-4">
                   <button
                     onClick={() => handleEdit(appointment)}
-                    className="flex items-center gap-1 bg-yellow-100 text-yellow-700 text-xs font-semibold px-3 py-1 rounded-full hover:bg-yellow-200 transition"
+                    className="flex items-center gap-1 bg-secondary text-secondary-foreground text-xs font-semibold px-3 py-1 rounded-full hover:opacity-90 transition"
                   >
                     <Pencil className="h-3 w-3" />
                     Editar
@@ -143,7 +143,7 @@ export function AppointmentTable() {
 
         {/* Paginación */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between border-t border-gray-200 px-2 py-3 mt-2 text-sm text-gray-500">
+          <div className="flex items-center justify-between border-t border-border px-2 py-3 mt-2 text-sm text-muted-foreground">
             <span>
               Mostrando {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, total)} de {total} citas
             </span>
@@ -151,7 +151,7 @@ export function AppointmentTable() {
               <button
                 disabled={page === 1}
                 onClick={() => setPage((p) => p - 1)}
-                className="px-3 py-1 rounded border border-gray-200 hover:bg-gray-50 disabled:opacity-40 transition"
+                className="px-3 py-1 rounded border border-border hover:bg-muted disabled:opacity-40 transition"
               >
                 ←
               </button>
@@ -161,8 +161,8 @@ export function AppointmentTable() {
                   onClick={() => setPage(p)}
                   className={`px-3 py-1 rounded border transition ${
                     p === page
-                      ? "bg-blue-400 text-white border-blue-400"
-                      : "border-gray-200 hover:bg-gray-50"
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "border-border hover:bg-muted"
                   }`}
                 >
                   {p}
@@ -171,7 +171,7 @@ export function AppointmentTable() {
               <button
                 disabled={page === totalPages}
                 onClick={() => setPage((p) => p + 1)}
-                className="px-3 py-1 rounded border border-gray-200 hover:bg-gray-50 disabled:opacity-40 transition"
+                className="px-3 py-1 rounded border border-border hover:bg-muted disabled:opacity-40 transition"
               >
                 →
               </button>
