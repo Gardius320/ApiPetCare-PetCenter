@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetCare.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using PetCare.Infrastructure.Data;
 namespace PetCare.Migrations
 {
     [DbContext(typeof(PetsDbContext))]
-    partial class PetsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260819164424_AddSupplierModule")]
+    partial class AddSupplierModule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -646,11 +649,6 @@ namespace PetCare.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)")
                         .HasColumnName("contact_number");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)")
-                        .HasColumnName("description");
 
                     b.Property<string>("Email")
                         .HasMaxLength(100)

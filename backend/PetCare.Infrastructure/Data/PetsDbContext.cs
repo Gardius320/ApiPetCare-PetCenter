@@ -25,7 +25,7 @@ public partial class PetsDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Invoice> Invoices { get; set; }
     public DbSet<InvoiceItem> InvoiceItems { get; set; }
     public DbSet<MedicalRecord> MedicalRecords { get; set; }
-
+    public DbSet<Supplier> Suppliers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {       
@@ -133,8 +133,9 @@ public partial class PetsDbContext : IdentityDbContext<ApplicationUser>
             entity.Property(e => e.IsActive).HasColumnName("is_active");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.SupplyCategoryId).HasColumnName("supply_category_id");
+            entity.Property(e => e.SupplierId).HasColumnName("supplier_id");
 
-            
+
             entity.Property(e => e.supplyType)
                 .HasColumnName("supply_type")
                 .HasConversion<string>()
@@ -145,6 +146,10 @@ public partial class PetsDbContext : IdentityDbContext<ApplicationUser>
                 .HasForeignKey(d => d.SupplyCategoryId)
                 .HasConstraintName("FK__supplies__supply___3A81B327")
                 .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(d => d.Supplier).WithMany()
+                .HasForeignKey(d => d.SupplierId)
+                .OnDelete(DeleteBehavior.SetNull);
         });
         modelBuilder.Entity<SupplyMovement>(entity =>
         {
@@ -232,6 +237,19 @@ public partial class PetsDbContext : IdentityDbContext<ApplicationUser>
                   .OnDelete(DeleteBehavior.Restrict);
             entity.Property(mr => mr.Weight).HasPrecision(18, 2);
             entity.Property(mr => mr.Temperature).HasPrecision(18, 2);
+        });
+
+        modelBuilder.Entity<Supplier>(entity =>
+        {
+            entity.ToTable("suppliers");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Name).HasColumnName("name").IsRequired().HasMaxLength(100);
+            entity.Property(e => e.Email).HasColumnName("email").HasMaxLength(100);
+            entity.Property(e => e.ContactNumber).HasColumnName("contact_number").HasMaxLength(20);
+            entity.Property(e => e.Address).HasColumnName("address").HasMaxLength(200);
+            entity.Property(e => e.IsActive).HasColumnName("is_active");
+            entity.Property(e => e.Description).HasColumnName("description").HasMaxLength(300);
         });
     }
 

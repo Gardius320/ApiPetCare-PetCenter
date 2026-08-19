@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Package, Plus, Pencil, Trash2 } from "lucide-react"
 import { SupplyFormModal } from "./supply-form-modal"
 import { SupplyCategoriesModal } from "../../supply-categories/components/supply-categories-modal"
+import { SuppliersModal } from "../../suppliers/components/suppliers-modal"
 import { useCreateSupply, useUpdateSupply, useToggleSupplyStatus } from "../hook/use-supplies"
 import type { Supply, CreateSupplyDto, UpdateSupplyDto } from "../types/supply.types"
 import { TableSkeleton } from "@/components/shared/table-skeleton"
@@ -28,6 +29,7 @@ export function SuppliesTable({
   const [isModalOpen, setIsModalOpen]     = useState(false)
   const [editingSupply, setEditingSupply] = useState<Supply | undefined>(undefined)
   const [isCategoriesModalOpen, setIsCategoriesModalOpen] = useState(false)
+  const [isSuppliersModalOpen, setIsSuppliersModalOpen] = useState(false)
 
   const createSupply = useCreateSupply()
   const updateSupply = useUpdateSupply()
@@ -85,6 +87,12 @@ export function SuppliesTable({
               className="flex items-center gap-2 bg-muted text-foreground px-4 py-2 rounded-lg text-sm hover:bg-accent transition"
             >
               Gestionar categorías
+            </button>
+            <button
+              onClick={() => setIsSuppliersModalOpen(true)}
+              className="flex items-center gap-2 bg-muted text-foreground px-4 py-2 rounded-lg text-sm hover:bg-accent transition"
+            >
+              Gestionar proveedores
             </button>
             <button
               onClick={() => { setEditingSupply(undefined); setIsModalOpen(true) }}
@@ -220,6 +228,12 @@ export function SuppliesTable({
       <SupplyCategoriesModal
         open={isCategoriesModalOpen}
         onOpenChange={setIsCategoriesModalOpen}
+      />
+
+      {/* Modal de proveedores */}
+      <SuppliersModal
+        open={isSuppliersModalOpen}
+        onOpenChange={setIsSuppliersModalOpen}
       />
     </>
   )
